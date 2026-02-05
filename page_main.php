@@ -5,20 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Título</title>
-    <meta name="theme-color" content="#bbbbbb" />
+    <meta name="theme-color" content="#bbbbbb"/>
     
     <!-- CSS e Scripts -->
     <link rel="stylesheet" type="text/css" href="/public/css/main.css?v=1.0">
-    <script src="/public/script/dummy.js?v=1.0"></script>
+    <script src="/public/script/core.js?v=1.0"></script>
     
     <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Nova+Square&family=Prompt:wght@200;400&display=swap" rel="stylesheet">
-    
-    <!-- Ícones -->
-    <link rel="icon" href="/public/res/Template_icon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="/public/res/Template_icon.ico" type="image/x-icon">
 </head>
 <body>
     <!-- Header -->
