@@ -39,27 +39,44 @@
 	}
 
 	function secure_usuario_username($v){
-		return $v;
+		// Padrão username: sem espaços, apenas letras latinas, números e underlines.
+		$v = limpar_geral($v);
+		return preg_replace('/[^a-zA-Z0-9_]/', '', $v);
 	}
 
+	// Padrão senha: Pelo menos 8 caracteres, sem demais regras (Exemplo: 'A senha deve ter pelo menos um caractere numérico e pelo menos um símbolo').
 	function secure_usuario_senha($v){
-		return $v;
+		if (strlen($v) < 8) {
+			return ['status' => 'ERROR', 'error' => "A senha precisa de no mínimo 8 caracteres."];
+		}
+		// Criptografa para o banco
+		return password_hash($v, PASSWORD_DEFAULT);
 	}
 
+	//--------- PENDENTE ---------
 	function secure_usuario_doc($v){
 		return $v;
 	}
 
-	function secure_usuario_doc_tipo($v){
+	//--------- PENDENTE ---------
+ 	function secure_usuario_doc_tipo($v){
 		return $v;
 	}
 
 	function secure_usuario_nome($v){
-		return $v;
+		//Padrão nome: letras latinas, acentos e espaços.
+		$v = limpar_geral($v);
+		return preg_replace('/[^a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]/u', '', $v);
 	}
 
 	function secure_usuario_email($v){
-		return $v;
+		// Remove tudo que não for número (limpa pontos e traços).
+		$v = filter_var(trim($v), FILTER_SANITIZE_EMAIL);
+
+		if (!filter_var($v, FILTER_VALIDATE_EMAIL)) {
+			return ['status' => 'ERROR', 'error' => "E-mail inválido."];
+		}
+		return $v; ;
 	}
 
 	# Funções
