@@ -20,3 +20,5 @@ INSERT INTO avaliacao_item ( usuario1_id, item_id, nota) VALUES (1, 1, 5 );
 INSERT INTO item_status (id, item_status) VALUES ( 1, 'Disponível');
 INSERT INTO item_status (id, item_status) VALUES ( 2, 'Ocupado');
 INSERT INTO item_status (id, item_status) VALUES ( 3, 'Manutenção');
+
+INSERT INTO manutencao (item_id, data)

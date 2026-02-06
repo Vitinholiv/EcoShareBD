@@ -12,6 +12,9 @@
 		case '/item':
 			require 'page_item.php';
 			break;
+		case'/user':
+			require 'page_user.php';
+			break;
         default:
             http_response_code(404);
             echo "Página não encontrada.";
@@ -31,6 +34,10 @@
 			$tipo = $_POST['tipo'];
 			if ($tipo === 'consulta') {
 				echo json_encode(["text" => execute_sql($_POST['sql'])]);
+
+				# Cadastros 
+
+				# Cadastro de usuário
 			} else if($tipo === 'cadastro_de_usuario'){
 				$_username = secure_usuario_username($_POST['username']);
 				$_senha = secure_usuario_senha($_POST['senha']);
@@ -43,6 +50,25 @@
 				$res_check = check_errors($arr);
 				if($res_check['status'] == 'OK'){
 					$sql = "INSERT INTO usuario (usuario_doc_tipo_id, usuario_doc, email, username, nome, senha) VALUES ($_tipo_documento,'$_documento','$_email','$_username','$_nome','$_senha')";
+					$res = send_sql_insertion($sql);
+					echo json_encode($res);
+				} else {
+					echo json_encode($res_check);
+				}
+
+				# Cadastro de item
+			} else if($tipo === 'cadastro_de_item'){
+
+				$_foto = secure_item_foto($_POST['foto']);
+				$_descricao = secure_item_descricao($_POST['descricao']);
+				$_nome = secure_item_nome($_POST['nome']);
+				$_usuario_id = secure_item_usuario_id($_POST['usuario_id']);
+
+				$arr = [$_foto,$_descricao,$_nome,$_usuario_id];
+				$res_check = check_errors($arr);
+
+				if($res_check['status'] == 'OK'){
+					$sql = "INSERT INTO item (foto, descricao, nome, usuario_id) VALUES ('$_foto','$_descricao','$_nome',$_usuario_id)";
 					$res = send_sql_insertion($sql);
 					echo json_encode($res);
 				} else {

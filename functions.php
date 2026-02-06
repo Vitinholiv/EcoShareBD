@@ -62,6 +62,27 @@
 		return $v;
 	}
 
+
+	# Secures do Cadastro de items
+
+	function secure_item_foto($v){
+		return $v;
+	}
+
+	function secure_item_descricao($v){
+		return $v;
+	}
+
+	function secure_item_nome($v){
+		return $v;
+	}
+
+	function secure_item_usuario_id($v){
+		return $v;
+	}
+	
+
+
 	# Funções
 	function result_to_string($result){
 		if (!$result instanceof mysqli_result) return " D: ";
