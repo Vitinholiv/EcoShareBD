@@ -47,6 +47,10 @@
 		// Padrão username: sem espaços, apenas letras latinas, números e underlines.
 		$v = limpar_geral($v);
 
+		if (empty($v)) {
+			return ['status' => 'ERROR', 'error' => "O campo usuário não pode estar vazio."];
+		}
+		
 		$padrao = '/[^a-zA-Z0-9_]/';
 
 		if(preg_match($padrao, $v)) {
