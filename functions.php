@@ -14,8 +14,55 @@
 	}
 	global $connection;
 
-	# Funções
+	# Funções de Segurança
 
+	function check_errors($arr){
+		foreach($arr as $el){
+			if(is_array($el) && isset($el['status']) && $el['status'] == 'ERROR'){
+				return $el;
+			} else if(is_array($el)){
+				return ['status' => 'ERROR', 'error' => "Instrução desconhecida"];
+			}
+		}
+		return ['status' => 'OK'];
+	}
+
+	function send_sql_insertion($sql){
+		global $connection;
+		$result = $connection->query($sql);
+
+		if($result == false){
+			return ['status' => 'ERROR', 'error' => $connection->error];
+		} else {
+			return ['status' => 'OK'];
+		}
+	}
+
+	function secure_usuario_username($v){
+		return $v;
+	}
+
+	function secure_usuario_senha($v){
+		return $v;
+	}
+
+	function secure_usuario_doc($v){
+		return $v;
+	}
+
+	function secure_usuario_doc_tipo($v){
+		return $v;
+	}
+
+	function secure_usuario_nome($v){
+		return $v;
+	}
+
+	function secure_usuario_email($v){
+		return $v;
+	}
+
+	# Funções
 	function result_to_string($result){
 		if (!$result instanceof mysqli_result) return " D: ";
 
