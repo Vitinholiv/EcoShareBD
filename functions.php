@@ -7,6 +7,7 @@
 	$dbPassword = DB_PASSWORD;
 	$dbName = DB_NAME;
 
+	mysqli_report(MYSQLI_REPORT_OFF);
 	$connection = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
 
 	if ($connection->connect_error) {
@@ -15,7 +16,6 @@
 	global $connection;
 
 	# Funções de Segurança
-
 	function check_errors($arr){
 		foreach($arr as $el){
 			if(is_array($el) && isset($el['status']) && $el['status'] == 'ERROR'){
@@ -63,7 +63,7 @@
 	}
 
 	# Funções
-	function result_to_string($result){
+	/*function result_to_string($result){
 		if (!$result instanceof mysqli_result) return " D: ";
 
 		$all_rows = $result->fetch_all(MYSQLI_ASSOC);
@@ -112,7 +112,7 @@
 		return result_to_string($result);
 
 		# Lê linhas da consulta e converte em JSON
-		/*
+		
 		$rows = [];
 		if ($result->num_rows >= 0) {
 			# $rows[] -> Adiciona no array rows o objeto obtido na próxima linha da consulta
@@ -121,6 +121,6 @@
 			}
 			$json_result = json_encode($rows);
 		}
-		*/
-	}
+		
+	}*/
 ?>
