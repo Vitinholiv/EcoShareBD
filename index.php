@@ -28,9 +28,26 @@
 			$tipo = $_POST['tipo'];
 			if ($tipo === 'consulta') {
 				echo json_encode(["text" => execute_sql($_POST['sql'])]);
+			} else if($tipo === 'cadastro_de_usuario'){
+				$_username = secure_usuario_username($_POST['username']);
+				$_senha = secure_usuario_senha($_POST['senha']);
+				$_email = secure_usuario_email($_POST['email']);
+				$_documento = secure_usuario_doc($_POST['documento']);
+				$_tipo_documento = secure_usuario_doc_tipo($_POST['tipo_documento']);
+				$_nome = secure_usuario_nome($_POST['nome']);
+
+				$arr = [$_username,$_senha,$_email,$_documento,$_tipo_documento,$_nome];
+				$res_check = check_errors($arr);
+				if($res_check['status'] == 'OK'){
+					$sql = "INSERT INTO usuario (usuario_doc_tipo_id, usuario_doc, email, username, nome, senha) VALUES ($_tipo_documento,'$_documento','$_email','$_username','$_nome','$_senha')";
+					$res = send_sql_insertion($sql);
+					echo json_encode($res);
+				} else {
+					echo json_encode($res_check);
+				}
+
 			} else {
-				http_response_code(400);
-				echo json_encode(["status" => "BAD REQUEST"]);
+				echo json_encode(['status' => 'ERROR', 'error' => 'Bad request']);
 			}
 		}
 	}
