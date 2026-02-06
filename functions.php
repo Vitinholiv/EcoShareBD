@@ -38,6 +38,11 @@
 		}
 	}
 
+	//Remove espaços no início e fim da entrada.
+	function limpar_geral($v) {
+		return htmlspecialchars(strip_tags(trim($v)), ENT_QUOTES, 'UTF-8');
+	}
+
 	function secure_usuario_username($v){
 		// Padrão username: sem espaços, apenas letras latinas, números e underlines.
 		$v = limpar_geral($v);
