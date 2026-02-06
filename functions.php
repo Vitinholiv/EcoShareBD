@@ -46,7 +46,15 @@
 	function secure_usuario_username($v){
 		// Padrão username: sem espaços, apenas letras latinas, números e underlines.
 		$v = limpar_geral($v);
-		return preg_replace('/[^a-zA-Z0-9_]/', '', $v);
+
+		$padrao = '/[^a-zA-Z0-9_]/';
+
+		if(preg_match($padrao, $v)) {
+			return $v;
+		}
+
+		return ['status' => 'ERROR', 'error' => "Nome inválido. Use apenas letras, números e underlines, sem espaços."];
+
 	}
 
 	// Padrão senha: Pelo menos 8 caracteres, sem demais regras (Exemplo: 'A senha deve ter pelo menos um caractere numérico e pelo menos um símbolo').
@@ -71,7 +79,19 @@
 	function secure_usuario_nome($v){
 		//Padrão nome: letras latinas, acentos e espaços.
 		$v = limpar_geral($v);
-		return preg_replace('/[^a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]/u', '', $v);
+
+		if (empty($v)) {
+			return ['status' => 'ERROR', 'error' => "O campo nome não pode estar vazio."];
+		}
+
+		$padrao = '/[^a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]/u';
+
+		if(preg_match($padrao, $v)) {
+			return $v;
+		}
+
+		return ['status' => 'ERROR', 'error' => "Nome inválido. Use apenas letras e acentos."];
+
 	}
 
 	function secure_usuario_email($v){
