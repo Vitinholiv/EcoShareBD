@@ -9,6 +9,9 @@
 		case '/request':
             require 'page_main.php';
             break;
+		case '/item':
+			require 'page_item.php';
+			break;
         default:
             http_response_code(404);
             echo "Página não encontrada.";

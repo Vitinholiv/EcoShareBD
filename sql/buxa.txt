@@ -1,0 +1,5 @@
+
+
+source C:/Users/Gustavo/Desktop/ImpaTECH/Banco de Dados/GOT/EcoShareBD/sql/sicoul.sql;
+
+source C:/Users/Gustavo/Desktop/ImpaTECH/Banco de Dados/GOT/EcoShareBD/sql/insert.sql;
