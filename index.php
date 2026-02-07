@@ -32,13 +32,7 @@
 		# Controle de Requisição
 		if(isset($_POST['tipo'])){
 			$tipo = $_POST['tipo'];
-			if ($tipo === 'consulta') {
-				echo json_encode(["text" => execute_sql($_POST['sql'])]);
-
-				# Cadastros 
-
-				# Cadastro de usuário
-			} else if($tipo === 'cadastro_de_usuario'){
+			if($tipo === 'cadastro_de_usuario'){
 				$_username = secure_usuario_username($_POST['username']);
 				$_senha = secure_usuario_senha($_POST['senha']);
 				$_email = secure_usuario_email($_POST['email']);
