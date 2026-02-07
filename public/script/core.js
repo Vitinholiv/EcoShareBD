@@ -34,12 +34,14 @@ async function prepara_cadastro_de_usuario(params) {
 
     const mensagem = await cadastro_de_usuario(username, nome, email, doc, docType, senha);
 
-    document.getElementById('inputUser').value = '';
-    document.getElementById('inputEmail').value = '';
-    document.getElementById('inputSenha').value = '';
-    document.getElementById('inputNome').value = '';
-    document.getElementById('inputDoc').value = '';
-    document.getElementById('inputDocType').value = '';
+    if (mensagem === 'Cadastro feito com sucesso.'){
+        document.getElementById('inputUser').value = '';
+        document.getElementById('inputEmail').value = '';
+        document.getElementById('inputSenha').value = '';
+        document.getElementById('inputNome').value = '';
+        document.getElementById('inputDoc').value = '';
+        document.getElementById('inputDocType').value = '';
+    }
 
     alert(mensagem);
 
@@ -82,11 +84,12 @@ async function prepara_cadastro_de_item(params) {
 
     const mensagem = await cadastro_de_item(foto, descricao, nome, usuario_id);
 
-    document.getElementById('inputFoto').value = '';
-    document.getElementById('inputDescricao').value = '';
-    document.getElementById('inputNome').value = '';
-    document.getElementById('inputUsuario_id').value = '';
-
+    if (mensagem === 'Cadastro feito com sucesso.'){
+        document.getElementById('inputFoto').value = '';
+        document.getElementById('inputDescricao').value = '';
+        document.getElementById('inputNome').value = '';
+        document.getElementById('inputUsuario_id').value = '';
+    }
     alert(mensagem);
 
 }
