@@ -44,17 +44,18 @@
     <div id="content">
 
         <!-- Botão -->
-         
+
         <div class="form-container">
             <h2>Gerador de Inserção SQL</h2>
             
-            <input type="text" id="inputFoto" placeholder="Foto">
-            <input type="text" id="inputDescricao" placeholder="Descricao">
+            <input type="text" id="inputUser" placeholder="Usuário">
+            <input type="text" id="inputEmail" placeholder="Email">
+            <input type="text" id="inputSenha" placeholder="Senha">
             <input type="text" id="inputNome" placeholder="Nome">
-            <input type="text" id="inputUsuario_id" placeholder="Usuario_id">
+            <input type="text" id="inputDoc" placeholder="Número do documento">
+            <input type="text" id="inputDocType" placeholder="Tipo de documento">
 
-
-            <button type="button" onclick="prepara_cadastro_de_item()">Cadastrar Item</button>
+            <button type="button" onclick="prepara_cadastro_de_usuario()">Registrar usuário</button>
             <!-- cadastro_de_usuario('usuariodet','nome do infeliz','emaildoinfeliz@gmail.com','07045312305',1,'senhasegura333'); -->
 
         </div>
