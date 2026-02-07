@@ -72,7 +72,7 @@
 		
 		$padrao = '/[^a-zA-Z0-9_]/';
 
-		if(preg_match($padrao, $v)) {
+		if(!preg_match($padrao, $v)) {
 			return $v;
 		}
 
@@ -109,7 +109,7 @@
 
 		$padrao = '/[^a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]/u';
 
-		if(preg_match($padrao, $v)) {
+		if(!preg_match($padrao, $v)) {
 			return $v;
 		}
 
