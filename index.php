@@ -49,7 +49,7 @@
 				$arr = [$_username,$_senha,$_email,$_documento,$_tipo_documento,$_nome];
 				$res_check = check_errors($arr);
 				if($res_check['status'] == 'OK'){
-					$sql = "INSERT INTO usuario (usuario_doc_tipo_id, usuario_doc, email, username, nome, senha) VALUES ($_tipo_documento,'$_documento','$_email','$_username','$_nome','$_senha')";
+					$sql = "INSERT INTO usuario (usuario_doc_tipo_id, usuario_doc, email, username, nome, senha) VALUES ($_tipo_documento,'$_documento','$_email','$_username','$_nome','$_senha');";
 					$res = send_sql_insertion($sql);
 					echo json_encode($res);
 				} else {

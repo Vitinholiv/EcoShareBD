@@ -55,8 +55,7 @@
             <input type="text" id="inputDoc" placeholder="Número do documento">
             <input type="text" id="inputDocType" placeholder="Tipo de documento">
 
-
-            <button type="button" onclick="prepara_cadastro_de_usuario()">Criar Registro Agora!</button>
+            <button type="button" onclick="prepara_cadastro_de_usuario()">Registrar usuário</button>
             <!-- cadastro_de_usuario('usuariodet','nome do infeliz','emaildoinfeliz@gmail.com','07045312305',1,'senhasegura333'); -->
 
         </div>
