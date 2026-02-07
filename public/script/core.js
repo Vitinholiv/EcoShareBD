@@ -135,27 +135,3 @@ async function send_to_php(objc) {
         return { 'status': 'ERROR', 'error': `Erro interno do PHP no processamento dos dados - ${error}` };
     }
 }
-
-async function run_sql(){
-    let objRequest = new URLSearchParams();
-    let sqlStr = params.get('sql');
-    if(sqlStr !== null){
-        objRequest.append('sql', `${sqlStr}`);
-        objRequest.append('tipo','consulta');
-
-        let url = '/index.php';
-        let res = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: objc
-        });
-        if (!res.ok) {
-            return { 'status': 'ERROR', 'error': 'Erro na conexão com a URL' };
-        }
-        return await res.json();
-    } catch (error) {
-        return { 'status': 'ERROR', 'error': `Erro interno do PHP no processamento dos dados - ${error}` };
-    }
-}
