@@ -39,31 +39,6 @@
 		}
 	}
 
-	function secure_usuario_username($v){
-		return $v;
-	}
-
-	function secure_usuario_senha($v){
-		return $v;
-	}
-
-	function secure_usuario_doc($v){
-		return $v;
-	}
-
-	function secure_usuario_doc_tipo($v){
-		return $v;
-	}
-
-	function secure_usuario_nome($v){
-		return $v;
-	}
-
-	function secure_usuario_email($v){
-		return $v;
-	}
-
-
 	# Secures do Cadastro de items
 
 	function secure_item_foto($v){
@@ -81,12 +56,6 @@
 	function secure_item_usuario_id($v){
 		return $v;
 	}
-	
-
-
-	# Funções
-	function result_to_string($result){
-		if (!$result instanceof mysqli_result) return " D: ";
 
 	//Remove espaços no início e fim da entrada.
 	function limpar_geral($v) {
