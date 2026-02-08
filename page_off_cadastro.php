@@ -27,34 +27,20 @@
             <p id="pageTitle">EcoShare</p>
         </div>
         <div id="headerRight">
-            <input id="logicMenu" type="checkbox" placeholder="." />
-            <label id="labelMenu" for="logicMenu">
-                <div class="visualMenu" id="line1"></div>
-                <div class="visualMenu" id="line2"></div>
-                <div class="visualMenu" id="line3"></div>
-            </label>
-            <ul id="menuList">
-                <li class="menuElement">
-                    <button class="menuButton" onclick="redirect('home');">Início</button>
-                </li>
-                <li class="menuElement">
-                    <button class="menuButton" onclick="redirect('item');">Cadastro de Item</button>
-                </li>
-                <li class="menuElement">
-                    <button class="menuButton" onclick="logout();">Logout</button>
-                </li>
-            </ul>
+            <button class="header-btn" onclick="redirect('login')">Login</button>
         </div>
     </nav>
     <!-- Conteúdo -->
     <div id="content">
         <div class="form-container">
-            <h2>Cadastrar Novo Item</h2>
-            <input type="text" id="inputFoto" placeholder="Foto">
-            <input type="text" id="inputDescricao" placeholder="Descricao">
+            <h2>Cadastro de Usuário</h2>
+            <input type="text" id="inputUser" placeholder="Usuário">
+            <input type="text" id="inputEmail" placeholder="Email">
+            <input type="password" id="inputSenha" placeholder="Senha" autocomplete="off">
             <input type="text" id="inputNome" placeholder="Nome">
-            <input type="text" id="inputUsuario_id" placeholder="Usuario_id">
-            <button type="button" onclick="prepara_cadastro_de_item()">Cadastrar</button>
+            <input type="text" id="inputDoc" placeholder="Número do documento">
+            <input type="text" id="inputDocType" placeholder="Tipo de documento">
+            <button type="button" onclick="prepara_cadastro_de_usuario()">Registrar</button>
         </div>
     </div>
     <!-- Footer -->

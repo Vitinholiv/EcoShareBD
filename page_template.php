@@ -4,7 +4,7 @@
     <!-- Padrão -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Título</title>
+    <title>EcoShare</title>
     <meta name="theme-color" content="#bbbbbb"/>
     
     <!-- CSS e Scripts -->
@@ -21,10 +21,10 @@
     <!-- Header -->
     <nav id="header">
         <div id="headerLeft">
-            <img id="logo" src="/public/res/Template_logo.png" alt="Logo" onclick="window.location.assign(window.location.origin + `/`)">
+            <img id="logo" src="/public/res/logo.png" alt="Logo" onclick="window.location.assign(window.location.origin + `/`)">
         </div>
         <div id="headerMiddle">
-            <p id="pageTitle">TÍTULO</p>
+            <p id="pageTitle">EcoShare</p>
         </div>
         <div id="headerRight">
             <input id="logicMenu" type="checkbox" placeholder="." />
@@ -35,11 +35,7 @@
             </label>
             <ul id="menuList">
                 <li class="menuElement">
-                    <button class="menuButton" onclick="Redrect_user();">Cadastro de Usuário</button>
-                </li>
-
-                <li class="menuElement">
-                    <button class="menuButton" onclick="Redrect_item();">Cadastro de Item</button>
+                    <button class="menuButton" onclick="logout();">Logout</button>
                 </li>
             </ul>
         </div>
@@ -50,8 +46,8 @@
     </div>
     <!-- Footer -->
     <footer id="footer">
-        <p class="footerText">Título.</p>
-        <p class="footerText">Contato: titulo@subtitulo.com</p>
+        <p class="footerText">EcoShare.</p>
+        <p class="footerText">Contato: contato@ecoshare.com</p>
     </footer>
 </body>
 </html>

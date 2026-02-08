@@ -9,3 +9,7 @@ function Redrect_main() {
 function Redrect_item() {
     window.location.pathname = '/item';
 }
+
+function redirect(path){
+    window.location.pathname = `/${path}`;
+}
