@@ -4,7 +4,7 @@
     <!-- Padrão -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Título</title>
+    <title>EcoShare</title>
     <meta name="theme-color" content="#bbbbbb"/>
     
     <!-- CSS e Scripts -->
@@ -21,23 +21,13 @@
     <!-- Header -->
     <nav id="header">
         <div id="headerLeft">
-            <img id="logo" src="/public/res/Template_logo.png" alt="Logo" onclick="window.location.assign(window.location.origin + `/`)">
+            <img id="logo" src="/public/res/logo.png" alt="Logo" onclick="window.location.assign(window.location.origin + `/`)">
         </div>
         <div id="headerMiddle">
-            <p id="pageTitle">TÍTULO</p>
+            <p id="pageTitle">EcoShare</p>
         </div>
         <div id="headerRight">
-            <input id="logicMenu" type="checkbox" placeholder="." />
-            <label id="labelMenu" for="logicMenu">
-                <div class="visualMenu" id="line1"></div>
-                <div class="visualMenu" id="line2"></div>
-                <div class="visualMenu" id="line3"></div>
-            </label>
-            <ul id="menuList">
-                <li class="menuElement">
-                    <button class="menuButton" onclick="Redrect_main();">Página Inicial</button>
-                </li>
-            </ul>
+            <button class="header-btn" onclick="redirect('login')">Login</button>
         </div>
     </nav>
     <!-- Conteúdo -->
@@ -46,7 +36,7 @@
             <h2>Cadastro de Usuário</h2>
             <input type="text" id="inputUser" placeholder="Usuário">
             <input type="text" id="inputEmail" placeholder="Email">
-            <input type="text" id="inputSenha" placeholder="Senha">
+            <input type="password" id="inputSenha" placeholder="Senha" autocomplete="off">
             <input type="text" id="inputNome" placeholder="Nome">
             <input type="text" id="inputDoc" placeholder="Número do documento">
             <input type="text" id="inputDocType" placeholder="Tipo de documento">
@@ -55,8 +45,8 @@
     </div>
     <!-- Footer -->
     <footer id="footer">
-        <p class="footerText">Título.</p>
-        <p class="footerText">Contato: titulo@subtitulo.com</p>
+        <p class="footerText">EcoShare.</p>
+        <p class="footerText">Contato: contato@ecoshare.com</p>
     </footer>
 </body>
 </html>

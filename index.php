@@ -11,14 +11,14 @@
 					header("Location: /home");
 					exit;
 				}
-				require 'page_login.php';
+				require 'page_off_login.php';
 				break;
 			case '/cadastro':
 				if (isset($_SESSION['username'])) {
 					header("Location: /home");
 					exit;
 				}
-				require 'page_cadastro.php';
+				require 'page_off_cadastro.php';
 				break;
 			case '/item':
 				if (!isset($_SESSION['username'])) {
@@ -32,7 +32,7 @@
 					header("Location: /login");
 					exit;
 				}
-				require 'page_item.php';
+				require 'page_home.php';
 				break;
 			default:
 				header("Location: /home");
@@ -82,7 +82,7 @@
 					if($res['status'] == 'ERROR'){
 						echo json_encode($res);
 					} else if(count($res['data']) === 0){
-						echo json_encode(['status' => 'ERROR', 'error' => 'Dados de login incorretosu.']);
+						echo json_encode(['status' => 'ERROR', 'error' => 'Dados de login incorretos.']);
 					} else {
 						$nome           = $res['data'][0]['nome'];
 						$senha          = $res['data'][0]['senha'];
@@ -103,6 +103,20 @@
 					}
 				} else {
 					echo json_encode($res_check);
+				}
+
+			} else if($tipo === 'logout'){
+
+				if(isset($_SESSION['username'])){
+					$unm = $_SESSION['username'];
+					unset($_SESSION['nome']);
+					unset($_SESSION['username']);
+					unset($_SESSION['email']);
+					unset($_SESSION['documento']);
+					unset($_SESSION['tipo_documento']);
+					echo json_encode(['status' => 'OK', 'username' => $unm]);
+				} else {
+					echo json_encode(['status' => 'ERROR', 'error' => 'Usuário não logado.']);
 				}
 
 			} else if($tipo === 'cadastro_de_item'){

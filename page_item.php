@@ -4,7 +4,7 @@
     <!-- Padrão -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Título</title>
+    <title>EcoShare</title>
     <meta name="theme-color" content="#bbbbbb"/>
     
     <!-- CSS e Scripts -->
@@ -21,10 +21,10 @@
     <!-- Header -->
     <nav id="header">
         <div id="headerLeft">
-            <img id="logo" src="/public/res/Template_logo.png" alt="Logo" onclick="window.location.assign(window.location.origin + `/`)">
+            <img id="logo" src="/public/res/logo.png" alt="Logo" onclick="window.location.assign(window.location.origin + `/`)">
         </div>
         <div id="headerMiddle">
-            <p id="pageTitle">TÍTULO</p>
+            <p id="pageTitle">EcoShare</p>
         </div>
         <div id="headerRight">
             <input id="logicMenu" type="checkbox" placeholder="." />
@@ -35,38 +35,32 @@
             </label>
             <ul id="menuList">
                 <li class="menuElement">
-                    <button class="menuButton" onclick="Redrect_main();">Página Inicial</button>
+                    <button class="menuButton" onclick="redirect('home');">Início</button>
+                </li>
+                <li class="menuElement">
+                    <button class="menuButton" onclick="redirect('item');">Cadastro de Item</button>
+                </li>
+                <li class="menuElement">
+                    <button class="menuButton" onclick="logout();">Logout</button>
                 </li>
             </ul>
         </div>
     </nav>
     <!-- Conteúdo -->
     <div id="content">
-
-        <!-- Botão -->
-         
         <div class="form-container">
-            <h2>Gerador de Inserção SQL</h2>
-            
+            <h2>Cadastrar Novo Item</h2>
             <input type="text" id="inputFoto" placeholder="Foto">
             <input type="text" id="inputDescricao" placeholder="Descricao">
             <input type="text" id="inputNome" placeholder="Nome">
             <input type="text" id="inputUsuario_id" placeholder="Usuario_id">
-
-
-            <button type="button" onclick="prepara_cadastro_de_item()">Cadastrar Item</button>
-            <!-- cadastro_de_usuario('usuariodet','nome do infeliz','emaildoinfeliz@gmail.com','07045312305',1,'senhasegura333'); -->
-
+            <button type="button" onclick="prepara_cadastro_de_item()">Cadastrar</button>
         </div>
-
-
-
-    </div>
     </div>
     <!-- Footer -->
     <footer id="footer">
-        <p class="footerText">Título.</p>
-        <p class="footerText">Contato: titulo@subtitulo.com</p>
+        <p class="footerText">EcoShare.</p>
+        <p class="footerText">Contato: contato@ecoshare.com</p>
     </footer>
 </body>
 </html>

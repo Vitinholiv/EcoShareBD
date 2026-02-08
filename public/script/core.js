@@ -1,6 +1,22 @@
 const route = window.location.pathname;
 const params = new URLSearchParams(window.location.search);
 
+
+
+async function logout(){
+    let objeto = new URLSearchParams();
+    objeto.append('tipo','logout');
+    minha_resposta = await send_to_php(objeto);
+    if(minha_resposta['status'] !== 'ERROR'){
+        alert(`Desconectado de ${minha_resposta['username']}.`);
+        window.location.pathname = '/login';
+    } else {
+        alert(minha_resposta['error']);
+    }
+}
+
+
+
 async function cadastro_de_usuario(username, nome, email, documento, tipo_documento, senha){
     let objeto = new URLSearchParams();
     objeto.append('tipo','cadastro_de_usuario');
