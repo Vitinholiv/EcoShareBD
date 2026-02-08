@@ -1,25 +1,43 @@
 <?php
+	session_start();
+	require_once 'functions.php';
+
 	# Requisições Get - Acesso à páginas
 	if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 		$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 		switch ($path) {
-        case '/':
-            require 'page_main.php';
-            break;
-		case '/request':
-            require 'page_main.php';
-            break;
-		case '/item':
-			require 'page_item.php';
-			break;
-		case'/user':
-			require 'page_user.php';
-			break;
-        default:
-            http_response_code(404);
-            echo "Página não encontrada.";
-            break;
-    }
+			case '/login':
+				if (isset($_SESSION['username'])) {
+					header("Location: /home");
+					exit;
+				}
+				require 'page_login.php';
+				break;
+			case '/cadastro':
+				if (isset($_SESSION['username'])) {
+					header("Location: /home");
+					exit;
+				}
+				require 'page_cadastro.php';
+				break;
+			case '/item':
+				if (!isset($_SESSION['username'])) {
+					header("Location: /login");
+					exit;
+				}
+				require 'page_item.php';
+				break;
+			case '/home':
+				if (!isset($_SESSION['username'])) {
+					header("Location: /login");
+					exit;
+				}
+				require 'page_item.php';
+				break;
+			default:
+				header("Location: /home");
+				exit;
+		}
 
 	# Requisições Post - Envios intencionais de informação
 	} else if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -33,6 +51,7 @@
 		if(isset($_POST['tipo'])){
 			$tipo = $_POST['tipo'];
 			if($tipo === 'cadastro_de_usuario'){
+
 				$_username = secure_usuario_username($_POST['username']);
 				$_senha = secure_usuario_senha($_POST['senha']);
 				$_email = secure_usuario_email($_POST['email']);
@@ -50,7 +69,42 @@
 					echo json_encode($res_check);
 				}
 
-				# Cadastro de item
+			} else if($tipo === 'login_de_usuario'){
+
+				$_username = secure_usuario_username($_POST['username']);
+				$_senha = secure_usuario_senha($_POST['senha'],false);
+
+				$arr = [$_username,$_senha];
+				$res_check = check_errors($arr);
+				if($res_check['status'] == 'OK'){
+					$sql = "SELECT u.nome as nome, u.senha as senha, u.email as email, u.username as username, u.usuario_doc as documento, u.usuario_doc_tipo_id as tipo_documento FROM usuario as u WHERE u.username = '$_username' LIMIT 1;";
+					$res = send_sql_selection($sql);
+					if($res['status'] == 'ERROR'){
+						echo json_encode($res);
+					} else if(count($res['data']) === 0){
+						echo json_encode(['status' => 'ERROR', 'error' => 'Dados de login incorretosu.']);
+					} else {
+						$nome           = $res['data'][0]['nome'];
+						$senha          = $res['data'][0]['senha'];
+						$email          = $res['data'][0]['email'];
+						$username       = $res['data'][0]['username'];
+						$documento      = $res['data'][0]['documento'];
+						$tipo_documento = $res['data'][0]['tipo_documento'];
+						if(password_verify($_senha,$senha)){
+							$_SESSION['nome']            = $res['data'][0]['nome'];
+							$_SESSION['username']        = $res['data'][0]['username'];
+							$_SESSION['email']           = $res['data'][0]['email'];
+							$_SESSION['documento']       = $res['data'][0]['documento'];
+							$_SESSION['tipo_documento']  = $res['data'][0]['tipo_documento'];
+							echo json_encode(['status' => 'OK']);
+						} else {
+							echo json_encode(['status' => 'ERROR', 'error' => 'Dados de login incorretose.']);
+						}
+					}
+				} else {
+					echo json_encode($res_check);
+				}
+
 			} else if($tipo === 'cadastro_de_item'){
 
 				$_foto = secure_item_foto($_POST['foto']);

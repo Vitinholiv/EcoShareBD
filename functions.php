@@ -1,7 +1,7 @@
 <?php
 	require_once 'env.php';
   
-	# Cria conexão com o BD
+	# Conexão com o BD
 	$dbHost = DB_HOST;
 	$dbUser = DB_USER;
 	$dbPassword = DB_PASSWORD;
@@ -16,7 +16,6 @@
 	global $connection;
 
 	# Funções de Segurança
-
 	function check_errors($arr){
 		foreach($arr as $el){
 			if(is_array($el) && isset($el['status']) && $el['status'] == 'ERROR'){
@@ -38,6 +37,22 @@
 			return ['status' => 'OK'];
 		}
 	}
+
+	function send_sql_selection($sql) {
+		global $connection;
+		$result = $connection->query($sql);
+
+		if ($result === false) {
+			return ['status' => 'ERROR', 'error' => $connection->error];
+		}
+
+		$rows = [];
+		while ($row = $result->fetch_assoc()) {
+			$rows[] = $row;
+		}
+		return ['status' => 'OK', 'data' => $rows];
+	}
+
 
 	# Secures do Cadastro de items
 
@@ -81,12 +96,15 @@
 	}
 
 	// Padrão senha: Pelo menos 8 caracteres, sem demais regras (Exemplo: 'A senha deve ter pelo menos um caractere numérico e pelo menos um símbolo').
-	function secure_usuario_senha($v){
+	function secure_usuario_senha($v, $willHash = true){
 		if (strlen($v) < 8) {
 			return ['status' => 'ERROR', 'error' => "A senha precisa de no mínimo 8 caracteres."];
 		}
-		// Criptografa para o banco
-		return password_hash($v, PASSWORD_DEFAULT);
+		if($willHash == true){
+			return password_hash($v, PASSWORD_DEFAULT);
+		} else {
+			return $v;
+		}
 	}
 
 	//--------- PENDENTE ---------

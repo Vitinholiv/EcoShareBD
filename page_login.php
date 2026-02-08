@@ -42,24 +42,12 @@
     </nav>
     <!-- Conteúdo -->
     <div id="content">
-
-        <!-- Botão -->
-
         <div class="form-container">
-            <h2>Gerador de Inserção SQL</h2>
-            
+            <h2>Login de Usuário</h2>
             <input type="text" id="inputUser" placeholder="Usuário">
-            <input type="text" id="inputEmail" placeholder="Email">
             <input type="text" id="inputSenha" placeholder="Senha">
-            <input type="text" id="inputNome" placeholder="Nome">
-            <input type="text" id="inputDoc" placeholder="Número do documento">
-            <input type="text" id="inputDocType" placeholder="Tipo de documento">
-
-            <button type="button" onclick="prepara_cadastro_de_usuario()">Registrar usuário</button>
-            <!-- cadastro_de_usuario('usuariodet','nome do infeliz','emaildoinfeliz@gmail.com','07045312305',1,'senhasegura333'); -->
-
+            <button type="button" onclick="prepara_login_de_usuario()">Login</button>
         </div>
-
     </div>
     </div>
     <!-- Footer -->
