@@ -20,10 +20,8 @@
 <body>
     <!-- Header -->
     <nav id="header">
-        <div id="headerLeft">
-            <img id="logo" src="/public/res/logo.png" alt="Logo" onclick="window.location.assign(window.location.origin + `/`)">
-        </div>
-        <div id="headerMiddle">
+        <div id="headerLeft" onclick="window.location.assign(window.location.origin + '/')" style="cursor:pointer;">
+            <img id="logo" src="/public/res/logo.png" alt="Logo">
             <p id="pageTitle">EcoShare</p>
         </div>
         <div id="headerRight">
