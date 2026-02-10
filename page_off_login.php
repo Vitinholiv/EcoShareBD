@@ -38,7 +38,7 @@
             <div class="input-group">
                 <input type="password" id="inputSenha" placeholder="Senha" autocomplete="off">
             </div>
-            <button type="button" class="btn-login" onclick="prepara_login_de_usuario()">Login</button>button>
+            <button type="button" class="btn-login" onclick="prepara_login_de_usuario()">Login</button>
         </div>
     </div>
     <!-- Footer -->
