@@ -20,10 +20,8 @@
 <body>
     <!-- Header -->
     <nav id="header">
-        <div id="headerLeft">
-            <img id="logo" src="/public/res/logo.png" alt="Logo" onclick="window.location.assign(window.location.origin + `/`)">
-        </div>
-        <div id="headerMiddle">
+        <div id="headerLeft" onclick="window.location.assign(window.location.origin + '/')" style="cursor:pointer;">
+            <img id="logo" src="/public/res/logo.png" alt="Logo">
             <p id="pageTitle">EcoShare</p>
         </div>
         <div id="headerRight">
@@ -50,10 +48,9 @@
     <div id="content">
         <div class="form-container">
             <h2>Cadastrar Novo Item</h2>
-            <input type="text" id="inputFoto" placeholder="Foto">
-            <input type="text" id="inputDescricao" placeholder="Descricao">
-            <input type="text" id="inputNome" placeholder="Nome">
-            <input type="text" id="inputUsuario_id" placeholder="Usuario_id">
+            <input type="text" id="inputNome" placeholder="Nome do Item">
+            <input type="text" id="inputDescricao" placeholder="Descrição">
+            <input type="file" id="inputFotos" accept=".png" multiple>
             <button type="button" onclick="prepara_cadastro_de_item()">Cadastrar</button>
         </div>
     </div>
