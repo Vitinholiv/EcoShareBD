@@ -193,6 +193,9 @@
 		// Basta substituir as aspas para um texto simples não ser uma injeção, juntamente do clear_str para limpar tags html indesejadas.
 		$v = str_replace("'", "’", $v);
 		$v = clear_str($v);
+		if(empty($v)){
+			return ['status' => 'ERROR', 'error' => 'O campo descrição não pode estar vazio.']; 
+		}
 		return $v;
 	}
 
