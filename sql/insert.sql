@@ -262,7 +262,7 @@ INSERT INTO item_usado (item_id, item_status_id) VALUES (LAST_INSERT_ID(), 1);
 COMMIT;
 
 START TRANSACTION;
-INSERT INTO item (nome, descricao, usuario_id) VALUES ('Prancha de Surf 6.0', 'Com alguns tecos reparados.', 11);
+INSERT INTO item (nome, descricao, usuario_id) VALUES ('Prancha de Surf 6.0', 'Com alguns reparos.', 11);
 INSERT INTO item_usado (item_id, item_status_id) VALUES (LAST_INSERT_ID(), 1);
 COMMIT;
 
@@ -500,27 +500,3 @@ INSERT INTO avaliacao_item (usuario_id, item_id, descricao, nota, likes, data_av
 VALUES (1, 25, 'Corta a grama muito bem, motor forte.', 5, 1, '2026-01-26');
 INSERT INTO avaliacao_item (usuario_id, item_id, descricao, nota, likes, data_avaliacao)
 VALUES (5, 27, 'Microondas esquenta rápido, apesar do barulho.', 4, 0, '2026-02-09');
-
-
-
-/*
-INSERT INTO item ( foto, descricao, nome, usuario_id) VALUES ( 'foto1', 'Makira lixadeira', 'MAKITA LIXADEIRA R2000', 1 );
-
-INSERT INTO endereco (usuario_id, CEP, pais, estado, bairro, logradouro, complemento , numero) VALUES (1, '20220800', 'Brasil', 'RJ', 'Santo Cristo', 'Avenida Professor Pereira Reis', 'apt 456', 49);
-INSERT INTO endereco (usuario_id, CEP, pais, estado, bairro, logradouro, complemento , numero) VALUES (1, '20220900', 'Brasil', 'RJ', 'Santo Cristo', 'Avenida Professor Pereira Reis', 'apt 458', 49);
-
-INSERT INTO cupon ( usuario_id, sorteio_id ) VALUES ( 1, 1 );
-
-INSERT INTO usuario_telefone ( usuario_id, telefone ) VALUES ( 1, '55(42)910103030' );
-
-INSERT INTO avaliacao_usuario ( usuario1_id, usuario2_id, descricao, nota, likes) VALUES (1, 2, 'O sigma global moggou o teste', 3, 0 );
-INSERT INTO avaliacao_usuario ( usuario1_id, usuario2_id, nota) VALUES (1, 2, 3 );
-
-INSERT INTO avaliacao_item ( usuario1_id, item_id, nota) VALUES (1, 1, 5 );
-
-INSERT INTO item_status (id, item_status) VALUES ( 1, 'Disponível');
-INSERT INTO item_status (id, item_status) VALUES ( 2, 'Ocupado');
-INSERT INTO item_status (id, item_status) VALUES ( 3, 'Manutenção');
-
-INSERT INTO manutencao (item_id, data)
-*/
