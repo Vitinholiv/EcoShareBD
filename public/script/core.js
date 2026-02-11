@@ -96,15 +96,15 @@ async function prepara_login_de_usuario(params) {
 
 
 
-async function cadastro_de_item(descricao, nome){
+async function cadastro_de_item(descricao, nome, tipo){
     let objeto = new URLSearchParams();
     objeto.append('tipo','cadastro_de_item');
 
     objeto.append('descricao',descricao);
     objeto.append('nome',nome);
+    objeto.append('tipo_item',tipo);
 
     minha_resposta = await send_to_php(objeto);
-
    
     if(minha_resposta['status'] == 'ERROR'){
         return minha_resposta;
@@ -115,6 +115,7 @@ async function cadastro_de_item(descricao, nome){
 
 
 async function prepara_cadastro_de_item() {
+    let tipo       = document.getElementById('inputItemType').value
     let descricao  = document.getElementById('inputDescricao').value;
     let nome       = document.getElementById('inputNome').value;
     let inputFotos = document.getElementById('inputFotos');
@@ -154,9 +155,7 @@ async function prepara_cadastro_de_item() {
         console.error("Erro na validação das fotos:", error);
     }
 
-    const mensagem = await cadastro_de_item(descricao, nome);
-
-    console.log(mensagem);
+    const mensagem = await cadastro_de_item(descricao, nome, tipo);
 
     if (mensagem['status'] === 'OK'){
         let imgData = new FormData();
@@ -169,21 +168,17 @@ async function prepara_cadastro_de_item() {
                 imgData.append('fotos[]', arquivoAtual);
             }
         }
-        console.log('1');
         try {
             const res = await fetch('index.php', {
                 method: 'POST',
                 body: imgData
             });
             if (!res.ok) {
-                console.log('2');
                 const errorText = await res.text();
                 alert(`Erro ${res.status} (${res.statusText}): ${errorText || 'Sem detalhes adicionais'}`);
                 return;
             }
             let result = await res.json();
-            console.log('3');
-            
             if (result['status'] !== 'OK') {
                 alert("Erro: " + result['error']);
                 return;
@@ -191,6 +186,7 @@ async function prepara_cadastro_de_item() {
             alert("Item cadastrado com sucesso.")
             document.getElementById('inputDescricao').value = '';
             document.getElementById('inputNome').value = '';
+            document.getElementById('inputItemType').value = '';
         } catch (error) {
             alert("Erro na requisição de inserção de fotos:", error);
         }

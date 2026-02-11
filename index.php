@@ -119,6 +119,7 @@
 
 				if(isset($_SESSION['username'])){
 					$unm = $_SESSION['username'];
+					unset($_SESSION['id']);
 					unset($_SESSION['nome']);
 					unset($_SESSION['username']);
 					unset($_SESSION['email']);
@@ -134,13 +135,25 @@
 				$_descricao = secure_item_descricao($_POST['descricao']);
 				$_nome = secure_item_nome($_POST['nome']);
 				$_usuario_id = $_SESSION['id'];
+				$_tipo_item = secure_item_tipo($_POST['tipo_item']);
 
-				$arr = [$_descricao,$_nome];
+				$arr = [$_descricao,$_nome,$_tipo_item];
 				$res_check = check_errors($arr);
 
 				if($res_check['status'] == 'OK'){
-					$sql = "INSERT INTO item (descricao, nome, usuario_id) VALUES ('$_descricao','$_nome',$_usuario_id)";
-					$res = send_sql_insertion($sql);
+					$sql = "";
+					if($_tipo_item === 'Novo'){
+						$sql = "START TRANSACTION;
+						INSERT INTO item (descricao, nome, usuario_id) VALUES ('$_descricao', '$_nome', $_usuario_id);
+						INSERT INTO item_novo (item_id, estoque) VALUES (LAST_INSERT_ID(), 1);
+						COMMIT;";
+					} else {
+						$sql = "START TRANSACTION;
+						INSERT INTO item (descricao, nome, usuario_id) VALUES ('$_descricao', '$_nome', $_usuario_id);
+						INSERT INTO item_usado (item_id, item_status_id) VALUES (LAST_INSERT_ID(), 1);
+						COMMIT;";
+					}
+					$res = send_sql_transaction($sql);
 					echo json_encode($res);
 				} else {
 					echo json_encode($res_check);
@@ -212,6 +225,16 @@
 					echo json_encode(['status' => 'ERROR', 'error' => 'Nenhum arquivo enviado.']);
 				}
 
+			} else if($tipo === 'buscar_itens_novos_do_usuario'){
+
+				$id = $_SESSION['id'];
+				
+				
+			} else if($tipo === 'buscar_itens_usados_do_usuario'){
+
+				$id = $_SESSION['id'];
+				
+				
 			} else {
 				echo json_encode(['status' => 'ERROR', 'error' => 'Requisição inválida.']);
 			}

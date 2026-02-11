@@ -10,8 +10,10 @@
 
 #content {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: calc(30px * var(--multiplicator));
     min-height: calc(100vh - (160px * var(--multiplicator))); 
     width: 100%;
     flex: 1; 
@@ -33,6 +35,85 @@
     color: #333;
     font-family: 'Prompt', sans-serif;
     font-weight: 400;
+}
+
+.itemList {
+    margin-top: calc(25px * var(--multiplicator));
+    background-color: #ffffff;
+    padding: calc(25px * var(--multiplicator));
+    border-radius: calc(20px * var(--multiplicator));
+    box-shadow: 0 calc(10px * var(--multiplicator)) calc(25px * var(--multiplicator)) rgba(0, 0, 0, 0.1);
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: calc(12px * var(--multiplicator));
+    height: auto;
+    box-sizing: border-box;
+}
+
+.itemBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: calc(20px * var(--multiplicator));
+}
+
+.itemList h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #333;
+    font-family: 'Prompt', sans-serif;
+    font-weight: 400;
+}
+
+.itemUnitA {
+    display: flex;
+    flex: 20;
+    padding: calc(12px * var(--multiplicator));
+    border: 1px solid #ccc;
+    border-radius: calc(10px * var(--multiplicator));
+    font-size: calc(16px * var(--multiplicator));
+    box-sizing: border-box;
+    font-family: 'Prompt', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    min-height: calc(45px * var(--multiplicator)); 
+    display: flex;
+    align-items: center;
+}
+
+.itemUnitB {
+    display: flex;
+    flex: 4;
+    padding: calc(12px * var(--multiplicator));
+    border: 1px solid #ccc; /* Mantém a borda igual ao UnitA */
+    border-radius: calc(10px * var(--multiplicator));
+    font-size: calc(14px * var(--multiplicator)); /* Ligeiramente menor para caber melhor */
+    box-sizing: border-box;
+    font-family: 'Prompt', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    min-height: calc(45px * var(--multiplicator)); 
+    
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.itemUnitB:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.02);
+}
+
+.itemUnitB:active {
+    transform: scale(0.98);
 }
 
 #inputUser, #inputSenha {
