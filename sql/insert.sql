@@ -60,26 +60,26 @@ INSERT INTO cupom (usuario_id, sorteio_id) VALUES (5, 4);
 
 
 /* Preencher tabela de telefones */
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 1, "+55 11 98244-1057");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 2, "+55 21 97412-8832");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 4, "+55 31 99501-4421");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 6, "+55 41 98822-3091");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 8, "+55 51 99233-0055");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 10, "+55 61 98115-7742");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 12, "+55 71 99604-1289");
+INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 1, "+55 11 982441057");
+INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 2, "+55 21 974128832");
+INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 4, "+55 31 995014421");
+INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 6, "+55 41 988223091");
+INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 8, "+55 51 992330055");
+INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 10, "+55 61 981157742");
+INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 12, "+55 71 996041289");
 INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 3, "+258 84 123 4567");
 INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 5, "+244 923 000 111");
 INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 9, "+244 912 555 999");
 INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 7, "+239 990 1234");
 INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 11, "+239 985 4321");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (2, 1, "+55 11 91022-3344");
+INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (2, 1, "+55 11 910223344");
 INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (2, 3, "+258 82 987 6543");
 INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (2, 7, "+239 904 4455");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (2, 12, "+55 71 98144-5566");
+INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (2, 12, "+55 71 981445566");
 INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (3, 7, "+239 991 2233"); 
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (3, 12, "+55 71 97000-1122");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (4, 12, "+55 71 99122-3344");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (5, 12, "+55 71 98255-6677");
+INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (3, 12, "+55 71 970001122");
+INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (4, 12, "+55 71 991223344");
+INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (5, 12, "+55 71 982556677");
 
 
 
@@ -300,63 +300,63 @@ VALUES (8, 22, 150.00, 'Mesa de escritório MDF em ótimo estado.', 1, '2026-02-
 
 /* Preencher tabelas de registro de venda, troca e empréstimo */
 START TRANSACTION;
-INSERT INTO registro (usuario_id, usuario_provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
+INSERT INTO registro (cliente_id, provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
 VALUES (8, 1, 2, '2025-12-20', 3, 50.00);
 INSERT INTO registro_venda (registro_id) VALUES (LAST_INSERT_ID());
 COMMIT;
 
 START TRANSACTION;
-INSERT INTO registro (usuario_id, usuario_provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
+INSERT INTO registro (cliente_id, provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
 VALUES (10, 2, 5, '2025-12-28', 3, 49.90);
 INSERT INTO registro_venda (registro_id) VALUES (LAST_INSERT_ID());
 COMMIT;
 
 START TRANSACTION;
-INSERT INTO registro (usuario_id, usuario_provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
+INSERT INTO registro (cliente_id, provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
 VALUES (12, 2, 8, '2026-01-05', 2, 110.00);
 INSERT INTO registro_venda (registro_id) VALUES (LAST_INSERT_ID());
 COMMIT;
 
 START TRANSACTION;
-INSERT INTO registro (usuario_id, usuario_provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
+INSERT INTO registro (cliente_id, provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
 VALUES (3, 7, 17, '2026-01-12', 5, 0.00); 
 INSERT INTO registro_troca (registro_id, item_trocado_id) VALUES (LAST_INSERT_ID(), 13);
 COMMIT;
 
 START TRANSACTION;
-INSERT INTO registro (usuario_id, usuario_provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
+INSERT INTO registro (cliente_id, provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
 VALUES (9, 11, 30, '2026-01-18', 5, 0.00);
 INSERT INTO registro_troca (registro_id, item_trocado_id) VALUES (LAST_INSERT_ID(), 29);
 COMMIT;
 
 START TRANSACTION;
-INSERT INTO registro (usuario_id, usuario_provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
+INSERT INTO registro (cliente_id, provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
 VALUES (5, 3, 14, '2026-01-10', 4, 15.00);
-INSERT INTO registro_emprestimo (registro_id, data_previsao_devolucao, data_devolucao) 
+INSERT INTO registro_emprestimo (registro_id, data_previsao, data_entregue) 
 VALUES (LAST_INSERT_ID(), '2026-01-15', '2026-01-14');
 COMMIT;
 
 START TRANSACTION;
-INSERT INTO registro (usuario_id, usuario_provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
+INSERT INTO registro (cliente_id, provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
 VALUES (1, 4, 25, '2026-01-20', 11, 20.00);
-INSERT INTO registro_emprestimo (registro_id, data_previsao_devolucao, data_devolucao) 
+INSERT INTO registro_emprestimo (registro_id, data_previsao, data_entregue) 
 VALUES (LAST_INSERT_ID(), '2026-01-22', '2026-01-22');
 COMMIT;
 
 START TRANSACTION;
-INSERT INTO registro (usuario_id, usuario_provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
+INSERT INTO registro (cliente_id, provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
 VALUES (9, 2, 26, '2026-01-15', 9, 0.00);
 INSERT INTO registro_venda (registro_id) VALUES (LAST_INSERT_ID());
 COMMIT;
 
 START TRANSACTION;
-INSERT INTO registro (usuario_id, usuario_provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
+INSERT INTO registro (cliente_id, provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
 VALUES (6, 1, 4, '2026-01-28', 3, 25.00);
 INSERT INTO registro_venda (registro_id) VALUES (LAST_INSERT_ID());
 COMMIT;
 
 START TRANSACTION;
-INSERT INTO registro (usuario_id, usuario_provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
+INSERT INTO registro (cliente_id, provedor_id, item_id, data_registro, forma_pagamento_id, valor_registro)
 VALUES (7, 2, 6, '2026-02-01', 3, 35.00);
 INSERT INTO registro_venda (registro_id) VALUES (LAST_INSERT_ID());
 COMMIT;
@@ -397,26 +397,26 @@ VALUES ("G20260211010", 8, 2, "Pedido de alteração de e-mail de cadastro.");
 
 
 /* Preencher tabela de manutenções */
-INSERT INTO manutencao (item_id, data_manutencao, laudo) 
-VALUES (13, '2026-01-05', 'https://cdn.ecoshare.com/reports/maint_furadeira_13_20260105.pdf');
-INSERT INTO manutencao (item_id, data_manutencao, laudo) 
-VALUES (24, '2026-01-12', 'https://cdn.ecoshare.com/reports/maint_carrinho_24_20260112.pdf');
-INSERT INTO manutencao (item_id, data_manutencao, laudo) 
-VALUES (15, '2025-12-20', 'https://storage.reparostech.com.br/v2/laudo_monitor_15.pdf');
-INSERT INTO manutencao (item_id, data_manutencao, laudo) 
-VALUES (26, '2026-01-08', 'https://storage.reparostech.com.br/v2/config_roteador_26.html');
-INSERT INTO manutencao (item_id, data_manutencao, laudo) 
-VALUES (25, '2026-01-15', 'https://docs.jardimcasa.com/servicos/aparador_25_rev.pdf');
-INSERT INTO manutencao (item_id, data_manutencao, laudo) 
-VALUES (27, '2026-02-02', 'https://docs.jardimcasa.com/servicos/microondas_27_final.pdf');
-INSERT INTO manutencao (item_id, data_manutencao, laudo) 
-VALUES (17, '2025-12-10', 'https://bikeshop.com.br/revisoes/bike_17_dez25.pdf');
-INSERT INTO manutencao (item_id, data_manutencao, laudo) 
-VALUES (28, '2026-01-20', 'https://costura.cia/laudos/maquina_28_jan.pdf');
-INSERT INTO manutencao (item_id, data_manutencao, laudo) 
-VALUES (29, '2026-01-25', 'https://luthieria.com/certificados/violao_29_restauro.pdf');
-INSERT INTO manutencao (item_id, data_manutencao, laudo) 
-VALUES (30, '2026-02-01', 'https://surf-repair.com/vouchers/prancha_30_resina.pdf');
+INSERT INTO manutencao (manutencao_id, item_id, data_manutencao, laudo) 
+VALUES (1, 13, '2026-01-05', 'https://cdn.ecoshare.com/reports/maint_furadeira_13_20260105.pdf');
+INSERT INTO manutencao (manutencao_id, item_id, data_manutencao, laudo) 
+VALUES (1, 24, '2026-01-12', 'https://cdn.ecoshare.com/reports/maint_carrinho_24_20260112.pdf');
+INSERT INTO manutencao (manutencao_id, item_id, data_manutencao, laudo) 
+VALUES (1, 15, '2025-12-20', 'https://storage.reparostech.com.br/v2/laudo_monitor_15.pdf');
+INSERT INTO manutencao (manutencao_id, item_id, data_manutencao, laudo) 
+VALUES (1, 26, '2026-01-08', 'https://storage.reparostech.com.br/v2/config_roteador_26.html');
+INSERT INTO manutencao (manutencao_id, item_id, data_manutencao, laudo) 
+VALUES (1, 25, '2026-01-15', 'https://docs.jardimcasa.com/servicos/aparador_25_rev.pdf');
+INSERT INTO manutencao (manutencao_id, item_id, data_manutencao, laudo) 
+VALUES (1, 27, '2026-02-02', 'https://docs.jardimcasa.com/servicos/microondas_27_final.pdf');
+INSERT INTO manutencao (manutencao_id, item_id, data_manutencao, laudo) 
+VALUES (1, 17, '2025-12-10', 'https://bikeshop.com.br/revisoes/bike_17_dez25.pdf');
+INSERT INTO manutencao (manutencao_id, item_id, data_manutencao, laudo) 
+VALUES (1, 28, '2026-01-20', 'https://costura.cia/laudos/maquina_28_jan.pdf');
+INSERT INTO manutencao (manutencao_id, item_id, data_manutencao, laudo) 
+VALUES (1, 29, '2026-01-25', 'https://luthieria.com/certificados/violao_29_restauro.pdf');
+INSERT INTO manutencao (manutencao_id, item_id, data_manutencao, laudo) 
+VALUES (1, 30, '2026-02-01', 'https://surf-repair.com/vouchers/prancha_30_resina.pdf');
 
 
 
@@ -451,7 +451,6 @@ INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro
 VALUES (1, 12, '40015-000', 'Brasil', 'BA', 'Salvador', 'Comércio', 'Rua da Bélgica', 'Sala 201', '10');
 INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (2, 12, '41830-000', 'Brasil', 'BA', 'Salvador', 'Pituba', 'Av. Manoel Dias da Silva', 'Residencial', '1500');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 
 
 

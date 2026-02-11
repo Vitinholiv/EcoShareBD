@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `ecoShareDB`.`usuario` (
     `nome` VARCHAR(100) NOT NULL,
     `senha` VARCHAR(100) NOT NULL,
 
-    CONSTRAINT `validar_documento` CHECK (`usuario_doc` REGEXP '^[A-Za-z0-9.-]+$'),
+    CONSTRAINT `validar_documento` CHECK (`usuario_doc` REGEXP '^[A-Za-z0-9. -]+$'),
     CONSTRAINT `validar_email` CHECK (`email` LIKE '%@%')
 );
 
@@ -56,10 +56,10 @@ CREATE TABLE IF NOT EXISTS `ecoShareDB`.`usuario_telefone` (
 
     `telefone` VARCHAR(40) UNIQUE NOT NULL,
 
-    CONSTRAINT `validar_telefone` CHECK (`telefone` REGEXP '^\\+[0-9]+ [0-9]+ [0-9]+$')
+    CONSTRAINT `validar_telefone` CHECK (`telefone` REGEXP '^\\+[0-9]+ [0-9 ]+$')
 );
 
-DROP TABLE IF EXISTS `ecoShareDB`.`formas_pagamento`;
+DROP TABLE IF EXISTS `ecoShareDB`.`forma_pagamento`;
 CREATE TABLE IF NOT EXISTS `ecoShareDB`.`forma_pagamento` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `forma` VARCHAR(60) UNIQUE NOT NULL
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `ecoShareDB`.`anuncio` (
 
 DROP TABLE IF EXISTS `ecoShareDB`.`registro`;
 CREATE TABLE IF NOT EXISTS `ecoShareDB`.`registro` (
-    `id` INT PRIMARY KEY,
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
     `cliente_id` INT NULL,
     FOREIGN KEY (`cliente_id`)
     REFERENCES `ecoShareDB`.`usuario` (`id`)
@@ -159,11 +159,6 @@ CREATE TABLE IF NOT EXISTS `ecoShareDB`.`registro` (
     REFERENCES `ecoShareDB`.`item` (`id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
-    `registro_tipo_id` INT NOT NULL,
-    FOREIGN KEY (`registro_tipo_id`)
-    REFERENCES `ecoShareDB`.`registro_tipo` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
     `forma_pagamento_id` INT NOT NULL,
     FOREIGN KEY (`forma_pagamento_id`)
     REFERENCES `ecoShareDB`.`forma_pagamento` (`id`)
@@ -177,12 +172,12 @@ CREATE TABLE IF NOT EXISTS `ecoShareDB`.`registro` (
 DROP TABLE IF EXISTS `ecoShareDB`.`registro_troca`;
 CREATE TABLE IF NOT EXISTS `ecoShareDB`.`registro_troca` (
     `registro_id` INT PRIMARY KEY,
-    `item_recebido` INT NOT NULL,
+    `item_trocado_id` INT NOT NULL,
     FOREIGN KEY (`registro_id`)
     REFERENCES `ecoShareDB`.`registro` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    FOREIGN KEY (`item_recebido`)
+    FOREIGN KEY (`item_trocado_id`)
     REFERENCES `ecoShareDB`.`item` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
@@ -267,8 +262,8 @@ CREATE TABLE IF NOT EXISTS `ecoShareDB`.`endereco` (
 DROP TABLE IF EXISTS `ecoShareDB`.`avaliacao_usuario`;
 CREATE TABLE IF NOT EXISTS `ecoShareDB`.`avaliacao_usuario` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `usuario1_id` INT NOT NULL,
-    `usuario2_id` INT NOT NULL,
+    `usuario1_id` INT NULL,
+    `usuario2_id` INT NULL,
     FOREIGN KEY (`usuario1_id`)
     REFERENCES `ecoShareDB`.`usuario` (`id`)
     ON DELETE SET NULL
@@ -283,15 +278,15 @@ CREATE TABLE IF NOT EXISTS `ecoShareDB`.`avaliacao_usuario` (
     `likes` INT NULL DEFAULT 0,
     `data_avaliacao` DATE NOT NULL,
 
-    CONSTRAINT `validar_likes` CHECK (`likes` >= 0),
-    CONSTRAINT `validar_nota` CHECK (`nota` >= 0 AND `nota` <= 5)
+    CONSTRAINT `validar_likes_usuario` CHECK (`likes` >= 0),
+    CONSTRAINT `validar_nota_usuario` CHECK (`nota` >= 0 AND `nota` <= 5)
 );
 
 
 DROP TABLE IF EXISTS `ecoShareDB`.`avaliacao_item`;
 CREATE TABLE IF NOT EXISTS `ecoShareDB`.`avaliacao_item` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `usuario_id` INT NOT NULL,
+    `usuario_id` INT NULL,
     `item_id` INT NOT NULL,
     FOREIGN KEY (`usuario_id`)
     REFERENCES `ecoShareDB`.`usuario` (`id`)
@@ -307,6 +302,6 @@ CREATE TABLE IF NOT EXISTS `ecoShareDB`.`avaliacao_item` (
     `likes` INT NULL DEFAULT 0,
     `data_avaliacao` DATE NOT NULL,
 
-    CONSTRAINT `validar_likes` CHECK (`likes` >= 0),
-    CONSTRAINT `validar_nota` CHECK (`nota` >= 0 AND `nota` <= 5)
+    CONSTRAINT `validar_likes_item` CHECK (`likes` >= 0),
+    CONSTRAINT `validar_nota_item` CHECK (`nota` >= 0 AND `nota` <= 5)
 );
