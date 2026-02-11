@@ -20,10 +20,8 @@
 <body>
     <!-- Header -->
     <nav id="header">
-        <div id="headerLeft">
-            <img id="logo" src="/public/res/logo.png" alt="Logo" onclick="window.location.assign(window.location.origin + `/`)">
-        </div>
-        <div id="headerMiddle">
+        <div id="headerLeft" onclick="window.location.assign(window.location.origin + '/')" style="cursor:pointer;">
+            <img id="logo" src="/public/res/logo.png" alt="Logo">
             <p id="pageTitle">EcoShare</p>
         </div>
         <div id="headerRight">
@@ -34,9 +32,13 @@
     <div id="content">
         <div class="form-container">
             <h2>Login de Usuário</h2>
-            <input type="text" id="inputUser" placeholder="Usuário">
-            <input type="password" id="inputSenha" placeholder="Senha" autocomplete="off">
-            <button type="button" onclick="prepara_login_de_usuario()">Login</button>
+            <div class="input-group">
+                <input type="text" id="inputUser" placeholder="Usuário">
+            </div>
+            <div class="input-group">
+                <input type="password" id="inputSenha" placeholder="Senha" autocomplete="off">
+            </div>
+            <button type="button" class="btn-login" onclick="prepara_login_de_usuario()">Login</button>
         </div>
     </div>
     <!-- Footer -->

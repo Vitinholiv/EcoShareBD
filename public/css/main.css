@@ -1,11 +1,189 @@
 :root {
     --multiplicator: 1;
-    --header-c: #222222;
-    --background-c: #DBDBDB;
+    --header-c: #1a4a31;
+    --background-c:#e0e0e0;
     --title-c: #FFFFFF;
     --footertxt-c: #F3F3F3;
     --hlist-c: #2A2A2A;
     --hlisthover-c: #363636;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: calc(30px * var(--multiplicator));
+    min-height: calc(100vh - (160px * var(--multiplicator))); 
+    width: 100%;
+    flex: 1; 
+}
+
+.form-container {
+    background-color: #ffffff;
+    padding: calc(40px * var(--multiplicator));
+    border-radius: calc(20px * var(--multiplicator));
+    box-shadow: 0 calc(10px * var(--multiplicator)) calc(25px * var(--multiplicator)) rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: calc(400px * var(--multiplicator));
+    text-align: center;
+}
+
+.form-container h2 {
+    margin-top: 0;
+    margin-bottom: calc(30px * var(--multiplicator));
+    color: #333;
+    font-family: 'Prompt', sans-serif;
+    font-weight: 400;
+}
+
+.itemList {
+    margin-top: calc(25px * var(--multiplicator));
+    background-color: #ffffff;
+    padding: calc(25px * var(--multiplicator));
+    border-radius: calc(20px * var(--multiplicator));
+    box-shadow: 0 calc(10px * var(--multiplicator)) calc(25px * var(--multiplicator)) rgba(0, 0, 0, 0.1);
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: calc(12px * var(--multiplicator));
+    height: auto;
+    box-sizing: border-box;
+}
+
+.itemBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: calc(20px * var(--multiplicator));
+}
+
+.itemList h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #333;
+    font-family: 'Prompt', sans-serif;
+    font-weight: 400;
+}
+
+.itemUnitA {
+    display: flex;
+    flex: 20;
+    padding: calc(12px * var(--multiplicator));
+    border: 1px solid #ccc;
+    border-radius: calc(10px * var(--multiplicator));
+    font-size: calc(16px * var(--multiplicator));
+    box-sizing: border-box;
+    font-family: 'Prompt', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    min-height: calc(45px * var(--multiplicator)); 
+    display: flex;
+    align-items: center;
+}
+
+.itemUnitB {
+    display: flex;
+    flex: 4;
+    padding: calc(12px * var(--multiplicator));
+    border: 1px solid #ccc; /* Mantém a borda igual ao UnitA */
+    border-radius: calc(10px * var(--multiplicator));
+    font-size: calc(14px * var(--multiplicator)); /* Ligeiramente menor para caber melhor */
+    box-sizing: border-box;
+    font-family: 'Prompt', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    min-height: calc(45px * var(--multiplicator)); 
+    
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.itemUnitB:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.02);
+}
+
+.itemUnitB:active {
+    transform: scale(0.98);
+}
+
+#inputUser, #inputSenha {
+    width: 100%;
+    padding: calc(12px * var(--multiplicator));
+    margin-bottom: calc(20px * var(--multiplicator));
+    border: 1px solid #ccc;
+    border-radius: calc(10px * var(--multiplicator));
+    font-size: calc(16px * var(--multiplicator));
+    box-sizing: border-box;
+    font-family: 'Prompt', sans-serif;
+}
+
+.form-container button {
+    width: 100%;
+    padding: calc(14px * var(--multiplicator));
+    background: linear-gradient(135deg, #76b947 0%, #5d9137 100%);
+    color: white;
+    border: none;
+    border-radius: calc(30px * var(--multiplicator));
+    font-weight: bold;
+    font-family: 'Nova Square', sans-serif;
+    font-size: calc(18px * var(--multiplicator));
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.form-container button:hover {
+    transform: scale(1.02);
+}
+
+.form-container input {
+    width: 100%;
+    padding: calc(12px * var(--multiplicator));
+    margin-bottom: calc(15px * var(--multiplicator));
+    border: 1px solid #ccc;
+    border-radius: calc(10px * var(--multiplicator));
+    font-size: calc(16px * var(--multiplicator));
+    box-sizing: border-box;
+    font-family: 'Prompt', sans-serif;
+    display: block;
+}
+
+.form-container input:focus {
+    border-color: #76b947;
+    outline: none;
+    box-shadow: 0 0 5px rgba(118, 185, 71, 0.2);
+}
+
+.btn-registrar {
+    width: 100%;
+    padding: calc(14px * var(--multiplicator));
+    background: linear-gradient(135deg, #76b947 0%, #5d9137 100%);
+    color: white;
+    border: none;
+    border-radius: calc(30px * var(--multiplicator));
+    font-weight: bold;
+    font-family: 'Nova Square', sans-serif;
+    font-size: calc(18px * var(--multiplicator));
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+}
+
+.btn-registrar:hover {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+}
+
+.menuElement:last-child .menuButton {
+    border-bottom: none;
 }
 
 body {
@@ -16,6 +194,8 @@ body {
     margin-top: calc(80px * var(--multiplicator));
     background-color: var(--background-c);
     min-height: 100vh;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 div, p {
@@ -44,10 +224,17 @@ div, p {
     display: flex;
     align-items: center;
     min-width: 0;
+    cursor: pointer;
+    gap: calc(2px * var(--multiplicator));
 }
 
 #headerLeft {
     justify-content: flex-start;
+}
+
+#headerLeft:hover #pageTitle {
+    color: #76b947;
+    transition: 0.3s;
 }
 
 #headerRight {
@@ -69,7 +256,7 @@ div, p {
 #pageTitle {
     margin: 0;
     color: var(--title-c);
-    font-size: calc(32px * var(--multiplicator));
+    font-size: calc(28px * var(--multiplicator));
     font-family: 'Nova Square';
     cursor: text;
     transition: all 0.5s ease;
@@ -144,20 +331,21 @@ div, p {
 #menuList {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    text-align: center;
     background-color: var(--header-c);
-    color: var(--title-c);
     position: fixed;
-    padding: 0;
+    padding: calc(10px * var(--multiplicator)) 0;
     margin: 0;
-    top: calc(70px * var(--multiplicator));
-    left: 0;
-    right: 0;
+    top: calc(80px * var(--multiplicator));
+    right: calc(16px * var(--multiplicator)); 
+    width: calc(250px * var(--multiplicator));
     z-index: 99;
     list-style-type: none;
-    transition: all 0.4s ease;
+    border-radius: calc(15px * var(--multiplicator));
+    box-shadow: 0 calc(10px * var(--multiplicator)) calc(30px * var(--multiplicator)) rgba(0,0,0,0.3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(calc(-20px * var(--multiplicator))) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 #menuList:hover {
@@ -192,6 +380,7 @@ div, p {
 
 .menuButton:hover {
     background-color: var(--hlisthover-c);
+    padding-left: calc(25px * var(--multiplicator));
 }
 
 #logicMenu:checked + #labelMenu #line1 {
@@ -207,20 +396,35 @@ div, p {
 }
 
 #logicMenu:checked ~ #menuList {
-    background-color: var(--hlist-c);
-    top: calc(80px * var(--multiplicator));
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
 }
 
 #logicMenu:checked ~ #menuList .menuElement {
+    width: 100%;
+    height: auto;
+    display: block;
     opacity: 1;
     visibility: visible;
-    height: calc(50px * var(--multiplicator));
 }
 
 #logicMenu:checked ~ #menuList .menuButton {
+    cursor: pointer;
+    font-size: calc(18px * var(--multiplicator));
+    font-family: 'Prompt', sans-serif;
+    color: var(--title-c);
+    border: none;
+    background: transparent;
+    height: auto;
     opacity: 1;
     visibility: visible;
-    height: calc(50px * var(--multiplicator));
+    width: 100%;
+    padding: calc(15px * var(--multiplicator)) calc(20px * var(--multiplicator));
+    text-align: left;
+    transition: background 0.3s ease;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+
 }
 
 #logicMenu:checked ~ #menuList .menuButton:not(:last-child) {
@@ -229,11 +433,10 @@ div, p {
 
 .visualMenu {
     display: block;
-    width: calc(40px * var(--multiplicator));
-    height: 0px;
+    width: calc(35px * var(--multiplicator));
+    height: calc(4px * var(--multiplicator));
     background-color: var(--title-c);
-    border: calc(3px * var(--multiplicator)) #ffffff solid;
-    border-radius: calc(3px * var(--multiplicator));
+    border-radius: 10px;
 }
 
 #footer {

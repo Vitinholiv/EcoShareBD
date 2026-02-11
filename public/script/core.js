@@ -38,7 +38,7 @@ async function cadastro_de_usuario(username, nome, email, documento, tipo_docume
 
 
 
-async function prepara_cadastro_de_usuario(params) {
+async function prepara_cadastro_de_usuario() {
     let username = document.getElementById('inputUser').value;
     let email    = document.getElementById('inputEmail').value;
     let senha    = document.getElementById('inputSenha').value;
@@ -96,49 +96,108 @@ async function prepara_login_de_usuario(params) {
 
 
 
-async function cadastro_de_item(foto, descricao, nome, usuario_id){
+async function cadastro_de_item(descricao, nome, tipo){
     let objeto = new URLSearchParams();
     objeto.append('tipo','cadastro_de_item');
 
-    objeto.append('foto',foto);
     objeto.append('descricao',descricao);
     objeto.append('nome',nome);
-    objeto.append('usuario_id',usuario_id);
+    objeto.append('tipo_item',tipo);
 
     minha_resposta = await send_to_php(objeto);
-
-    mensagem = ""
+   
     if(minha_resposta['status'] == 'ERROR'){
-        console.log(minha_resposta['error']);
-        mensagem = minha_resposta['error']
+        return minha_resposta;
     } else {
-        console.log('Cadastro feito com sucesso.');
-        mensagem = 'Cadastro feito com sucesso.'
+        return {'status': 'OK', 'msg': 'Cadastro feito com sucesso.', 'id': minha_resposta['id']};
     }
-    return mensagem
 }
 
 
-
-async function prepara_cadastro_de_item(params) {
-    let foto       = document.getElementById('inputFoto').value;
+async function prepara_cadastro_de_item() {
+    let tipo       = document.getElementById('inputItemType').value
     let descricao  = document.getElementById('inputDescricao').value;
     let nome       = document.getElementById('inputNome').value;
-    let usuario_id = document.getElementById('inputUsuario_id').value;
+    let inputFotos = document.getElementById('inputFotos');
 
-    const mensagem = await cadastro_de_item(foto, descricao, nome, usuario_id);
-
-    if (mensagem === 'Cadastro feito com sucesso.'){
-        document.getElementById('inputFoto').value = '';
-        document.getElementById('inputDescricao').value = '';
-        document.getElementById('inputNome').value = '';
-        document.getElementById('inputUsuario_id').value = '';
+    // Validação dos campos
+    if (inputFotos.files.length === 0) {
+        alert("Selecione pelo menos uma imagem do seu item.");
+        return;
     }
-    alert(mensagem);
+
+    let formData = new FormData();
+    formData.append('tipo', 'validacao_de_foto');
+    for (let i = 0; i < inputFotos.files.length; i++) {
+        formData.append('fotos[]', inputFotos.files[i]);
+    }
+
+    let arquivos, hashValidade;
+    try {
+        const res = await fetch('index.php', {
+            method: 'POST',
+            body: formData
+        });
+        if (!res.ok) {
+            const errorText = await res.text();
+            alert(`Erro ${res.status} (${res.statusText}): ${errorText || 'Sem detalhes adicionais'}`);
+            return;
+        }
+        let result = await res.json();
+
+        if (result['status'] !== 'OK') {
+            alert("Erro: " + result['error']);
+            return;
+        }
+        hashValidade = result['hash'];
+        arquivos = result['arquivos_validos'];
+    } catch (error) {
+        console.error("Erro na validação das fotos:", error);
+    }
+
+    const mensagem = await cadastro_de_item(descricao, nome, tipo);
+
+    if (mensagem['status'] === 'OK'){
+        let imgData = new FormData();
+        imgData.append('tipo','insercao_de_foto');
+        imgData.append('hash',hashValidade);
+        imgData.append('id',mensagem['id']);
+        for(let i = 0; i < inputFotos.files.length; i++){
+            const arquivoAtual = inputFotos.files[i];
+            if (arquivos.includes(arquivoAtual.name)) {
+                imgData.append('fotos[]', arquivoAtual);
+            }
+        }
+        try {
+            const res = await fetch('index.php', {
+                method: 'POST',
+                body: imgData
+            });
+            if (!res.ok) {
+                const errorText = await res.text();
+                alert(`Erro ${res.status} (${res.statusText}): ${errorText || 'Sem detalhes adicionais'}`);
+                return;
+            }
+            let result = await res.json();
+            if (result['status'] !== 'OK') {
+                alert("Erro: " + result['error']);
+                return;
+            }
+            alert("Item cadastrado com sucesso.")
+            document.getElementById('inputDescricao').value = '';
+            document.getElementById('inputNome').value = '';
+            document.getElementById('inputItemType').value = '';
+        } catch (error) {
+            alert("Erro na requisição de inserção de fotos:", error);
+        }
+    } else {
+        alert(mensagem['error']);
+    }
 }
 
-// Função que envia requests genéricas pro PHP. Lá dentro, faz limpeza dos campos e retorna um .json com o que vc quer. Isso vira um objeto js
+
 async function send_to_php(objc) {
+    // Função que envia requests genéricas pro PHP. Lá dentro, faz limpeza dos campos e retorna um .json com o que vc quer. Isso vira um objeto js
     try {
         let url = '/index.php';
         let res = await fetch(url, {
