@@ -226,19 +226,62 @@
 				}
 
 			} else if($tipo === 'buscar_itens_novos_do_usuario'){
-
+				
 				$id = $_SESSION['id'];
-				$sql = "SELECT item.id, item.nome FROM item_usado JOIN item ON item.id = item_usado.item_id WHERE item.usuario_id = $id";
+				$sql = "SELECT item.id, item.nome FROM item_novo JOIN item ON item.id = item_novo.item_id WHERE item.usuario_id = $id";
 				$res = send_sql_selection($sql);
 				echo json_encode($res);
 				
 			} else if($tipo === 'buscar_itens_usados_do_usuario'){
 
 				$id = $_SESSION['id'];
-				$sql = "SELECT item.id, item.nome FROM item_novo JOIN item ON item.id = item_novo.item_id WHERE item.usuario_id = $id";
+				$sql = "SELECT item.id, item.nome FROM item_usado JOIN item ON item.id = item_usado.item_id WHERE item.usuario_id = $id";
 				$res = send_sql_selection($sql);
 				echo json_encode($res);
 				
+			} else if($tipo === 'obter_detalhes_item'){
+
+				$id_item = $_POST['id'];
+				$contexto = $_POST['contexto'];
+
+				if($contexto === 'Novo'){
+					$sql = "SELECT i.id, i.nome, i.descricao, n.estoque 
+							FROM item i 
+							JOIN item_novo n ON i.id = n.item_id 
+							WHERE i.id = $id_item LIMIT 1";
+				} else {
+					$sql = "SELECT i.id, i.nome, i.descricao, s.item_status as status_nome 
+							FROM item i 
+							JOIN item_usado u ON i.id = u.item_id 
+							JOIN item_status s ON u.item_status_id = s.id 
+							WHERE i.id = $id_item LIMIT 1";
+				}
+				$res = send_sql_selection($sql);
+				
+				if($res['status'] === 'OK' && count($res['data']) === 0) {
+					echo json_encode(['status' => 'ERROR', 'error' => 'Item não encontrado no banco.']);
+				} else {
+					echo json_encode($res);
+				}
+
+			} else if($tipo === 'listar_fotos_item'){
+
+				$id = $_POST['id'];
+				$diretorio = "public/items/i" . $id;
+				$fotos = [];
+
+				if (is_dir($diretorio)) {
+					$arquivos = scandir($diretorio);
+					foreach ($arquivos as $arquivo) {
+						if (in_array(pathinfo($arquivo, PATHINFO_EXTENSION), ['png', 'jpg', 'jpeg'])) {
+							$fotos[] = $arquivo;
+						}
+					}
+					echo json_encode(['status' => 'OK', 'fotos' => $fotos]);
+				} else {
+					echo json_encode(['status' => 'ERROR', 'error' => 'Diretório não encontrado', 'fotos' => []]);
+				}
+
 			} else {
 				echo json_encode(['status' => 'ERROR', 'error' => 'Requisição inválida.']);
 			}
