@@ -231,6 +231,46 @@ async function send_to_php(objc) {
 
 
 
+document.addEventListener('click', function(event) {
+    const container = document.getElementById('userContainer');
+    const dropdown = document.getElementById('userDropdown');
+    const trigger = document.getElementById('userTrigger');
+    const logicMenu = document.getElementById('logicMenu');
+
+    if (trigger.contains(event.target)) {
+        dropdown.classList.toggle('active');
+
+        if (dropdown.classList.contains('active')) {
+            logicMenu.checked = false;
+        }
+    } 
+
+    else if (!container.contains(event.target)) {
+        dropdown.classList.remove('active');
+    }
+    
+    if (event.target.id === 'logicMenu' && event.target.checked) {
+        dropdown.classList.remove('active');
+    }
+});
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const nomeDoUsuario = localStorage.getItem('username');
+    const label = document.querySelector('.user-name-label');
+
+    if (label) { 
+        if (nomeDoUsuario && nomeDoUsuario !== "undefined") {
+            label.textContent = `Olá, ${nomeDoUsuario}`;
+        } else {
+            label.textContent = "Olá!"; 
+        }
+    }
+});
+
+
+
 switch (route) {
 	case "/home": {
         document.title = `EcoShare - Home`;
@@ -291,40 +331,3 @@ switch (route) {
         break;
     }
 }
-document.addEventListener('click', function(event) {
-    const container = document.getElementById('userContainer');
-    const dropdown = document.getElementById('userDropdown');
-    const trigger = document.getElementById('userTrigger');
-    const logicMenu = document.getElementById('logicMenu');
-
-    if (trigger.contains(event.target)) {
-        dropdown.classList.toggle('active');
-
-        if (dropdown.classList.contains('active')) {
-            logicMenu.checked = false;
-        }
-    } 
-
-    else if (!container.contains(event.target)) {
-        dropdown.classList.remove('active');
-    }
-    
-    if (event.target.id === 'logicMenu' && event.target.checked) {
-        dropdown.classList.remove('active');
-    }
-});
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const nomeDoUsuario = localStorage.getItem('username');
-    const label = document.querySelector('.user-name-label');
-
-    if (label) { 
-        if (nomeDoUsuario && nomeDoUsuario !== "undefined") {
-            label.textContent = `Olá, ${nomeDoUsuario}`;
-        } else {
-            label.textContent = "Olá!"; 
-        }
-    }
-});
