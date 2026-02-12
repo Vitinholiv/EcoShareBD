@@ -36,6 +36,8 @@
                     </svg>
                 </div>
                 <ul id="userDropdown" class="user-dropdown-list">
+
+                    <li><button onclick="redirect('home')">Início</button></li>
                     <li><button onclick="redirect('home')">Meus pedidos</button></li>
                     <li><button onclick="redirect('item')">Meus anúncios*</button></li>
                     <li><button onclick="redirect('home')">Meus atendimentos</button></li>
@@ -46,19 +48,6 @@
                     <li><button class="logout-btn" onclick="logout()">Sair</button></li>
                 </ul>
             </div>
-
-            <input id="logicMenu" type="checkbox" />
-            <label id="labelMenu" for="logicMenu">
-                <div class="visualMenu" id="line1"></div>
-                <div class="visualMenu" id="line2"></div>
-                <div class="visualMenu" id="line3"></div>
-            </label>
-            <ul id="menuList">
-                <li class="menuElement"><button class="menuButton" onclick="redirect('home')">Início</button></li>
-                <li class="menuElement"><button class="menuButton" onclick="redirect('home')">Sobre nós</button></li>
-                <li class="menuElement"><button class="menuButton" onclick="redirect('home')">Campo1</button></li>
-                <li class="menuElement"><button class="menuButton" onclick="redirect('home')">Campo2</button></li>
-            </ul>
         </div>
     </nav>
     <!-- Conteúdo -->

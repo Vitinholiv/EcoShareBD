@@ -24,6 +24,9 @@
             <img id="logo" src="/public/res/logo.png" alt="Logo">
             <p id="pageTitle">EcoShare</p>
         </div>
+        <div id="headerRight">
+            <button class="btn-secondary" onclick="redirect('cadastro')">Cadastro</button>
+        </div>
     </nav>
     <!-- Conteúdo -->
     <div id="content">
@@ -42,5 +45,14 @@
         </div>
     </div>
     <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-content">
+            <p class="footer-brand">EcoShare</p>
+            <div class="footer-info">
+                <p>Contato: <span>contato@ecoshare.com</span></p>
+                <p>&copy; 2026 EcoShare - Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

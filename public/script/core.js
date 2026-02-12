@@ -1,13 +1,44 @@
 const route = window.location.pathname;
 const params = new URLSearchParams(window.location.search);
 
+/*INICIO DE TESTES ESTRANHOS*/
 
 
+
+//PLOT DE FOTO NO CADASTRO 
+document.addEventListener('DOMContentLoaded', () => {
+    const inputFotos = document.getElementById('inputFotos');
+    const previewContainer = document.getElementById('preview-container');
+
+    if (inputFotos) {
+        inputFotos.addEventListener('change', function() {
+            previewContainer.innerHTML = ''; // Limpa o preview atual
+
+            if (this.files) {
+                Array.from(this.files).forEach(file => {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        const imgDiv = document.createElement('div');
+                        imgDiv.className = 'preview-item';
+                        imgDiv.innerHTML = `<img src="${e.target.result}" title="${file.name}">`;
+                        previewContainer.appendChild(imgDiv);
+                    }
+
+                    reader.readAsDataURL(file);
+                });
+            }
+        });
+    }
+});
+
+
+/*FIM DE TESTES ESTRANHOS*/
 async function logout(){
     let objeto = new URLSearchParams();
     objeto.append('tipo','logout');
     minha_resposta = await send_to_php(objeto);
-    if(minha_resposta['status'] !== 'ERROR'){
+    if(minha_resposta['status'] !== 'ERROR') {
         alert(`Desconectado de ${minha_resposta['username']}.`);
         localStorage.removeItem('username')
         window.location.pathname = '/login';
