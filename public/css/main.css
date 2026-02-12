@@ -668,6 +668,137 @@ user-icon-trigger:hover .user-name-label {
     font-weight: 200;
 }
 
+.form-container {
+    max-width: calc(500px * var(--multiplicator)) !important;
+    margin: calc(40px * var(--multiplicator)) auto;
+    text-align: left;
+}
+
+.form-container h2 {
+    color: #333;
+    margin-bottom: calc(25px * var(--multiplicator));
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: calc(15px * var(--multiplicator));
+}
+
+#inputNome, .form-select, #inputDescricao {
+    width: 100%;
+    padding: calc(12px * var(--multiplicator)) calc(15px * var(--multiplicator));
+    border: 1px solid #ddd;
+    border-radius: calc(12px * var(--multiplicator));
+    font-size: calc(16px * var(--multiplicator));
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    font-family: 'Prompt', sans-serif;
+    background-color: #fff;
+    display: block;
+    margin-bottom: calc(15px * var(--multiplicator));
+}
+
+#inputNome:focus, .form-select:focus, #inputDescricao:focus {
+    border-color: #76a05d;
+    box-shadow: 0 0 calc(8px * var(--multiplicator)) rgba(118, 160, 93, 0.2);
+    outline: none;
+}
+
+.custom-file-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: calc(15px * var(--multiplicator));
+    height: auto;
+    border: 2px dashed #ccc;
+    border-radius: calc(15px * var(--multiplicator));
+    cursor: pointer;
+    background: #f9f9f9;
+    transition: 0.3s;
+    margin-bottom: calc(15px * var(--multiplicator));
+}
+
+.custom-file-upload:hover {
+    background: #f0f7ed;
+    border-color: #76a05d;
+}
+
+.upload-icon { 
+    font-size: calc(24px * var(--multiplicator)); 
+    margin-bottom: calc(5px * var(--multiplicator)); 
+}
+
+.upload-text { 
+    font-weight: bold; 
+    color: #555; 
+    font-size: calc(14px * var(--multiplicator));
+    font-family: 'Prompt', sans-serif;
+}
+
+#preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: calc(15px * var(--multiplicator));
+    justify-content: center;
+}
+
+.preview-item img {
+    width: calc(60px * var(--multiplicator));
+    height: calc(60px * var(--multiplicator));
+    object-fit: cover;
+    border-radius: calc(8px * var(--multiplicator));
+    border: 1px solid #ddd;
+}
+
+.form-actions {
+    display: flex;
+    gap: calc(12px * var(--multiplicator));
+    margin-top: calc(20px * var(--multiplicator));
+}
+
+.btn-submit {
+    flex: 2;
+    background: #76a05d;
+    color: white;
+    border: none;
+    padding: calc(14px * var(--multiplicator));
+    border-radius: calc(12px * var(--multiplicator));
+    font-weight: bold;
+    font-family: 'Nova Square', sans-serif;
+    font-size: calc(16px * var(--multiplicator));
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-submit:hover { 
+    background: #5d8248; 
+    transform: scale(1.02);
+}
+
+.btn-cancel {
+    flex: 1;
+    background: #f0f0f0;
+    color: #666;
+    border: none;
+    padding: calc(14px * var(--multiplicator));
+    border-radius: calc(12px * var(--multiplicator));
+    font-family: 'Prompt', sans-serif;
+    font-size: calc(16px * var(--multiplicator));
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-cancel:hover { 
+    background: #e0e0e0; 
+}
+
+#inputFotos {
+    display: none;
+}
+
 @media only screen and (min-width: 0px) and (max-width: 450px) {
     :root {
         --multiplicator: 0.6;

@@ -1,30 +1,30 @@
 const route = window.location.pathname;
 const params = new URLSearchParams(window.location.search);
 
-/*INICIO DE TESTES ESTRANHOS*/
 
 
-
-//PLOT DE FOTO NO CADASTRO 
 document.addEventListener('DOMContentLoaded', () => {
     const inputFotos = document.getElementById('inputFotos');
     const previewContainer = document.getElementById('preview-container');
 
     if (inputFotos) {
         inputFotos.addEventListener('change', function() {
-            previewContainer.innerHTML = ''; // Limpa o preview atual
-
+            previewContainer.innerHTML = '';
+            if (this.files.length > 5) {
+                alert("Você só pode selecionar no máximo 5 imagens.");
+                this.value = "";
+                return;
+            }
             if (this.files) {
                 Array.from(this.files).forEach(file => {
                     const reader = new FileReader();
-
                     reader.onload = function(e) {
                         const imgDiv = document.createElement('div');
                         imgDiv.className = 'preview-item';
-                        imgDiv.innerHTML = `<img src="${e.target.result}" title="${file.name}">`;
+                        imgDiv.style = "width: 80px; height: 80px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;";
+                        imgDiv.innerHTML = `<img src="${e.target.result}" title="${file.name}" style="width: 100%; height: 100%; object-fit: cover;">`;
                         previewContainer.appendChild(imgDiv);
                     }
-
                     reader.readAsDataURL(file);
                 });
             }
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-/*FIM DE TESTES ESTRANHOS*/
+
 async function logout(){
     let objeto = new URLSearchParams();
     objeto.append('tipo','logout');
