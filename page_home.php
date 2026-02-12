@@ -38,11 +38,9 @@
                 <ul id="userDropdown" class="user-dropdown-list">
 
                     <li><button onclick="redirect('home')">Início</button></li>
-                    <li><button onclick="redirect('home')">Meus pedidos</button></li>
-                    <li><button onclick="redirect('item')">Meus anúncios*</button></li>
-                    <li><button onclick="redirect('home')">Meus atendimentos</button></li>
-                    <li><button onclick="redirect('home')">Meus endereços</button></li>
-                    <li><button onclick="redirect('home')">Conta</button></li>
+                    <li><button onclick="redirect('endereco')">Meus Endereços</button></li>
+                    <li><button onclick="redirect('item')">Meus Itens</button></li>
+                    <li><button onclick="redirect('anuncio')">Meus Anúncios</button></li>
                     <li class="divider"></li>
 
                     <li><button class="logout-btn" onclick="logout()">Sair</button></li>

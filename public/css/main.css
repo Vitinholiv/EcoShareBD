@@ -659,7 +659,7 @@ user-icon-trigger:hover .user-name-label {
     margin-bottom: calc(15px * var(--multiplicator));
 }
 
-#inputNome, .form-select, #inputDescricao {
+#inputNome, .form-select, #inputDescricao, #inputValor {
     width: 100%;
     padding: calc(12px * var(--multiplicator)) calc(15px * var(--multiplicator));
     border: 1px solid #ddd;
@@ -673,7 +673,7 @@ user-icon-trigger:hover .user-name-label {
     margin-bottom: calc(15px * var(--multiplicator));
 }
 
-#inputNome:focus, .form-select:focus, #inputDescricao:focus {
+#inputNome:focus, .form-select:focus, #inputDescricao:focus, #inputValor:focus {
     border-color: #76a05d;
     box-shadow: 0 0 calc(8px * var(--multiplicator)) rgba(118, 160, 93, 0.2);
     outline: none;

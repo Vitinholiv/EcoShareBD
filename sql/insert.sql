@@ -61,26 +61,26 @@ INSERT INTO cupom (usuario_id, sorteio_id) VALUES (5, 4);
 
 
 /* Preencher tabela de telefones */
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 1, "+55 11 982441057");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 2, "+55 21 974128832");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 4, "+55 31 995014421");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 6, "+55 41 988223091");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 8, "+55 51 992330055");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 10, "+55 61 981157742");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 12, "+55 71 996041289");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 3, "+258 84 123 4567");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 5, "+244 923 000 111");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 9, "+244 912 555 999");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 7, "+239 990 1234");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (1, 11, "+239 985 4321");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (2, 1, "+55 11 910223344");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (2, 3, "+258 82 987 6543");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (2, 7, "+239 904 4455");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (2, 12, "+55 71 981445566");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (3, 7, "+239 991 2233"); 
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (3, 12, "+55 71 970001122");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (4, 12, "+55 71 991223344");
-INSERT INTO usuario_telefone (telefone_id, usuario_id, telefone) VALUES (5, 12, "+55 71 982556677");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (1, 1, "+55 11 982441057");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (1, 2, "+55 21 974128832");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (1, 4, "+55 31 995014421");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (1, 6, "+55 41 988223091");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (1, 8, "+55 51 992330055");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (1, 10, "+55 61 981157742");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (1, 12, "+55 71 996041289");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (1, 3, "+258 84 123 4567");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (1, 5, "+244 923 000 111");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (1, 9, "+244 912 555 999");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (1, 7, "+239 990 1234");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (1, 11, "+239 985 4321");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (2, 1, "+55 11 910223344");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (2, 3, "+258 82 987 6543");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (2, 7, "+239 904 4455");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (2, 12, "+55 71 981445566");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (3, 7, "+239 991 2233"); 
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (3, 12, "+55 71 970001122");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (4, 12, "+55 71 991223344");
+INSERT INTO usuario_telefone (telefone_ordem, usuario_id, telefone) VALUES (5, 12, "+55 71 982556677");
 
 
 
@@ -270,32 +270,44 @@ COMMIT;
 
 
 /* Preencher tabela de anúncio */
-INSERT INTO anuncio (usuario_id, item_id, valor_anuncio, descricao, tipo, data_anuncio) 
-VALUES (1, 1, 85.50, 'Marreta 2kg nova, cabo de fibra.', 1, '2026-02-10');
-INSERT INTO anuncio (usuario_id, item_id, valor_anuncio, descricao, tipo, data_anuncio) 
-VALUES (1, 4, 25.00, 'Trena métrica de alta precisão.', 1, '2026-02-10');
-INSERT INTO anuncio (usuario_id, item_id, valor_anuncio, descricao, tipo, data_anuncio) 
-VALUES (2, 5, 49.90, 'Carregador USB-C 20W original.', 1, '2026-02-11');
-INSERT INTO anuncio (usuario_id, item_id, valor_anuncio, descricao, tipo, data_anuncio) 
-VALUES (2, 8, 120.00, 'PowerBank 10000mAh para emergências.', 1, '2026-02-11');
-INSERT INTO anuncio (usuario_id, item_id, valor_anuncio, descricao, tipo, data_anuncio) 
-VALUES (2, 26, 0.00, 'Modem antigo funcionando. Para quem precisar sair do sufoco!', 1, '2026-02-11');
-INSERT INTO anuncio (usuario_id, item_id, valor_anuncio, descricao, tipo, data_anuncio) 
-VALUES (7, 17, 350.00, 'Bicicleta aro 26. Aceito ferramentas de jardinagem na troca.', 2, '2026-02-08');
-INSERT INTO anuncio (usuario_id, item_id, valor_anuncio, descricao, tipo, data_anuncio) 
-VALUES (11, 30, 600.00, 'Prancha 6.0. Troco por monitor ou teclado mecânico.', 2, '2026-02-09');
-INSERT INTO anuncio (usuario_id, item_id, valor_anuncio, descricao, tipo, data_anuncio) 
-VALUES (5, 15, 200.00, 'Monitor 21 polegadas usado. Aberto a propostas de troca.', 2, '2026-02-09');
-INSERT INTO anuncio (usuario_id, item_id, valor_anuncio, descricao, tipo, data_anuncio) 
-VALUES (3, 14, 15.00, 'Aluguel diário de escada de alumínio para reformas.', 3, '2026-02-05');
-INSERT INTO anuncio (usuario_id, item_id, valor_anuncio, descricao, tipo, data_anuncio) 
-VALUES (4, 25, 20.00, 'Aparador de grama elétrico disponível para fim de semana.', 3, '2026-02-07');
-INSERT INTO anuncio (usuario_id, item_id, valor_anuncio, descricao, tipo, data_anuncio) 
-VALUES (1, 13, 30.00, 'Furadeira de impacto para serviços rápidos (diária).', 3, '2026-02-11');
-INSERT INTO anuncio (usuario_id, item_id, valor_anuncio, descricao, tipo, data_anuncio) 
-VALUES (12, 20, 45.00, 'Caixa de som Bluetooth usada. Som limpo.', 1, '2026-02-10');
-INSERT INTO anuncio (usuario_id, item_id, valor_anuncio, descricao, tipo, data_anuncio)
-VALUES (8, 22, 150.00, 'Mesa de escritório MDF em ótimo estado.', 1, '2026-02-06');
+INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem)
+VALUES (1, 1, 'Marreta Resistente', 85.50, 'Marreta 2kg nova, cabo de fibra.', 1, '2026-02-10', 1);
+
+INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem)
+VALUES (1, 4, 'Trena 5 Metros', 25.00, 'Trena métrica de alta precisão.', 1, '2026-02-10', 1);
+
+INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem)
+VALUES (2, 5, 'Carregador Turbo', 49.90, 'Carregador USB-C 20W original.', 1, '2026-02-11', 1);
+
+INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem) 
+VALUES (2, 8, 'PowerBank 10k mAh', 120.00, 'PowerBank 10000mAh para emergências.', 1, '2026-02-11', 1);
+
+INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem) 
+VALUES (2, 26, 'Modem Wi-Fi Antigo', 0.00, 'Modem antigo funcionando. Para quem precisar sair do sufoco!', 1, '2026-02-11', 1);
+
+INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem) 
+VALUES (7, 17, 'Bicicleta Aro 26', 350.00, 'Bicicleta aro 26. Aceito ferramentas de jardinagem na troca.', 2, '2026-02-08', 1);
+
+INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem) 
+VALUES (11, 30, 'Prancha Surf 6.0', 600.00, 'Prancha 6.0. Troco por monitor ou teclado mecânico.', 2, '2026-02-09', 1);
+
+INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem) 
+VALUES (5, 15, 'Monitor 21 Polegadas', 200.00, 'Monitor 21 polegadas usado. Aberto a propostas de troca.', 2, '2026-02-09', 1);
+
+INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem) 
+VALUES (3, 14, 'Aluguel de Escada', 15.00, 'Aluguel diário de escada de alumínio para reformas.', 3, '2026-02-05', 1);
+
+INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem) 
+VALUES (4, 25, 'Aparador de Grama', 20.00, 'Aparador de grama elétrico disponível para fim de semana.', 3, '2026-02-07', 1);
+
+INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem) 
+VALUES (1, 13, 'Furadeira Impacto', 30.00, 'Furadeira de impacto para serviços rápidos (diária).', 3, '2026-02-11', 2);
+
+INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem) 
+VALUES (12, 20, 'Caixa Som Bluetooth', 45.00, 'Caixa de som Bluetooth usada. Som limpo.', 1, '2026-02-10', 1);
+
+INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem)
+VALUES (8, 22, 'Mesa Escritório MDF', 150.00, 'Mesa de escritório MDF em ótimo estado.', 1, '2026-02-06', 1);
 
 
 
@@ -422,35 +434,35 @@ VALUES (1, 30, '2026-02-01', 'https://surf-repair.com/vouchers/prancha_30_resina
 
 
 /* Preencher tabela de endereço */
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (1, 1, '79002-010', 'Brasil', 'MS', 'Campo Grande', 'Centro', 'Rua 14 de Julho', 'Apt 402', '1500');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (2, 1, '79060-000', 'Brasil', 'MS', 'Campo Grande', 'Vila Olinda', 'Av. Guaicurus', 'Depósito', '450');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (1, 2, '20040-002', 'Brasil', 'RJ', 'Rio de Janeiro', 'Centro', 'Av. Rio Branco', 'Bloco B', '100');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (1, 3, '1100', 'Moçambique', 'Maputo', 'Maputo', 'Polana Cimento', 'Av. Julius Nyerere', 'Próximo ao Hotel', '123');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (1, 4, '30140-071', 'Brasil', 'MG', 'Belo Horizonte', 'Savassi', 'Rua Sergipe', NULL, '800');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (1, 5, '0000', 'Angola', 'Luanda', 'Luanda', 'Maianga', 'Rua Amílcar Cabral', 'Edifício Kilamba', '44');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (1, 6, '80010-000', 'Brasil', 'PR', 'Curitiba', 'Centro', 'Rua XV de Novembro', NULL, '200');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (1, 7, '0000', 'São Tomé e Príncipe', 'Água Grande', 'São Tomé', 'Quinta de Santo António', NULL, '15');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (2, 7, '0000', 'São Tomé e Príncipe', 'Lobata', 'Guadalupe', 'Centro', 'Estrada Nacional', 'Casa Amarela', 'SN');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (1, 8, '22041-001', 'Brasil', 'RJ', 'Rio de Janeiro', 'Copacabana', 'Rua Figueiredo de Magalhães', 'Fundos', '50');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (1, 9, '0000', 'Angola', 'Benguela', 'Benguela', 'Centro', 'Rua de Benguela', NULL, '102');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (1, 10, '01310-100', 'Brasil', 'SP', 'São Paulo', 'Bela Vista', 'Av. Paulista', 'Cj 51', '1000');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (1, 11, '0000', 'São Tomé e Príncipe', 'Mé-Zóchi', 'Trindade', 'Bairro Central', NULL, '7');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (1, 12, '40015-000', 'Brasil', 'BA', 'Salvador', 'Comércio', 'Rua da Bélgica', 'Sala 201', '10');
-INSERT INTO endereco (endereco_id, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
+INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero)
 VALUES (2, 12, '41830-000', 'Brasil', 'BA', 'Salvador', 'Pituba', 'Av. Manoel Dias da Silva', 'Residencial', '1500');
 
 

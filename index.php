@@ -27,6 +27,20 @@
 				}
 				require 'page_item.php';
 				break;
+			case '/anuncio':
+				if (!isset($_SESSION['username'])) {
+					header("Location: /login");
+					exit;
+				}
+				require 'page_anuncio.php';
+				break;
+			case '/endereco':
+				if (!isset($_SESSION['username'])) {
+					header("Location: /login");
+					exit;
+				}
+				require 'page_endereco.php';
+				break;
 			case '/home':
 				if (!isset($_SESSION['username'])) {
 					header("Location: /login");
@@ -241,46 +255,151 @@
 				
 			} else if($tipo === 'obter_detalhes_item'){
 
-				$id_item = $_POST['id'];
-				$contexto = $_POST['contexto'];
+				if(!isset($_POST['contexto']) || !isset($_POST['id'])){
+					echo json_encode(['status' => 'ERROR', 'error' => 'Dados do item não definidos.']);
+				} else {
+					$id_item = $_POST['id'];
+					$contexto = $_POST['contexto'];
 
-				if($contexto === 'Novo'){
-					$sql = "SELECT i.id, i.nome, i.descricao, n.estoque 
-							FROM item i 
-							JOIN item_novo n ON i.id = n.item_id 
-							WHERE i.id = $id_item LIMIT 1";
-				} else {
-					$sql = "SELECT i.id, i.nome, i.descricao, s.item_status as status_nome 
-							FROM item i 
-							JOIN item_usado u ON i.id = u.item_id 
-							JOIN item_status s ON u.item_status_id = s.id 
-							WHERE i.id = $id_item LIMIT 1";
-				}
-				$res = send_sql_selection($sql);
-				
-				if($res['status'] === 'OK' && count($res['data']) === 0) {
-					echo json_encode(['status' => 'ERROR', 'error' => 'Item não encontrado no banco.']);
-				} else {
-					echo json_encode($res);
+					if($contexto === 'Novo'){
+						$sql = "SELECT i.id, i.nome, i.descricao, n.estoque 
+								FROM item i 
+								JOIN item_novo n ON i.id = n.item_id 
+								WHERE i.id = $id_item LIMIT 1";
+					} else {
+						$sql = "SELECT i.id, i.nome, i.descricao, s.item_status as status_nome 
+								FROM item i 
+								JOIN item_usado u ON i.id = u.item_id 
+								JOIN item_status s ON u.item_status_id = s.id 
+								WHERE i.id = $id_item LIMIT 1";
+					}
+					$res = send_sql_selection($sql);
+					
+					if($res['status'] === 'OK' && count($res['data']) === 0) {
+						echo json_encode(['status' => 'ERROR', 'error' => 'Item não encontrado no banco.']);
+					} else {
+						echo json_encode($res);
+					}
 				}
 
 			} else if($tipo === 'listar_fotos_item'){
 
-				$id = $_POST['id'];
-				$diretorio = "public/items/i" . $id;
-				$fotos = [];
-
-				if (is_dir($diretorio)) {
-					$arquivos = scandir($diretorio);
-					foreach ($arquivos as $arquivo) {
-						if (in_array(pathinfo($arquivo, PATHINFO_EXTENSION), ['png', 'jpg', 'jpeg'])) {
-							$fotos[] = $arquivo;
-						}
-					}
-					echo json_encode(['status' => 'OK', 'fotos' => $fotos]);
+				if(!isset($_POST['id'])){
+					echo json_encode(['status' => 'ERROR', 'error' => 'Dados do item não definidos.']);
 				} else {
-					echo json_encode(['status' => 'ERROR', 'error' => 'Diretório não encontrado', 'fotos' => []]);
+					$id = $_POST['id'];
+					$diretorio = "public/items/i" . $id;
+					$fotos = [];
+
+					if (is_dir($diretorio)) {
+						$arquivos = scandir($diretorio);
+						foreach ($arquivos as $arquivo) {
+							if (in_array(pathinfo($arquivo, PATHINFO_EXTENSION), ['png', 'jpg', 'jpeg'])) {
+								$fotos[] = $arquivo;
+							}
+						}
+						echo json_encode(['status' => 'OK', 'fotos' => $fotos]);
+					} else {
+						echo json_encode(['status' => 'ERROR', 'error' => 'Diretório não encontrado', 'fotos' => []]);
+					}
 				}
+
+			} else if ($tipo === 'listar_enderecos_usuario') {
+
+				$user_id = $_SESSION['id'];
+				$sql = "SELECT endereco_ordem, CEP, cidade, bairro, logradouro, numero, pais, estado, complemento
+						FROM endereco 
+						WHERE usuario_id = $user_id 
+						ORDER BY endereco_ordem ASC";
+						
+				$res = send_sql_selection($sql);
+				echo json_encode($res);
+
+			} else if($tipo === 'cadastro_de_anuncio'){
+
+				$_descricao = secure_anuncio_descricao($_POST['descricao']);
+				$_nome = secure_anuncio_nome($_POST['nome']);
+				$_usuario_id = $_SESSION['id'];
+				$_tipo_anuncio = secure_anuncio_tipo($_POST['tipo_anuncio']);
+				$_valor = secure_anuncio_valor($_POST['valor']);
+				$_item_id = secure_anuncio_item_id($_POST['item_id']);
+				$_endereco_ordem = secure_anuncio_endereco_ordem($_POST['endereco_ordem']);
+
+				$arr = [$_descricao,$_nome,$_tipo_anuncio,$_valor,$_item_id,$_endereco_ordem];
+				$res_check = check_errors($arr);
+
+				if($res_check['status'] == 'OK'){
+					$descricao_completa = $_descricao;
+
+					$sql = "INSERT INTO anuncio (usuario_id, nome, tipo, item_id, endereco_ordem, valor_anuncio, descricao, data_anuncio) 
+							VALUES ($_usuario_id, '$_nome', $_tipo_anuncio, $_item_id, $_endereco_ordem, $_valor, '$descricao_completa', CURDATE());";
+					
+					$res = send_sql_insertion($sql);
+					echo json_encode($res);
+				} else {
+					echo json_encode($res_check);
+				}
+
+			} else if($tipo === 'cadastro_de_endereco'){
+
+				$_pais        = secure_endereco_pais($_POST['pais']);
+				$_cep         = secure_endereco_cep($_POST['cep']);
+				$_estado      = secure_endereco_estado($_POST['estado']);
+				$_cidade      = secure_endereco_cidade($_POST['cidade']);
+				$_bairro      = secure_endereco_bairro($_POST['bairro']);
+				$_logradouro  = secure_endereco_logradouro($_POST['logradouro']);
+				$_numero      = secure_endereco_numero($_POST['numero']);
+				$_complemento = secure_endereco_complemento($_POST['complemento']);
+				$_usuario_id  = $_SESSION['id'];
+
+				$arr = [$_pais, $_cep, $_cidade, $_bairro, $_logradouro];
+				$res_check = check_errors($arr);
+
+				if($res_check['status'] == 'OK'){
+					$sql_ordem = "SELECT IFNULL(MAX(endereco_ordem), 0) + 1 as proxima_ordem FROM endereco WHERE usuario_id = $_usuario_id";
+					$res_ordem = send_sql_selection($sql_ordem);
+					
+					if($res_ordem['status'] == 'OK'){
+						$proxima_ordem = $res_ordem['data'][0]['proxima_ordem'];
+						$val_numero = ($_numero !== null) ? $_numero : "NULL";
+						$val_complemento = ($_complemento !== null) ? "'$_complemento'" : "NULL";
+						$val_estado = ($_estado !== null) ? "'$_estado'" : "NULL";
+
+						$sql = "INSERT INTO endereco (endereco_ordem, usuario_id, CEP, pais, estado, cidade, bairro, logradouro, complemento, numero) 
+								VALUES ($proxima_ordem, $_usuario_id, '$_cep', '$_pais', $val_estado, '$_cidade', '$_bairro', '$_logradouro', $val_complemento, $val_numero);";
+						
+						$res = send_sql_insertion($sql);
+						echo json_encode($res);
+					} else {
+						echo json_encode($res_ordem);
+					}
+				}
+			} else if ($tipo === 'listar_anuncios_usuario') {
+
+				$user_id = $_SESSION['id'];
+				$sql = "SELECT a.id, a.nome, a.valor_anuncio, a.descricao, a.data_anuncio, t.tipo as tipo_nome, i.nome as item_nome
+						FROM anuncio a
+						JOIN anuncio_tipo t ON a.tipo = t.anuncio_tipo_id
+						JOIN item i ON a.item_id = i.id
+						WHERE a.usuario_id = $user_id
+						ORDER BY a.data_anuncio DESC";
+						
+				$res = send_sql_selection($sql);
+				echo json_encode($res);
+				
+			} else if($tipo === 'obter_detalhes_anuncio'){
+
+				$id_anuncio = $_POST['id'];
+				$sql = "SELECT a.*, t.tipo as tipo_nome, i.nome as item_nome, i.descricao as item_descricao,
+							e.logradouro, e.numero, e.bairro, e.cidade, e.pais
+						FROM anuncio a
+						JOIN anuncio_tipo t ON a.tipo = t.anuncio_tipo_id
+						JOIN item i ON a.item_id = i.id
+						JOIN endereco e ON a.usuario_id = e.usuario_id AND a.endereco_ordem = e.endereco_ordem
+						WHERE a.id = $id_anuncio LIMIT 1";
+						
+				$res = send_sql_selection($sql);
+				echo json_encode($res);
 
 			} else {
 				echo json_encode(['status' => 'ERROR', 'error' => 'Requisição inválida.']);

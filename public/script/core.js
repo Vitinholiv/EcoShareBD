@@ -83,9 +83,7 @@ async function prepara_cadastro_de_usuario() {
     if (mensagem === 'Cadastro feito com sucesso.'){
         await login_de_usuario(username, senha);
 
-        //alert(mensagem);
         window.location.assign(window.location.origin + `/home`);
-
         document.getElementById('inputUser').value = '';
         document.getElementById('inputEmail').value = '';
         document.getElementById('inputSenha').value = '';
@@ -116,7 +114,7 @@ async function login_de_usuario(username, senha){
 
 
 
-async function prepara_login_de_usuario(params) {
+async function prepara_login_de_usuario() {
     let username = document.getElementById('inputUser').value;
     let senha    = document.getElementById('inputSenha').value;
 
@@ -159,7 +157,6 @@ async function prepara_cadastro_de_item() {
     let nome       = document.getElementById('inputNome').value;
     let inputFotos = document.getElementById('inputFotos');
 
-    // Validação dos campos
     if (inputFotos.files.length === 0) {
         alert("Selecione pelo menos uma imagem do seu item.");
         return;
@@ -230,6 +227,106 @@ async function prepara_cadastro_de_item() {
         }
     } else {
         alert(mensagem['error']);
+    }
+}
+
+
+
+async function cadastro_de_anuncio(nome, descricao, tipo, valor, itemId, enderecoOrdem) {
+    let objeto = new URLSearchParams();
+    objeto.append('tipo', 'cadastro_de_anuncio');
+    objeto.append('nome', nome);
+    objeto.append('descricao', descricao);
+    objeto.append('tipo_anuncio', tipo);
+    objeto.append('valor', valor);
+    objeto.append('item_id', itemId);
+    objeto.append('endereco_ordem', enderecoOrdem);
+
+    const minha_resposta = await send_to_php(objeto);
+
+    if (minha_resposta['status'] === 'ERROR') {
+        return minha_resposta['error'];
+    } else {
+        return 'OK';
+    }
+}
+
+
+
+async function prepara_cadastro_de_anuncio() {
+    const nome      = document.getElementById('inputNome').value;
+    const descricao = document.getElementById('inputDescricao').value;
+    const tipo      = document.getElementById('inputTipo').value;
+    const itemId    = document.getElementById('inputItem').value;
+    const endereco  = document.getElementById('inputEndereco').value;
+    const rawValor  = document.getElementById('inputValor').value;
+
+    if (!nome || !tipo || !itemId || !endereco) {
+        alert("Preencha todos os campos, incluindo o endereço.");
+        return;
+    }
+    let valorLimpo = "0.00";
+    if (tipo !== 'Troca' && rawValor) {
+        valorLimpo = rawValor.replace("R$ ", "").replace(/\./g, "").replace(",", ".");
+    }
+    const resultado = await cadastro_de_anuncio(nome, descricao, tipo, valorLimpo, itemId, endereco);
+
+    if (resultado === 'OK') {
+        alert("Anúncio cadastrado com sucesso!");
+        window.location.assign(window.location.origin + "/anuncio");
+    } else {
+        alert("Erro ao cadastrar: " + resultado);
+    }
+}
+
+
+
+async function cadastro_de_endereco(dados) {
+    let objeto = new URLSearchParams();
+    objeto.append('tipo', 'cadastro_de_endereco');
+    objeto.append('pais', dados.pais);
+    objeto.append('cep', dados.cep);
+    objeto.append('estado', dados.estado);
+    objeto.append('cidade', dados.cidade);
+    objeto.append('bairro', dados.bairro);
+    objeto.append('logradouro', dados.logradouro);
+    objeto.append('numero', dados.numero);
+    objeto.append('complemento', dados.complemento);
+
+    const minha_resposta = await send_to_php(objeto);
+
+    if (minha_resposta['status'] === 'ERROR') {
+        return minha_resposta['error'];
+    } else {
+        return 'OK';
+    }
+}
+
+
+
+async function prepara_cadastro_de_endereco() {
+    const dados = {
+        pais:        document.getElementById('inputPais').value,
+        cep:         document.getElementById('inputCEP').value,
+        estado:      document.getElementById('inputEstado').value,
+        cidade:      document.getElementById('inputCidade').value,
+        bairro:      document.getElementById('inputBairro').value,
+        logradouro:  document.getElementById('inputLogradouro').value,
+        numero:      document.getElementById('inputNumero').value,
+        complemento: document.getElementById('inputComplemento').value
+    };
+
+    if (!dados.pais || !dados.cep || !dados.cidade || !dados.logradouro || !dados.bairro) {
+        alert("Por favor, preencha os campos obrigatórios (País, CEP, Cidade, Bairro e Logradouro).");
+        return;
+    }
+    const resultado = await cadastro_de_endereco(dados);
+
+    if (resultado === 'OK') {
+        alert("Endereço cadastrado com sucesso!");
+        window.location.assign(window.location.origin + "/endereco");
+    } else {
+        alert("Erro ao cadastrar: " + resultado);
     }
 }
 
@@ -417,69 +514,198 @@ async function verDetalhes_IU(id) {
 
 
 
+async function verDetalhes_Anuncio(id) {
+    let params = new URLSearchParams();
+    params.append('tipo', 'obter_detalhes_anuncio');
+    params.append('id', id);
+
+    const res = await send_to_php(params);
+
+    if (res.status === 'OK') {
+        const ad = res.data[0];
+        
+        const adParaModal = {
+            id: ad.item_id,
+            nome: ad.nome,
+            descricao: `${ad.descricao}
+                <div style="margin-bottom: 10px;"><strong>Item:</strong> ${ad.item_nome}</div>
+                <div style="margin-top: 15px; border-top: 1px solid #eee; pt-10px;">
+                    <div style="margin-top: 10px;"><strong>Local de Retirada:</strong></div>
+                    <div>${ad.logradouro}, ${ad.numero} - ${ad.bairro}</div>
+                    <div>${ad.cidade} / ${ad.pais || ''}</div>
+                </div>
+            `,
+            status_nome: ad.tipo_nome
+        };
+
+        if (ad.item_descricao && ad.item_descricao.toLowerCase().includes('novo')) {
+            adParaModal.estoque = "Disponível"; 
+        }
+
+        renderizarModal(adParaModal);
+    } else {
+        alert("Erro ao carregar detalhes do anúncio.");
+    }
+}
+
+
+
 window.onclick = function(event) {
     const overlay = document.getElementById('modalOverlay');
     if (event.target == overlay) fecharModal();
 }
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    switch (route) {
+        case "/home": {
+            document.title = `EcoShare - Home`;
+            break;
+        }
+        case "/login": {
+            document.title = `EcoShare - Login`;
+            break;
+        }
+        case "/cadastro": {
+            document.title = `EcoShare - Cadastro`;
+            break;
+        }
+        case "/item": {
+            document.title = `EcoShare - Gerenciar Itens`;
+            let content = document.getElementById('content');
+            let itemList = document.createElement('div');
+            itemList.classList.add('itemList');
+            itemList.innerHTML += `<h2>Lista de Itens</h2>`;
 
-switch (route) {
-	case "/home": {
-        document.title = `EcoShare - Home`;
-        break;
-    }
-    case "/login": {
-        document.title = `EcoShare - Login`;
-        break;
-    }
-    case "/cadastro": {
-        document.title = `EcoShare - Cadastro`;
-        break;
-    }
-    case "/item": {
-        document.title = `EcoShare - Gerenciar Itens`;
-        let content = document.getElementById('content');
-        let itemList = document.createElement('div');
-        itemList.classList.add('itemList');
-        itemList.innerHTML += `<h2>Lista de Itens</h2>`;
+            let itensNovos; let itensUsados;
+            (async () => {
+                let usados = new URLSearchParams();
+                usados.append('tipo', 'buscar_itens_usados_do_usuario');
+                itensUsados = await send_to_php(usados);
 
-        let itensNovos; let itensUsados;
-        (async () => {
-            let usados = new URLSearchParams();
-            usados.append('tipo', 'buscar_itens_usados_do_usuario');
-            itensUsados = await send_to_php(usados);
+                let novos = new URLSearchParams();
+                novos.append('tipo', 'buscar_itens_novos_do_usuario');
+                itensNovos = await send_to_php(novos);
 
-            let novos = new URLSearchParams();
-            novos.append('tipo', 'buscar_itens_novos_do_usuario');
-            itensNovos = await send_to_php(novos);
-
-            if(itensNovos.status === 'OK' && itensUsados.status === 'OK' && itensNovos.data.length+itensUsados.data.length > 0){
-                for(let i = 0; i < itensNovos.data.length; i++){
-                    let item = itensNovos.data[i];
-                    itemList.innerHTML += `
-                    <div class="itemBox">
-                        <div class="itemUnitA">${item.nome}</div>
-                        <button class="itemUnitB" onclick="verDetalhes_IN(${item.id})">Ver Detalhes</button>
-                        <!--button class="itemUnitB" onclick="editarDetalhes_IN(${item.id})">Editar Detalhes</button-->
-                    </div>`;
+                if(itensNovos.status === 'OK' && itensUsados.status === 'OK' && itensNovos.data.length+itensUsados.data.length > 0){
+                    for(let i = 0; i < itensNovos.data.length; i++){
+                        let item = itensNovos.data[i];
+                        itemList.innerHTML += `
+                        <div class="itemBox">
+                            <div class="itemUnitA">${item.nome}</div>
+                            <button class="itemUnitB" onclick="verDetalhes_IN(${item.id})">Ver Detalhes</button>
+                            <!--button class="itemUnitB" onclick="editarDetalhes_IN(${item.id})">Editar Detalhes</button-->
+                        </div>`;
+                    }
+                    for(let i = 0; i < itensUsados.data.length; i++){
+                        let item = itensUsados.data[i];
+                        itemList.innerHTML += `
+                        <div class="itemBox">
+                            <div class="itemUnitA">${item.nome}</div>
+                            <button class="itemUnitB" onclick="verDetalhes_IU(${item.id})">Ver Detalhes</button>
+                            <!--button class="itemUnitB" onclick="editarDetalhes_IU(${item.id})">Editar Detalhes</button-->
+                        </div>`;
+                    }
+                    document.getElementById('content').prepend(itemList);
                 }
-                for(let i = 0; i < itensUsados.data.length; i++){
-                    let item = itensUsados.data[i];
-                    itemList.innerHTML += `
-                    <div class="itemBox">
-                        <div class="itemUnitA">${item.nome}</div>
-                        <button class="itemUnitB" onclick="verDetalhes_IU(${item.id})">Ver Detalhes</button>
-                        <!--button class="itemUnitB" onclick="editarDetalhes_IU(${item.id})">Editar Detalhes</button-->
-                    </div>`;
+            })();
+            break;
+        }
+        case "/anuncio": {
+            document.title = `EcoShare - Gerenciar Anúncios`;
+            let content = document.getElementById('content');
+            let anuncioList = document.createElement('div');
+            anuncioList.classList.add('itemList');
+            anuncioList.innerHTML += `<h2>Meus Anúncios Ativos</h2>`;
+
+            (async () => {
+                let paramsAnuncio = new URLSearchParams();
+                paramsAnuncio.append('tipo', 'listar_anuncios_usuario');
+                let resAnuncios = await send_to_php(paramsAnuncio);
+                console.log(resAnuncios);
+
+                if (resAnuncios.status === 'OK' && resAnuncios.data.length > 0) {
+                    resAnuncios.data.forEach(anuncio => {
+                        let valorFormatado = (anuncio.valor_anuncio > 0) 
+                            ? `R$ ${parseFloat(anuncio.valor_anuncio).toLocaleString('pt-BR', {minimumFractionDigits: 2})}` 
+                            : "Sem Valor";
+
+                        anuncioList.innerHTML += `
+                        <div class="itemBox">
+                            <div class="itemUnitA">
+                                <span style="color: var(--header-c); font-weight: bold;">[${anuncio.tipo_nome}]&nbsp;</span> 
+                                <strong>${anuncio.nome}</strong>&nbsp;-&nbsp;${valorFormatado}
+                                <br>
+                                <small style="color: #666;">&nbsp;-&nbsp;Publicado em: ${anuncio.data_anuncio}</small>
+                            </div>
+                            <button class="itemUnitB" onclick="verDetalhes_Anuncio(${anuncio.id})">Ver Detalhes</button>
+                        </div>`;
+                    });
+                    content.prepend(anuncioList);
                 }
-                document.getElementById('content').prepend(itemList);
-            }
-        })();
-        break;
+
+                let novos = new URLSearchParams();
+                novos.append('tipo', 'buscar_itens_novos_do_usuario');
+                let resNovos = await send_to_php(novos);
+
+                let usados = new URLSearchParams();
+                usados.append('tipo', 'buscar_itens_usados_do_usuario');
+                let resUsados = await send_to_php(usados);
+
+                const inputItem = document.getElementById('inputItem');
+                const popularItens = (res) => {
+                    if (res.status === 'OK') {
+                        res.data.forEach(item => {
+                            let opt = document.createElement('option');
+                            opt.value = item.id;
+                            opt.innerHTML = item.nome;
+                            inputItem.appendChild(opt);
+                        });
+                    }
+                };
+                popularItens(resNovos);
+                popularItens(resUsados);
+
+                let paramsEnd = new URLSearchParams();
+                paramsEnd.append('tipo', 'listar_enderecos_usuario');
+                let resEnd = await send_to_php(paramsEnd);
+
+                const inputEndereco = document.getElementById('inputEndereco');
+                if (resEnd.status === 'OK' && resEnd.data.length > 0) {
+                    resEnd.data.forEach(end => {
+                        let opt = document.createElement('option');
+                        opt.value = end.endereco_ordem; 
+                        opt.innerHTML = `${end.logradouro}, ${end.numero} - ${end.bairro}`;
+                        inputEndereco.appendChild(opt);
+                    });
+                }
+            })();
+            break;
+        }
+        case "/endereco": {
+            document.title = `EcoShare - Gerenciar Endereços`;
+            let content = document.getElementById('content');
+            let enderecoList = document.createElement('div');
+            enderecoList.classList.add('itemList');
+            enderecoList.innerHTML = `<h2>Meus Endereços</h2>`;
+
+            (async () => {
+                let params = new URLSearchParams();
+                params.append('tipo', 'listar_enderecos_usuario');
+                let res = await send_to_php(params);
+                if (res.status === 'OK' && res.data.length > 0) {
+                    res.data.forEach(end => {
+                        enderecoList.innerHTML += `
+                        <div class="itemBox">
+                            <div class="itemUnitA">
+                                <strong>Endereço ${end.endereco_ordem}:&nbsp;</strong> ${end.logradouro}, ${end.numero}, ${end.bairro}. ${end.complemento}. ${end.cidade} - ${end.estado} - ${end.pais}
+                            </div>
+                        </div>`;
+                    });
+                    content.prepend(enderecoList);
+                }
+            })();
+            break;
+        }
     }
-    case "/anuncio": {
-        document.title = `EcoShare - Gerenciar Anúncios`;
-        break;
-    }
-}
+});
