@@ -41,7 +41,7 @@ async function logout(){
     if(minha_resposta['status'] !== 'ERROR') {
         alert(`Desconectado de ${minha_resposta['username']}.`);
         localStorage.removeItem('username')
-        window.location.pathname = '/login';
+        window.location.assign(window.location.origin + `/home`);
     } else {
         alert(minha_resposta['error']);
     }
@@ -223,9 +223,8 @@ async function prepara_cadastro_de_item() {
                 return;
             }
             alert("Item cadastrado com sucesso.")
-            document.getElementById('inputDescricao').value = '';
-            document.getElementById('inputNome').value = '';
-            document.getElementById('inputItemType').value = '';
+            window.location.assign(window.location.origin + `/item`);
+
         } catch (error) {
             alert("Erro na requisição de inserção de fotos:", error);
         }
@@ -302,6 +301,129 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+async function carregarImagens(itemId) {
+    const placeholder = document.getElementById('imgPlaceholder');
+    let params = new URLSearchParams();
+    params.append('tipo', 'listar_fotos_item');
+    params.append('id', itemId);
+
+    const res = await send_to_php(params);
+
+    if (res.status === 'OK' && res.fotos.length > 0) {
+        placeholder.innerHTML = ''; 
+        res.fotos.forEach(foto => {
+            const img = document.createElement('img');
+            img.src = `public/items/i${itemId}/${foto}`;
+            
+            Object.assign(img.style, {
+                width: '120px',
+                height: '120px',
+                objectFit: 'cover',
+                borderRadius: '10px',
+                border: '2px solid #eee',
+                cursor: 'pointer',
+                transition: 'transform 0.2s'
+            });
+
+            img.onmouseover = () => img.style.transform = 'scale(1.05)';
+            img.onmouseout = () => img.style.transform = 'scale(1)';
+            img.onclick = () => window.open(img.src, '_blank');
+            
+            placeholder.appendChild(img);
+        });
+    } else {
+        placeholder.innerHTML = '<p style="color: #666; font-style: italic;">Nenhuma imagem disponível para este item.</p>';
+    }
+}
+
+
+
+async function abrirPopupDetalhes(id, tipoContexto) {
+    let params = new URLSearchParams();
+    params.append('tipo', 'obter_detalhes_item');
+    params.append('id', id);
+    params.append('contexto', tipoContexto);
+
+    const res = await send_to_php(params);
+
+    if (res.status === 'OK') {
+        const item = res.data[0];
+        renderizarModal(item);
+    } else {
+        alert("Erro ao carregar detalhes: " + res.error);
+    }
+}
+
+
+
+function renderizarModal(item) {
+    const overlay = document.createElement('div');
+    overlay.id = 'modalOverlay';
+    Object.assign(overlay.style, {
+        position: 'fixed', top: '0', left: '0', width: '100vw', height: '100vh',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)', display: 'flex', justifyContent: 'center',
+        alignItems: 'center', zIndex: '3000', backdropFilter: 'blur(5px)'
+    });
+
+    overlay.innerHTML = `
+        <div class="modalContainer" style="background: white; width: 85%; max-width: 700px; min-width: 300px; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: modalFadeIn 0.3s ease;">
+            <div class="modalHeader" style="background: var(--header-c); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="margin: 0; font-size: 1.5rem;">${item.nome}</h2>
+                <span class="closeBtn" onclick="fecharModal()" style="cursor: pointer; font-size: 30px; font-weight: bold;">&times;</span>
+            </div>
+            <div class="modalBody" style="padding: 25px; font-family: 'Prompt'; color: #333; max-height: 80vh; overflow-y: auto;">
+                <div class="modalInfo" style="margin-bottom: 20px; line-height: 1.6;">
+                    <p style="margin: 10px 0;"><strong>Descrição:</strong> ${item.descricao}</p>
+                    <p style="margin: 10px 0;"><strong>Tipo:</strong> <span style="color: var(--header-c); font-weight: bold;">${item.estoque !== undefined ? 'Novo' : 'Usado'}</span></p>
+                    ${item.estoque !== undefined ? `<p><strong>Estoque:</strong> ${item.estoque}</p>` : ''}
+                    ${item.status_nome ? `<p><strong>Condição:</strong> ${item.status_nome}</p>` : ''}
+                </div>
+                <div class="modalGallery">
+                    <p><strong>Galeria de Imagens:</strong></p>
+                    <div id="imgPlaceholder" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; justify-content: flex-start;">
+                        <p style="font-size: 14px; color: #999;">Buscando fotos...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+    carregarImagens(item.id);
+}
+
+
+
+function fecharModal() {
+    const modal = document.getElementById('modalOverlay');
+    if (modal) {
+        modal.remove();
+        document.body.style.overflow = 'auto';
+    }
+}
+
+
+
+async function verDetalhes_IN(id) {
+    await abrirPopupDetalhes(id, 'Novo');
+}
+
+
+
+async function verDetalhes_IU(id) {
+    await abrirPopupDetalhes(id, 'Usado');
+}
+
+
+
+window.onclick = function(event) {
+    const overlay = document.getElementById('modalOverlay');
+    if (event.target == overlay) fecharModal();
+}
+
+
+
 switch (route) {
 	case "/home": {
         document.title = `EcoShare - Home`;
@@ -332,33 +454,32 @@ switch (route) {
             novos.append('tipo', 'buscar_itens_novos_do_usuario');
             itensNovos = await send_to_php(novos);
 
-            if(itensNovos.status === 'OK') {
+            if(itensNovos.status === 'OK' && itensUsados.status === 'OK' && itensNovos.data.length+itensUsados.data.length > 0){
                 for(let i = 0; i < itensNovos.data.length; i++){
                     let item = itensNovos.data[i];
                     itemList.innerHTML += `
                     <div class="itemBox">
                         <div class="itemUnitA">${item.nome}</div>
                         <button class="itemUnitB" onclick="verDetalhes_IN(${item.id})">Ver Detalhes</button>
-                        <button class="itemUnitB" onclick="editarDetalhes_IN(${item.id})">Editar Detalhes</button>
+                        <!--button class="itemUnitB" onclick="editarDetalhes_IN(${item.id})">Editar Detalhes</button-->
                     </div>`;
                 }
-            }
-
-            if(itensUsados.status === 'OK') {
                 for(let i = 0; i < itensUsados.data.length; i++){
                     let item = itensUsados.data[i];
                     itemList.innerHTML += `
                     <div class="itemBox">
                         <div class="itemUnitA">${item.nome}</div>
                         <button class="itemUnitB" onclick="verDetalhes_IU(${item.id})">Ver Detalhes</button>
-                        <button class="itemUnitB" onclick="editarDetalhes_IU(${item.id})">Editar Detalhes</button>
+                        <!--button class="itemUnitB" onclick="editarDetalhes_IU(${item.id})">Editar Detalhes</button-->
                     </div>`;
                 }
+                document.getElementById('content').prepend(itemList);
             }
-
-            document.getElementById('content').prepend(itemList);
         })();
-       
+        break;
+    }
+    case "/anuncio": {
+        document.title = `EcoShare - Gerenciar Anúncios`;
         break;
     }
 }
