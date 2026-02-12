@@ -25,19 +25,17 @@
             <p id="pageTitle">EcoShare</p>
         </div>
         <div id="headerRight">
-            <button class="header-btn" onclick="redirect('login')">Login</button>
+            <button class="btn-secondary" onclick="redirect('login')">Login</button>
         </div>
     </nav>
     <!-- Conteúdo -->
     <div id="content">
         <div class="form-container">
             <h2>Cadastro de Usuário</h2>
-            <input type="text" id="inputUser" placeholder="Usuário">
-            <input type="text" id="inputEmail" placeholder="Email">
-            <input type="password" id="inputSenha" placeholder="Senha" autocomplete="off">
             <input type="text" id="inputNome" placeholder="Nome">
-            <select id="inputDocType" name="pais_documento" class="form-select">
-                <option value="" selected disabled>Selecione o documento...</option>
+            <div class="document-row">
+                <select id="inputDocType" name="pais_documento" class="doc-select">
+                <option value="" selected disabled>Documento...</option>
                 <option value="CPF">Brasil (CPF)</option>
                 <option value="BI_AO">Angola (Bilhete de Identidade)</option>
                 <option value="CNI">Cabo Verde (CNI)</option>
@@ -47,15 +45,24 @@
                 <option value="CC">Portugal (Cartão de Cidadão)</option>
                 <option value="BI_ST">São Tomé e Príncipe (Bilhete de Identidade)</option>
                 <option value="CI">Timor-Leste (Cartão de Identidade)</option>
-            </select>
-            <input type="text" id="inputDoc" placeholder="Número do documento">
+                </select>
+                <input type="text" id="inputDoc" placeholder="Número do documento" class="doc-input">
+            </div>
+            <input type="text" id="inputEmail" placeholder="Email">
+            <input type="text" id="inputUser" placeholder="Usuário">
+            <input type="password" id="inputSenha" placeholder="Senha" autocomplete="off">
             <button type="button" onclick="prepara_cadastro_de_usuario()">Registrar</button>
         </div>
     </div>
     <!-- Footer -->
     <footer id="footer">
-        <p class="footerText">EcoShare.</p>
-        <p class="footerText">Contato: contato@ecoshare.com</p>
+        <div class="footer-content">
+            <p class="footer-brand">EcoShare</p>
+            <div class="footer-info">
+                <p>Contato: <span>contato@ecoshare.com</span></p>
+                <p>&copy; 2026 EcoShare - Todos os direitos reservados.</p>
+            </div>
+        </div>
     </footer>
 
     <script>
