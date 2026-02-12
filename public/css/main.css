@@ -115,6 +115,22 @@
 .itemUnitB:active {
     transform: scale(0.98);
 }
+/*
+
+
+
+Mastigar brita é bom dms
+
+
+
+
+
+
+
+
+
+
+
 
 #inputUser, #inputSenha {
     width: 100%;
@@ -126,7 +142,7 @@
     box-sizing: border-box;
     font-family: 'Prompt', sans-serif;
 }
-
+*/
 .form-container button {
     width: 100%;
     padding: calc(14px * var(--multiplicator));
@@ -220,10 +236,10 @@ div, p {
 }
 
 #headerLeft, #headerRight {
-    flex: 1;
+    flex: 0 1 auto;
     display: flex;
     align-items: center;
-    min-width: 0;
+    width: fit-content;
     cursor: pointer;
     gap: calc(2px * var(--multiplicator));
 }
@@ -439,18 +455,210 @@ div, p {
     border-radius: 10px;
 }
 
-#footer {
+
+.btn-main {
+    width: 100%;
+    background-color: #2e4d2e;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.btn-main:hover { background-color: #1f351f; }
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-secondary:hover { background: rgba(255,255,255,0.15); }
+
+
+.signup-link {
+    margin-top: calc(20px * var(--multiplicator));
+    font-family: 'Prompt', sans-serif;
+    font-size: calc(14px * var(--multiplicator));
+    color: #666;
+}
+
+.signup-link span {
+    color: #5d9137;
+    font-weight: bold;
+    cursor: pointer;
+    transition: text-decoration 0.2s;
+}
+
+.signup-link span:hover {
+    text-decoration: underline;
+}
+
+
+#headerRight {
     display: flex;
-    width: auto;
-    height: calc(80px * var(--multiplicator));
-    flex-direction: row;
-    justify-content: space-between;
-    background-color: var(--header-c);
-    box-shadow: 0 0 calc(5px * var(--multiplicator)) 0 #010101;
     align-items: center;
-    padding: 0 calc(24px * var(--multiplicator));
+    gap: 20px;
+}
+
+.user-container {
+    position: relative;
+}
+
+.user-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    background-color: #1a3d2f;
+    border-radius: 8px;
+    min-width: 160px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    list-style: none;
+    padding: 8px 0;
+    z-index: 1000;
+}
+
+
+user-icon-trigger:hover .user-name-label {
+    color: #76b947;
+}
+
+.user-container { position: relative; }
+
+.user-icon-trigger {
+    cursor: pointer;
+    color: white;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.user-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 15px;
+    background-color: #1a3d2f;
+    border-radius: 12px;
+    min-width: 170px;
+
+    width: max-content;
+    white-space: nowrap;
+    
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    list-style: none;
+    padding: 10px 0;
+    z-index: 1100;
+}
+
+.user-dropdown-list.active { display: block; }
+
+.user-dropdown-list button {
+    width: 100%;
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Prompt', sans-serif;
+    font-size: 14px;
+}
+
+.user-dropdown-list button:hover { background-color: rgba(255, 255, 255, 0.1); }
+
+.divider { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 5px 0; }
+
+.logout-btn { color: #ff8a8a !important; font-weight: bold; }
+
+.form-container input, 
+.doc-select, 
+.doc-input {
+    height: 50px; 
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 0 15px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.document-row {
+    display: flex;
+    gap: 0;
+    margin-bottom: 10px;
+}
+
+.doc-select {
+    flex: 0 0 35%; 
+    border-radius: 10px 0 0 10px !important;
+    border-right: none;
+    margin-bottom: 0; 
+}
+
+.doc-input {
+    flex: 0 0 65%; 
+    border-radius: 0 10px 10px 0 !important;
+    margin-bottom: 0;
+    border-left: 1px solid #ccc; 
+}
+
+
+.doc-select:focus, .doc-input:focus {
+    z-index: 2;
+    border-color: #2e4d2e;
+    outline: none;
+}
+
+
+#footer {
+    width: 100%;
+    background-color: var(--header-c);
+    padding: calc(30px * var(--multiplicator)) 0;
     margin-top: auto;
-    z-index: 98;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 calc(-5px * var(--multiplicator)) calc(15px * var(--multiplicator)) rgba(0,0,0,0.1);
+}
+
+.footer-content {
+    text-align: center;
+    color: var(--footertxt-c);
+    font-family: 'Prompt', sans-serif;
+}
+
+.footer-brand {
+    font-family: 'Nova Square', sans-serif;
+    font-size: calc(20px * var(--multiplicator));
+    margin-bottom: calc(10px * var(--multiplicator));
+    letter-spacing: 1px;
+}
+
+.footer-info p {
+    margin: 5px 0;
+    font-size: calc(13px * var(--multiplicator));
+    opacity: 0.8; 
+}
+
+.footer-info span {
+    font-weight: bold;
+    color: #76b947; 
 }
 
 .footerText {

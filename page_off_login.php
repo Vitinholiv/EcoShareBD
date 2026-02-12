@@ -24,9 +24,6 @@
             <img id="logo" src="/public/res/logo.png" alt="Logo">
             <p id="pageTitle">EcoShare</p>
         </div>
-        <div id="headerRight">
-            <button class="header-btn" onclick="redirect('cadastro')">Cadastro</button>
-        </div>
     </nav>
     <!-- Conteúdo -->
     <div id="content">
@@ -39,12 +36,11 @@
                 <input type="password" id="inputSenha" placeholder="Senha" autocomplete="off">
             </div>
             <button type="button" class="btn-login" onclick="prepara_login_de_usuario()">Login</button>
+            <div class="signup-link">
+                <p>Não tem uma conta? <span onclick="redirect('cadastro')">Criar conta</span></p>
+            </div>
         </div>
     </div>
     <!-- Footer -->
-    <footer id="footer">
-        <p class="footerText">EcoShare.</p>
-        <p class="footerText">Contato: contato@ecoshare.com</p>
-    </footer>
 </body>
 </html>
