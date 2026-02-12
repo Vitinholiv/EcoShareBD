@@ -55,12 +55,17 @@
             <h2>Cadastrar Novo Item</h2>
             <input type="text" id="inputNome" placeholder="Nome do Item">
             <input type="text" id="inputDescricao" placeholder="Descrição">
-            <input type="file" id="inputFotos" accept=".png" multiple>
             <select id="inputItemType" name="item_type" class="form-select">
                 <option value="" selected disabled>Selecione o tipo do item...</option>
                 <option value="Novo"> Novo </option>
                 <option value="Usado"> Usado </option>
-            </select>            
+            </select>
+            <label for="inputFotos" class="custom-file-upload">
+                <span class="upload-icon">📷</span>
+                <span class="upload-text">Clique para selecionar fotos</span>
+                <input type="file" id="inputFotos" accept=".png" multiple>
+            </label>
+            <div id="preview-container" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;"></div>
             <button type="button" onclick="prepara_cadastro_de_item()">Cadastrar</button>
         </div>
     </div>
