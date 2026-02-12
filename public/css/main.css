@@ -115,34 +115,7 @@
 .itemUnitB:active {
     transform: scale(0.98);
 }
-/*
 
-
-
-Mastigar brita é bom dms
-
-
-
-
-
-
-
-
-
-
-
-
-#inputUser, #inputSenha {
-    width: 100%;
-    padding: calc(12px * var(--multiplicator));
-    margin-bottom: calc(20px * var(--multiplicator));
-    border: 1px solid #ccc;
-    border-radius: calc(10px * var(--multiplicator));
-    font-size: calc(16px * var(--multiplicator));
-    box-sizing: border-box;
-    font-family: 'Prompt', sans-serif;
-}
-*/
 .form-container button {
     width: 100%;
     padding: calc(14px * var(--multiplicator));
@@ -151,7 +124,7 @@ Mastigar brita é bom dms
     border: none;
     border-radius: calc(30px * var(--multiplicator));
     font-weight: bold;
-    font-family: 'Nova Square', sans-serif;
+    font-family: sans-serif;
     font-size: calc(18px * var(--multiplicator));
     cursor: pointer;
     transition: transform 0.2s;
