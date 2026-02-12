@@ -28,15 +28,41 @@
 	}
 
 	function send_sql_insertion($sql){
-    global $connection;
-    $result = $connection->query($sql);
+		global $connection;
+		$result = $connection->query($sql);
 
-    if($result == false){
-        return ['status' => 'ERROR', 'error' => $connection->error];
-    } else {
-        return ['status' => 'OK', 'id' => $connection->insert_id];
-    }
-}
+		if($result == false){
+			return ['status' => 'ERROR', 'error' => $connection->error];
+		} else {
+			return ['status' => 'OK', 'id' => $connection->insert_id];
+		}
+	}
+
+	function send_sql_transaction($sql) {
+		global $connection;
+
+		if ($connection->multi_query($sql)) {
+			$last_id = null;
+			do {
+				if ($result = $connection->store_result()) {
+					$result->free();
+				}
+				if ($connection->insert_id) {
+					$last_id = $connection->insert_id;
+				}
+				if (!$connection->more_results()) {
+					break;
+				}
+			} while ($connection->next_result());
+
+			if ($connection->error) {
+				return ['status' => 'ERROR', 'error' => $connection->error];
+			}
+			return ['status' => 'OK', 'id' => $last_id];
+		} else {
+			return ['status' => 'ERROR', 'error' => $connection->error];
+		}
+	}
 
 	function send_sql_selection($sql) {
 		global $connection;
@@ -131,14 +157,14 @@
 		}
 
 		$id_patterns = [
-			'BI-AO' => '/^\d{9}[A-Z]{2}\d{3}$/', //000000000LA000
+			'BI_AO' => '/^\d{9}[A-Z]{2}\d{3}$/', //000000000LA000
 			'CPF' => '/^(\d{3}\.\d{3}\.\d{3}\-\d{2}|\d{11})$/', //00000000000
 			'CNI' => '/^\d{7,9}$/', //0000000
-			'BI-GW' => '/^\d{7,8}$/', //0000000
+			'BI_GW' => '/^\d{7,8}$/', //0000000
 			'DIP' => '/^[A-Z0-9]{8,12}$/', //00000000
-			'BI-MZ' => '/^\d{12}[A-Z]$/', //000000000000A
+			'BI_MZ' => '/^\d{12}[A-Z]$/', //000000000000A
 			'CC' => '/^(\d{8}\s\d\s[A-Z]{2}\d|\d{9}[A-Z]{2}\d)$/', //000000000ZZ0
-			'BI-ST' => '/^\d{7,8}$/', //0000000
+			'BI_ST' => '/^\d{7,8}$/', //0000000
 			'CI' => '/^\d{9}$/' //000000000
 		];
 
@@ -197,6 +223,11 @@
 			return ['status' => 'ERROR', 'error' => 'O campo descrição não pode estar vazio.']; 
 		}
 		return $v;
+	}
+
+	function secure_item_tipo($v){
+		if($v === "Novo" || $v === "Usado") return $v;
+		return ['status' => 'ERROR', 'error' => 'O tipo de item é inválido.']; 
 	}
 
 	function secure_item_nome($v): array|string{

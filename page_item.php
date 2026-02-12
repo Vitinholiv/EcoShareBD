@@ -51,13 +51,23 @@
             <input type="text" id="inputNome" placeholder="Nome do Item">
             <input type="text" id="inputDescricao" placeholder="Descrição">
             <input type="file" id="inputFotos" accept=".png" multiple>
+            <select id="inputItemType" name="item_type" class="form-select">
+                <option value="" selected disabled>Selecione o tipo do item...</option>
+                <option value="Novo"> Novo </option>
+                <option value="Usado"> Usado </option>
+            </select>            
             <button type="button" onclick="prepara_cadastro_de_item()">Cadastrar</button>
         </div>
     </div>
     <!-- Footer -->
     <footer id="footer">
-        <p class="footerText">EcoShare.</p>
-        <p class="footerText">Contato: contato@ecoshare.com</p>
+        <div class="footer-content">
+            <p class="footer-brand">EcoShare</p>
+            <div class="footer-info">
+                <p>Contato: <span>contato@ecoshare.com</span></p>
+                <p>&copy; 2026 EcoShare - Todos os direitos reservados.</p>
+            </div>
+        </div>
     </footer>
 </body>
 </html>

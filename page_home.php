@@ -26,22 +26,38 @@
         </div>
         <div id="headerMiddle"></div>
         <div id="headerRight">
-            <input id="logicMenu" type="checkbox" placeholder="." />
+            <div class="user-container" id="userContainer">
+                <div class="user-icon-trigger" id="userTrigger">
+
+                    <span class="user-name-label">Olá, Usuário</span>
+                    
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+                <ul id="userDropdown" class="user-dropdown-list">
+                    <li><button onclick="redirect('home')">Meus pedidos</button></li>
+                    <li><button onclick="redirect('item')">Meus anúncios*</button></li>
+                    <li><button onclick="redirect('home')">Meus atendimentos</button></li>
+                    <li><button onclick="redirect('home')">Meus endereços</button></li>
+                    <li><button onclick="redirect('home')">Conta</button></li>
+                    <li class="divider"></li>
+
+                    <li><button class="logout-btn" onclick="logout()">Sair</button></li>
+                </ul>
+            </div>
+
+            <input id="logicMenu" type="checkbox" />
             <label id="labelMenu" for="logicMenu">
                 <div class="visualMenu" id="line1"></div>
                 <div class="visualMenu" id="line2"></div>
                 <div class="visualMenu" id="line3"></div>
             </label>
             <ul id="menuList">
-                <li class="menuElement">
-                    <button class="menuButton" onclick="redirect('home');">Início</button>
-                </li>
-                <li class="menuElement">
-                    <button class="menuButton" onclick="redirect('item');">Cadastro de Item</button>
-                </li>
-                <li class="menuElement">
-                    <button class="menuButton" onclick="logout();">Logout</button>
-                </li>
+                <li class="menuElement"><button class="menuButton" onclick="redirect('home')">Início</button></li>
+                <li class="menuElement"><button class="menuButton" onclick="redirect('home')">Sobre nós</button></li>
+                <li class="menuElement"><button class="menuButton" onclick="redirect('home')">Campo1</button></li>
+                <li class="menuElement"><button class="menuButton" onclick="redirect('home')">Campo2</button></li>
             </ul>
         </div>
     </nav>
@@ -51,8 +67,13 @@
     </div>
     <!-- Footer -->
     <footer id="footer">
-        <p class="footerText">EcoShare.</p>
-        <p class="footerText">Contato: contato@ecoshare.com</p>
+        <div class="footer-content">
+            <p class="footer-brand">EcoShare</p>
+            <div class="footer-info">
+                <p>Contato: <span>contato@ecoshare.com</span></p>
+                <p>&copy; 2026 EcoShare - Todos os direitos reservados.</p>
+            </div>
+        </div>
     </footer>
 </body>
 </html>

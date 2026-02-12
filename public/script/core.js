@@ -9,6 +9,7 @@ async function logout(){
     minha_resposta = await send_to_php(objeto);
     if(minha_resposta['status'] !== 'ERROR'){
         alert(`Desconectado de ${minha_resposta['username']}.`);
+        localStorage.removeItem('username')
         window.location.pathname = '/login';
     } else {
         alert(minha_resposta['error']);
@@ -49,6 +50,11 @@ async function prepara_cadastro_de_usuario() {
     const mensagem = await cadastro_de_usuario(username, nome, email, doc, docType, senha);
 
     if (mensagem === 'Cadastro feito com sucesso.'){
+        await login_de_usuario(username, senha);
+
+        //alert(mensagem);
+        window.location.assign(window.location.origin + `/home`);
+
         document.getElementById('inputUser').value = '';
         document.getElementById('inputEmail').value = '';
         document.getElementById('inputSenha').value = '';
@@ -69,9 +75,10 @@ async function login_de_usuario(username, senha){
 
     minha_resposta = await send_to_php(objeto);
 
-    if(minha_resposta['status'] == 'ERROR'){
+    if(minha_resposta['status'] == 'ERROR') {
         return minha_resposta['error'];
     } else {
+        localStorage.setItem('username', username);
         return 'Login feito com sucesso.';
     }
 }
@@ -84,7 +91,7 @@ async function prepara_login_de_usuario(params) {
 
     const mensagem = await login_de_usuario(username, senha);
 
-    if (mensagem === 'Login feito com sucesso.'){
+    if (mensagem === 'Login feito com sucesso.') {
         document.getElementById('inputUser').value = '';
         document.getElementById('inputSenha').value = '';
         alert(mensagem);
@@ -96,15 +103,15 @@ async function prepara_login_de_usuario(params) {
 
 
 
-async function cadastro_de_item(descricao, nome){
+async function cadastro_de_item(descricao, nome, tipo){
     let objeto = new URLSearchParams();
     objeto.append('tipo','cadastro_de_item');
 
     objeto.append('descricao',descricao);
     objeto.append('nome',nome);
+    objeto.append('tipo_item',tipo);
 
     minha_resposta = await send_to_php(objeto);
-
    
     if(minha_resposta['status'] == 'ERROR'){
         return minha_resposta;
@@ -115,6 +122,7 @@ async function cadastro_de_item(descricao, nome){
 
 
 async function prepara_cadastro_de_item() {
+    let tipo       = document.getElementById('inputItemType').value
     let descricao  = document.getElementById('inputDescricao').value;
     let nome       = document.getElementById('inputNome').value;
     let inputFotos = document.getElementById('inputFotos');
@@ -154,9 +162,7 @@ async function prepara_cadastro_de_item() {
         console.error("Erro na validação das fotos:", error);
     }
 
-    const mensagem = await cadastro_de_item(descricao, nome);
-
-    console.log(mensagem);
+    const mensagem = await cadastro_de_item(descricao, nome, tipo);
 
     if (mensagem['status'] === 'OK'){
         let imgData = new FormData();
@@ -169,21 +175,17 @@ async function prepara_cadastro_de_item() {
                 imgData.append('fotos[]', arquivoAtual);
             }
         }
-        console.log('1');
         try {
             const res = await fetch('index.php', {
                 method: 'POST',
                 body: imgData
             });
             if (!res.ok) {
-                console.log('2');
                 const errorText = await res.text();
                 alert(`Erro ${res.status} (${res.statusText}): ${errorText || 'Sem detalhes adicionais'}`);
                 return;
             }
             let result = await res.json();
-            console.log('3');
-            
             if (result['status'] !== 'OK') {
                 alert("Erro: " + result['error']);
                 return;
@@ -191,6 +193,7 @@ async function prepara_cadastro_de_item() {
             alert("Item cadastrado com sucesso.")
             document.getElementById('inputDescricao').value = '';
             document.getElementById('inputNome').value = '';
+            document.getElementById('inputItemType').value = '';
         } catch (error) {
             alert("Erro na requisição de inserção de fotos:", error);
         }
@@ -223,3 +226,43 @@ async function send_to_php(objc) {
         return { 'status': 'ERROR', 'error': `Erro interno do PHP no processamento dos dados - ${error}` };
     }
 }
+
+
+
+document.addEventListener('click', function(event) {
+    const container = document.getElementById('userContainer');
+    const dropdown = document.getElementById('userDropdown');
+    const trigger = document.getElementById('userTrigger');
+    const logicMenu = document.getElementById('logicMenu');
+
+    if (trigger.contains(event.target)) {
+        dropdown.classList.toggle('active');
+
+        if (dropdown.classList.contains('active')) {
+            logicMenu.checked = false;
+        }
+    } 
+
+    else if (!container.contains(event.target)) {
+        dropdown.classList.remove('active');
+    }
+    
+    if (event.target.id === 'logicMenu' && event.target.checked) {
+        dropdown.classList.remove('active');
+    }
+});
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const nomeDoUsuario = localStorage.getItem('username');
+    const label = document.querySelector('.user-name-label');
+
+    if (label) { 
+        if (nomeDoUsuario && nomeDoUsuario !== "undefined") {
+            label.textContent = `Olá, ${nomeDoUsuario}`;
+        } else {
+            label.textContent = "Olá!"; 
+        }
+    }
+});
