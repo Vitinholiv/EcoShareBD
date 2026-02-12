@@ -20,24 +20,34 @@
 <body>
     <!-- Header -->
     <nav id="header">
-        <div id="headerLeft">
-            <img id="logo" src="/public/res/logo.png" alt="Logo" onclick="window.location.assign(window.location.origin + `/`)">
-        </div>
-        <div id="headerMiddle">
+        <div id="headerLeft" onclick="window.location.assign(window.location.origin + '/')" style="cursor:pointer;">
+            <img id="logo" src="/public/res/logo.png" alt="Logo">
             <p id="pageTitle">EcoShare</p>
         </div>
+        <div id="headerMiddle"></div>
         <div id="headerRight">
-            <input id="logicMenu" type="checkbox" placeholder="." />
-            <label id="labelMenu" for="logicMenu">
-                <div class="visualMenu" id="line1"></div>
-                <div class="visualMenu" id="line2"></div>
-                <div class="visualMenu" id="line3"></div>
-            </label>
-            <ul id="menuList">
-                <li class="menuElement">
-                    <button class="menuButton" onclick="logout();">Logout</button>
-                </li>
-            </ul>
+            <div class="user-container" id="userContainer">
+                <div class="user-icon-trigger" id="userTrigger">
+
+                    <span class="user-name-label">Olá, Usuário</span>
+                    
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+                <ul id="userDropdown" class="user-dropdown-list">
+
+                    <li><button onclick="redirect('home')">Início</button></li>
+                    <li><button onclick="redirect('home')">Meus pedidos</button></li>
+                    <li><button onclick="redirect('item')">Meus anúncios*</button></li>
+                    <li><button onclick="redirect('home')">Meus atendimentos</button></li>
+                    <li><button onclick="redirect('home')">Meus endereços</button></li>
+                    <li><button onclick="redirect('home')">Conta</button></li>
+                    <li class="divider"></li>
+
+                    <li><button class="logout-btn" onclick="logout()">Sair</button></li>
+                </ul>
+            </div>
         </div>
     </nav>
     <!-- Conteúdo -->
