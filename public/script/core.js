@@ -114,6 +114,7 @@ async function cadastro_de_item(descricao, nome, tipo){
 }
 
 
+
 async function prepara_cadastro_de_item() {
     let tipo       = document.getElementById('inputItemType').value
     let descricao  = document.getElementById('inputDescricao').value;
@@ -196,6 +197,7 @@ async function prepara_cadastro_de_item() {
 }
 
 
+
 async function send_to_php(objc) {
     // Função que envia requests genéricas pro PHP. Lá dentro, faz limpeza dos campos e retorna um .json com o que vc quer. Isso vira um objeto js
     try {
@@ -217,5 +219,68 @@ async function send_to_php(objc) {
         return await res.json();
     } catch (error) {
         return { 'status': 'ERROR', 'error': `Erro interno do PHP no processamento dos dados - ${error}` };
+    }
+}
+
+
+
+switch (route) {
+	case "/home": {
+        document.title = `EcoShare - Home`;
+        break;
+    }
+    case "/login": {
+        document.title = `EcoShare - Login`;
+        break;
+    }
+    case "/cadastro": {
+        document.title = `EcoShare - Cadastro`;
+        break;
+    }
+    case "/item": {
+        document.title = `EcoShare - Gerenciar Itens`;
+        let content = document.getElementById('content');
+        let itemList = document.createElement('div');
+        itemList.classList.add('itemList');
+        itemList.innerHTML += `<h2>Lista de Itens</h2>`;
+
+        let itensNovos; let itensUsados;
+        (async () => {
+            let usados = new URLSearchParams();
+            usados.append('tipo', 'buscar_itens_usados_do_usuario');
+            itensUsados = await send_to_php(usados);
+
+            let novos = new URLSearchParams();
+            novos.append('tipo', 'buscar_itens_novos_do_usuario');
+            itensNovos = await send_to_php(novos);
+
+            if(itensNovos.status === 'OK') {
+                for(let i = 0; i < itensNovos.data.length; i++){
+                    let item = itensNovos.data[i];
+                    itemList.innerHTML += `
+                    <div class="itemBox">
+                        <div class="itemUnitA">${item.nome}</div>
+                        <button class="itemUnitB" onclick="verDetalhes_IN(${item.id})">Ver Detalhes</button>
+                        <button class="itemUnitB" onclick="editarDetalhes_IN(${item.id})">Editar Detalhes</button>
+                    </div>`;
+                }
+            }
+
+            if(itensUsados.status === 'OK') {
+                for(let i = 0; i < itensUsados.data.length; i++){
+                    let item = itensUsados.data[i];
+                    itemList.innerHTML += `
+                    <div class="itemBox">
+                        <div class="itemUnitA">${item.nome}</div>
+                        <button class="itemUnitB" onclick="verDetalhes_IU(${item.id})">Ver Detalhes</button>
+                        <button class="itemUnitB" onclick="editarDetalhes_IU(${item.id})">Editar Detalhes</button>
+                    </div>`;
+                }
+            }
+
+            document.getElementById('content').prepend(itemList);
+        })();
+       
+        break;
     }
 }

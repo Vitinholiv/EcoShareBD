@@ -228,12 +228,16 @@
 			} else if($tipo === 'buscar_itens_novos_do_usuario'){
 
 				$id = $_SESSION['id'];
-				
+				$sql = "SELECT item.id, item.nome FROM item_usado JOIN item ON item.id = item_usado.item_id WHERE item.usuario_id = $id";
+				$res = send_sql_selection($sql);
+				echo json_encode($res);
 				
 			} else if($tipo === 'buscar_itens_usados_do_usuario'){
 
 				$id = $_SESSION['id'];
-				
+				$sql = "SELECT item.id, item.nome FROM item_novo JOIN item ON item.id = item_novo.item_id WHERE item.usuario_id = $id";
+				$res = send_sql_selection($sql);
+				echo json_encode($res);
 				
 			} else {
 				echo json_encode(['status' => 'ERROR', 'error' => 'Requisição inválida.']);
