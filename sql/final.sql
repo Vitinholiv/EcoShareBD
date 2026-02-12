@@ -305,3 +305,8 @@ CREATE TABLE IF NOT EXISTS `ecoShareDB`.`avaliacao_item` (
     CONSTRAINT `validar_likes_item` CHECK (`likes` >= 0),
     CONSTRAINT `validar_nota_item` CHECK (`nota` >= 0 AND `nota` <= 5)
 );
+
+DROP TABLE IF EXISTS `ecoShareDB`.`validacao_foto`;
+CREATE TABLE IF NOT EXISTS `ecoShareDB`.`validacao_foto` (
+    `hash` VARCHAR(60)
+);
