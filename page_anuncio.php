@@ -50,21 +50,23 @@
     <!-- Conteúdo -->
     <div id="content">
         <div class="form-container">
-            <h2>Cadastrar Novo Item</h2>
-            <input type="text" id="inputNome" placeholder="Nome do Item">
+            <h2>Cadastrar Novo Anúncio</h2>
+            <input type="text" id="inputNome" placeholder="Nome do Anúncio">
             <input type="text" id="inputDescricao" placeholder="Descrição">
-            <select id="inputItemType" name="item_type" class="form-select">
-                <option value="" selected disabled>Selecione o tipo do item...</option>
-                <option value="Novo"> Novo </option>
-                <option value="Usado"> Usado </option>
+            <select id="inputTipo" name="ad_type" class="form-select">
+                <option value="" selected disabled>Selecione o tipo de anúncio...</option>
+                <option value="Venda">Venda</option>
+                <option value="Troca">Troca</option>
+                <option value="Empréstimo">Empréstimo</option>
             </select>
-            <label for="inputFotos" class="custom-file-upload">
-                <span class="upload-icon">📷</span>
-                <span class="upload-text">Clique para selecionar fotos</span>
-                <input type="file" id="inputFotos" accept=".png" multiple>
-            </label>
-            <div id="preview-container" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;"></div>
-            <button type="button" onclick="prepara_cadastro_de_item()">Cadastrar</button>
+            <input type="text" id="inputValor" placeholder="Valor Inicial (R$)">
+            <select id="inputItem" name="item_type" class="form-select">
+                <option value="" selected disabled>Selecione o item...</option>
+            </select>
+            <select id="inputEndereco" name="end_type" class="form-select">
+                <option value="" selected disabled>Selecione o endereço...</option>
+            </select>
+            <button type="button" onclick="prepara_cadastro_de_anuncio()">Cadastrar</button>
         </div>
     </div>
     <!-- Footer -->
@@ -77,5 +79,45 @@
             </div>
         </div>
     </footer>
+    <script>
+        const inputValor = document.getElementById('inputValor');
+        const inputTipo = document.getElementById('inputTipo');
+
+        inputTipo.addEventListener('change', function() {
+            if (this.value === 'Troca') {
+                inputValor.style.display = 'none';
+                inputValor.value = '';
+            } else if(this.value === 'Empréstimo'){
+                inputValor.style.display = 'block';
+                inputValor.placeholder = 'Valor Diário Estimado (R$)'
+            } else {
+                inputValor.style.display = 'block';
+                inputValor.placeholder = 'Valor Inicial (R$)'
+            }
+        });
+
+        inputValor.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+
+            const limiteCentavos = 100000000000;
+            if (parseInt(value) > limiteCentavos) {
+                value = limiteCentavos;
+            }
+            
+            value = (value / 100).toFixed(2);
+            if (value === "0.00" && e.target.value.length < 3) {
+                e.target.value = '';
+                return;
+            }
+            let formatted = value.replace(".", ",");
+            formatted = formatted.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+            e.target.value = 'R$ ' + formatted;
+        });
+        inputValor.addEventListener('click', function() {
+            if (this.value.length > 0) {
+                this.setSelectionRange(this.value.length, this.value.length);
+            }
+        });
+    </script>
 </body>
 </html>

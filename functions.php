@@ -158,12 +158,13 @@
 
 		$id_patterns = [
 			'BI_AO' => '/^\d{9}[A-Z]{2}\d{3}$/', //000000000LA000
-			'CPF' => '/^(\d{3}\.\d{3}\.\d{3}\-\d{2}|\d{11})$/', //00000000000
+			'CPF' => '/^(\d{3}\.\d{3}\.\d{3}\-\d{2}|\d{11})$/', //000.000.000-00
+			'CNPJ' => '/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/', //00.000.000/0000-00
 			'CNI' => '/^\d{7,9}$/', //0000000
 			'BI_GW' => '/^\d{7,8}$/', //0000000
 			'DIP' => '/^[A-Z0-9]{8,12}$/', //00000000
 			'BI_MZ' => '/^\d{12}[A-Z]$/', //000000000000A
-			'CC' => '/^(\d{8}\s\d\s[A-Z]{2}\d|\d{9}[A-Z]{2}\d)$/', //000000000ZZ0
+			'CC' => '/^(\d{8}\s\d\s[A-Z]{2}\d|\d{9}[A-Z]{2}\d)$/', //00000000 0 ZZ0
 			'BI_ST' => '/^\d{7,8}$/', //0000000
 			'CI' => '/^\d{9}$/' //000000000
 		];
@@ -244,4 +245,163 @@
 		}
 		return ['status' => 'ERROR', 'error' => "Nome inválido. Use apenas letras, espaços, acentos, separadores e números."];
 	}
-?>
+
+	# Secure - Cadastro de Anúncio
+    function secure_anuncio_descricao($v) {
+        $v = str_replace("'", "’", $v);
+        $v = clear_str($v);
+        if(empty($v)){
+            return ['status' => 'ERROR', 'error' => 'A descrição do anúncio não pode estar vazia.']; 
+        }
+        return $v;
+    }
+
+    function secure_anuncio_nome($v) {
+		// Aceita letras, números, acentos e caracteres de pontuação básica
+        $v = clear_str($v);
+        $v = str_replace(["'", "`", "´"], "’", $v);
+        if (empty($v)) {
+            return ['status' => 'ERROR', 'error' => "O título do anúncio não pode estar vazio."];
+        }
+        $padrao = '/[^a-zA-ZáàâãäéèêëíìîïóòôõöúùûüçñÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇÑ0-9\.\!\?\-\s’]/u';
+        if(!preg_match($padrao, $v)) {
+            return $v;
+        }
+        return ['status' => 'ERROR', 'error' => "Título do anúncio contém caracteres inválidos."];
+    }
+
+    function secure_anuncio_tipo($v) {
+		// Busca todos os tipos cadastrados no banco para validar a entrada
+		$v = clear_str($v);
+		if (empty($v)) {
+			return ['status' => 'ERROR', 'error' => 'O tipo de anúncio deve ser selecionado.'];
+		}
+
+		$sql = "SELECT anuncio_tipo_id, tipo FROM anuncio_tipo;";
+		$res = send_sql_selection($sql);
+
+		if ($res['status'] === 'OK' && is_array($res['data'])) {
+			foreach ($res['data'] as $row) {
+				if (strcasecmp($row['tipo'], $v) === 0) {
+					return $row['anuncio_tipo_id'];
+				}
+			}
+		}
+		return ['status' => 'ERROR', 'error' => 'Tipo de anúncio não reconhecido pelo sistema.'];
+	}
+
+    function secure_anuncio_valor($v) {
+        if ($v === "" || $v === null) return 0.00;
+        
+        if (is_numeric($v)) {
+            $valor = (float)$v;
+            if ($valor >= 0) return $valor;
+        }
+        return ['status' => 'ERROR', 'error' => 'O valor informado é inválido.'];
+    }
+
+    function secure_anuncio_item_id($v) {
+		// Verifica se o item realmente pertence ao usuário logado
+        $id = (int)$v;
+        if ($id <= 0) {
+            return ['status' => 'ERROR', 'error' => 'Item não selecionado corretamente.'];
+        }
+        $user_id = $_SESSION['id'];
+        $sql = "SELECT id FROM item WHERE id = $id AND usuario_id = $user_id LIMIT 1;";
+        $res = send_sql_selection($sql);
+        
+        if ($res['status'] === 'OK' && count($res['data']) > 0) {
+            return $id;
+        }
+        return ['status' => 'ERROR', 'error' => 'O item selecionado não foi encontrado entre seus itens.'];
+    }
+
+    function secure_anuncio_endereco_ordem($v) {
+        $ordem = (int)$v;
+        if ($ordem <= 0) {
+            return ['status' => 'ERROR', 'error' => 'Endereço não selecionado.'];
+        }
+
+        $user_id = $_SESSION['id'];
+        $sql = "SELECT endereco_ordem FROM endereco WHERE endereco_ordem = $ordem AND usuario_id = $user_id LIMIT 1;";
+        $res = send_sql_selection($sql);
+
+        if ($res['status'] === 'OK' && count($res['data']) > 0) {
+            return $ordem;
+        }
+        return ['status' => 'ERROR', 'error' => 'O endereço selecionado é inválido.'];
+    }
+
+	function secure_endereco_pais($v) {
+        $v = clear_str($v);
+        if (empty($v)) {
+            return ['status' => 'ERROR', 'error' => "O campo país é obrigatório."];
+        }
+        $paises = ['Brasil', 'Portugal', 'Angola', 'Moçambique', 'Cabo Verde', 'Guiné-Bissau', 'Guiné Equatorial', 'São Tomé e Príncipe', 'Timor-Leste'];
+        
+        foreach ($paises as $p) {
+            if (strcasecmp($p, $v) === 0) return $p;
+        }
+        return ['status' => 'ERROR', 'error' => "Nome de país inválido."];
+    }
+
+    function secure_endereco_cep($v) {
+		// Validação genérica para códigos postais lusófonos (variam de 4 a 8 caracteres)
+        $v = preg_replace('/[^0-9A-Z\- ]/', '', strtoupper(trim($v)));
+        if (empty($v)) {
+            return ['status' => 'ERROR', 'error' => "O código postal/CEP é obrigatório."];
+        }
+        if (strlen($v) >= 4 && strlen($v) <= 12) {
+            return $v;
+        }
+        return ['status' => 'ERROR', 'error' => "Código Postal/CEP inválido."];
+    }
+
+    function secure_endereco_estado($v) {
+		// Estado pode ser vazio em alguns países, mas vamos aceitar letras e espaços
+        $v = clear_str($v);
+        if (empty($v)) return null; 
+        if (preg_match('/^[a-zA-ZáàâãäéèêëíìîïóòôõöúùûüçñÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇÑ\s]{2,50}$/u', $v)) {
+            return $v;
+        }
+        return ['status' => 'ERROR', 'error' => "Estado/Província inválido."];
+    }
+
+    function secure_endereco_cidade($v) {
+        $v = clear_str($v);
+        if (empty($v)) {
+            return ['status' => 'ERROR', 'error' => "O campo cidade é obrigatório."];
+        }
+        if (preg_match('/^[a-zA-ZáàâãäéèêëíìîïóòôõöúùûüçñÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇÑ\s\-\’]+$/u', $v)) {
+            return $v;
+        }
+        return ['status' => 'ERROR', 'error' => "Nome de cidade inválido."];
+    }
+
+    function secure_endereco_bairro($v) {
+        $v = clear_str($v);
+        if (empty($v)) {
+            return ['status' => 'ERROR', 'error' => "O campo bairro/distrito é obrigatório."];
+        }
+        return $v;
+    }
+
+    function secure_endereco_logradouro($v) {
+        $v = clear_str($v);
+        if (empty($v)) {
+            return ['status' => 'ERROR', 'error' => "O campo logradouro (rua) é obrigatório."];
+        }
+        return $v;
+    }
+
+    function secure_endereco_numero($v) {
+        if (empty($v)) return null;
+        $v = (int)$v;
+        if ($v > 0) return $v;
+        return ['status' => 'ERROR', 'error' => "Número de residência inválido."];
+    }
+
+    function secure_endereco_complemento($v) {
+        $v = clear_str($v);
+        return empty($v) ? null : $v;
+    }

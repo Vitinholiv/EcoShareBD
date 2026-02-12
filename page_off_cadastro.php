@@ -37,6 +37,7 @@
                 <select id="inputDocType" name="pais_documento" class="doc-select">
                 <option value="" selected disabled>Documento...</option>
                 <option value="CPF">Brasil (CPF)</option>
+                <option value="CNPJ">Brasil (CNPJ)</option>
                 <option value="BI_AO">Angola (Bilhete de Identidade)</option>
                 <option value="CNI">Cabo Verde (CNI)</option>
                 <option value="DIP">Guiné Equatorial (DIP)</option>
@@ -68,6 +69,7 @@
     <script>
         const placeholders = {
             'CPF':   'Ex: 000.000.000-00',
+            'CNPJ':  'Ex: 00.000.000/0000-00',
             'BI_AO': 'Ex: 000000000LA000',
             'CNI':   'Ex: 0000000',
             'DIP':   'Ex: 00000000',
@@ -105,8 +107,20 @@
                 } else {
                     formatted = v;
                 }
-            }
-            else if (type === 'CC') {
+            } else if (type === 'CNPJ') {
+                let v = raw.replace(/\D/g, '').substring(0, 14);
+                if (v.length > 12) {
+                    formatted = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{1,2})$/, '$1.$2.$3/$4-$5');
+                } else if (v.length > 8) {
+                    formatted = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{1,4})$/, '$1.$2.$3/$4');
+                } else if (v.length > 5) {
+                    formatted = v.replace(/^(\d{2})(\d{3})(\d{1,3})$/, '$1.$2.$3');
+                } else if (v.length > 2) {
+                    formatted = v.replace(/^(\d{2})(\d{1,3})$/, '$1.$2');
+                } else {
+                    formatted = v;
+                }
+            } else if (type === 'CC') {
                 let v = raw.substring(0, 12);
                 let part1 = v.substring(0, 8).replace(/[^0-9]/g, '');
                 let part2 = v.substring(8, 9).replace(/[^0-9]/g, '');

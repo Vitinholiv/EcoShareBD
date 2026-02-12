@@ -46,9 +46,9 @@ CREATE TABLE IF NOT EXISTS `ecoShareDB`.`cupom` (
 
 DROP TABLE IF EXISTS `ecoShareDB`.`usuario_telefone`;
 CREATE TABLE IF NOT EXISTS `ecoShareDB`.`usuario_telefone` (
-    `telefone_id` INT NOT NULL,
+    `telefone_ordem` INT NOT NULL,
     `usuario_id` INT NOT NULL,
-    PRIMARY KEY (`telefone_id`, `usuario_id`),
+    PRIMARY KEY (`telefone_ordem`, `usuario_id`),
     FOREIGN KEY (`usuario_id`)
     REFERENCES `ecoShareDB`.`usuario` (`id`)
     ON DELETE CASCADE
@@ -57,6 +57,26 @@ CREATE TABLE IF NOT EXISTS `ecoShareDB`.`usuario_telefone` (
     `telefone` VARCHAR(40) UNIQUE NOT NULL,
 
     CONSTRAINT `validar_telefone` CHECK (`telefone` REGEXP '^\\+[0-9]+ [0-9 ]+$')
+);
+
+DROP TABLE IF EXISTS `ecoShareDB`.`endereco`;
+CREATE TABLE IF NOT EXISTS `ecoShareDB`.`endereco` (
+    `endereco_ordem` INT NOT NULL,
+    `usuario_id` INT NOT NULL,
+    PRIMARY KEY (`endereco_ordem`, `usuario_id`),
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `ecoShareDB`.`usuario` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+
+    `CEP` VARCHAR(30) NOT NULL,
+    `pais` VARCHAR(45) NOT NULL,
+    `estado` VARCHAR(45) NULL,
+    `cidade` VARCHAR(45) NOT NULL,
+    `bairro` VARCHAR(100) NOT NULL,
+    `logradouro` VARCHAR(250) NOT NULL,
+    `complemento` VARCHAR(100) NULL,
+    `numero` INT NULL
 );
 
 DROP TABLE IF EXISTS `ecoShareDB`.`forma_pagamento`;
@@ -121,24 +141,33 @@ DROP TABLE IF EXISTS `ecoShareDB`.`anuncio`;
 CREATE TABLE IF NOT EXISTS `ecoShareDB`.`anuncio` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `usuario_id` INT NOT NULL,
+    `tipo` INT NOT NULL,
+    `item_id` INT NOT NULL,
+    `endereco_ordem` INT NOT NULL,
+    `nome` VARCHAR(200) NOT NULL,
+    `valor_anuncio` DECIMAL(16,2) NULL,
+    `descricao` TEXT NOT NULL,
+    `data_anuncio` DATE NOT NULL,
+
     FOREIGN KEY (`usuario_id`)
     REFERENCES `ecoShareDB`.`usuario` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    `item_id` INT NOT NULL,
+    
     FOREIGN KEY (`item_id`)
     REFERENCES `ecoShareDB`.`item` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    `tipo` INT NOT NULL,
+
+    FOREIGN KEY (`usuario_id`, `endereco_ordem`)
+    REFERENCES `ecoShareDB`.`endereco` (`usuario_id`, `endereco_ordem`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+
     FOREIGN KEY (`tipo`)
     REFERENCES `ecoShareDB`.`anuncio_tipo` (`anuncio_tipo_id`)
     ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-
-    `valor_anuncio` DECIMAL(16,2) NULL,
-    `descricao` TEXT NOT NULL,
-    `data_anuncio` DATE NOT NULL
+    ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS `ecoShareDB`.`registro`;
@@ -237,26 +266,6 @@ CREATE TABLE IF NOT EXISTS `ecoShareDB`.`manutencao` (
     
     `data_manutencao` DATE NOT NULL,
     `laudo` VARCHAR(120) NULL
-);
-
-DROP TABLE IF EXISTS `ecoShareDB`.`endereco`;
-CREATE TABLE IF NOT EXISTS `ecoShareDB`.`endereco` (
-    `endereco_id` INT NOT NULL,
-    `usuario_id` INT NOT NULL,
-    PRIMARY KEY (`endereco_id`, `usuario_id`),
-    FOREIGN KEY (`usuario_id`)
-    REFERENCES `ecoShareDB`.`usuario` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-
-    `CEP` VARCHAR(30) NOT NULL,
-    `pais` VARCHAR(45) NOT NULL,
-    `estado` VARCHAR(45) NULL,
-    `cidade` VARCHAR(45) NOT NULL,
-    `bairro` VARCHAR(100) NOT NULL,
-    `logradouro` VARCHAR(250) NOT NULL,
-    `complemento` VARCHAR(100) NULL,
-    `numero` INT NULL
 );
 
 DROP TABLE IF EXISTS `ecoShareDB`.`avaliacao_usuario`;

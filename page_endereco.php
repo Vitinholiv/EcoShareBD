@@ -24,7 +24,6 @@
             <img id="logo" src="/public/res/logo.png" alt="Logo">
             <p id="pageTitle">EcoShare</p>
         </div>
-        <div id="headerMiddle"></div>
         <div id="headerRight">
             <div class="user-container" id="userContainer">
                 <div class="user-icon-trigger" id="userTrigger">
@@ -38,11 +37,9 @@
                 <ul id="userDropdown" class="user-dropdown-list">
 
                     <li><button onclick="redirect('home')">Início</button></li>
-                    <li><button onclick="redirect('home')">Meus pedidos</button></li>
-                    <li><button onclick="redirect('item')">Meus anúncios*</button></li>
-                    <li><button onclick="redirect('home')">Meus atendimentos</button></li>
-                    <li><button onclick="redirect('home')">Meus endereços</button></li>
-                    <li><button onclick="redirect('home')">Conta</button></li>
+                    <li><button onclick="redirect('endereco')">Meus Endereços</button></li>
+                    <li><button onclick="redirect('item')">Meus Itens</button></li>
+                    <li><button onclick="redirect('anuncio')">Meus Anúncios</button></li>
                     <li class="divider"></li>
 
                     <li><button class="logout-btn" onclick="logout()">Sair</button></li>
@@ -52,7 +49,29 @@
     </nav>
     <!-- Conteúdo -->
     <div id="content">
-        
+        <div class="form-container">
+            <h2>Cadastrar Novo Endereço</h2>
+            
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="inputPais" placeholder="País" style="flex: 1;">
+                <input type="text" id="inputCEP" placeholder="CEP" style="flex: 1;">
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="inputEstado" placeholder="Estado (UF)" style="flex: 1;">
+                <input type="text" id="inputCidade" placeholder="Cidade" style="flex: 2;">
+            </div>
+
+            <input type="text" id="inputBairro" placeholder="Bairro">
+            <input type="text" id="inputLogradouro" placeholder="Logradouro (Rua, Av...)">
+
+            <div style="display: flex; gap: 10px;">
+                <input type="number" id="inputNumero" placeholder="Nº" style="flex: 1;">
+                <input type="text" id="inputComplemento" placeholder="Complemento" style="flex: 2;">
+            </div>
+
+            <button type="button" onclick="prepara_cadastro_de_endereco()">Salvar Endereço</button>
+        </div>
     </div>
     <!-- Footer -->
     <footer id="footer">
