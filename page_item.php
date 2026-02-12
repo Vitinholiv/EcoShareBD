@@ -51,17 +51,40 @@
     </nav>
     <!-- Conteúdo -->
     <div id="content">
-        <div class="form-container">
+        <div class="form-container" data-page="cadastro-item">
             <h2>Cadastrar Novo Item</h2>
-            <input type="text" id="inputNome" placeholder="Nome do Item">
-            <input type="text" id="inputDescricao" placeholder="Descrição">
-            <input type="file" id="inputFotos" accept=".png" multiple>
-            <select id="inputItemType" name="item_type" class="form-select">
-                <option value="" selected disabled>Selecione o tipo do item...</option>
-                <option value="Novo"> Novo </option>
-                <option value="Usado"> Usado </option>
-            </select>            
-            <button type="button" onclick="prepara_cadastro_de_item()">Cadastrar</button>
+            
+            <div class="form-body">
+                <div class="input-group">
+                    <input type="text" id="inputNome" placeholder="Nome do Item">
+                </div>
+
+                <div class="input-group">
+                    <select id="inputItemType" name="item_type" class="form-select">
+                        <option value="" selected disabled>Estado do item (Novo/Usado)...</option>
+                        <option value="Novo">Novo</option>
+                        <option value="Usado">Usado</option>
+                    </select>
+                </div>
+
+                <div class="upload-section">
+                    <label for="inputFotos" class="custom-file-upload">
+                        <span class="upload-text">Selecionar Fotos</span>
+                    </label>
+                    <input type="file" id="inputFotos" accept="image/png, image/jpeg" multiple style="display:none;">
+                    
+                    <div id="preview-grid" class="preview-grid"></div>
+                </div>
+
+                <div class="input-group">
+                    <textarea id="inputDescricao" placeholder="Escreva uma descrição detalhada..." rows="5"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="redirect('home')">Cancelar</button>
+                    <button type="button" class="btn-submit" onclick="prepara_cadastro_de_item()">Cadastrar Item</button>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Footer -->
