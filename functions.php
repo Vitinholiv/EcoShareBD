@@ -150,29 +150,27 @@
 		}
 	}
 
-	function secure_usuario_doc($v,$type) {
+	function secure_usuario_doc($v, $type) {
 		$v = strtoupper(trim($v));
-		if (empty($v)) {
-			return ['status' => 'ERROR', 'error' => "O documento não pode estar vazio."];
-		}
+		if (empty($v)) return ['status' => 'ERROR', 'error' => "O documento não pode estar vazio."];
 
 		$id_patterns = [
-			'BI_AO' => '/^\d{9}[A-Z]{2}\d{3}$/', //000000000LA000
-			'CPF' => '/^(\d{3}\.\d{3}\.\d{3}\-\d{2}|\d{11})$/', //000.000.000-00
-			'CNPJ' => '/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/', //00.000.000/0000-00
-			'CNI' => '/^\d{7,9}$/', //0000000
-			'BI_GW' => '/^\d{7,8}$/', //0000000
-			'DIP' => '/^[A-Z0-9]{8,12}$/', //00000000
-			'BI_MZ' => '/^\d{12}[A-Z]$/', //000000000000A
-			'CC' => '/^(\d{8}\s\d\s[A-Z]{2}\d|\d{9}[A-Z]{2}\d)$/', //00000000 0 ZZ0
-			'BI_ST' => '/^\d{7,8}$/', //0000000
-			'CI' => '/^\d{9}$/' //000000000
+			'BI_AO' => '/^\d{9}[A-Z]{2}\d{3}$/', 
+			'CPF'   => '/^(\d{3}\.\d{3}\.\d{3}\-\d{2}|\d{11})$/', 
+			'CNPJ'  => '/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/', 
+			'CNI'   => '/^\d{7,9}$/', 
+			'BI_GW' => '/^\d{7,8}$/', 
+			'DIP'   => '/^[A-Z0-9]{8,12}$/', 
+			'BI_MZ' => '/^\d{12}[A-Z]$/', 
+			'CC'    => '/^(\d{8}\s\d\s[A-Z]{2}\d|\d{9}[A-Z]{2}\d)$/', 
+			'BI_ST' => '/^\d{7,8}$/', 
+			'CI'    => '/^\d{9}$/' 
 		];
 
-		if (preg_match($id_patterns[$type], $v)) {
+		if (isset($id_patterns[$type]) && preg_match($id_patterns[$type], $v)) {
 			return $v;
 		}
-		return ['status' => 'ERROR', 'error' => "O formato do documento não corresponde ao padrão aceito."];
+		return ['status' => 'ERROR', 'error' => "Formato de documento inválido."];
 	}
 
  	function secure_usuario_doc_tipo($v){
@@ -333,20 +331,22 @@
     }
 
 	function secure_endereco_pais($v) {
-        $v = clear_str($v);
-        if (empty($v)) {
-            return ['status' => 'ERROR', 'error' => "O campo país é obrigatório."];
-        }
-        $paises = ['Brasil', 'Portugal', 'Angola', 'Moçambique', 'Cabo Verde', 'Guiné-Bissau', 'Guiné Equatorial', 'São Tomé e Príncipe', 'Timor-Leste'];
-        
-        foreach ($paises as $p) {
-            if (strcasecmp($p, $v) === 0) return $p;
-        }
-        return ['status' => 'ERROR', 'error' => "Nome de país inválido."];
-    }
+		$v = trim($v);
+		if (empty($v)) {
+			return ['status' => 'ERROR', 'error' => "O campo país é obrigatório."];
+		}
+		
+		$paises = ['Brasil', 'Portugal', 'Angola', 'Moçambique', 'Cabo Verde', 'Guiné-Bissau', 'Guiné Equatorial', 'São Tomé e Príncipe', 'Timor-Leste'];
+		
+		foreach ($paises as $p) {
+			if (strtolower($p) == strtolower($v)) {
+				return $p; 
+			}
+		}
+		return ['status' => 'ERROR', 'error' => "Nome de país inválido ($v)."];
+	}
 
     function secure_endereco_cep($v) {
-		// Validação genérica para códigos postais lusófonos (variam de 4 a 8 caracteres)
         $v = preg_replace('/[^0-9A-Z\- ]/', '', strtoupper(trim($v)));
         if (empty($v)) {
             return ['status' => 'ERROR', 'error' => "O código postal/CEP é obrigatório."];
@@ -405,3 +405,22 @@
         $v = clear_str($v);
         return empty($v) ? null : $v;
     }
+
+	function secure_proposta_texto($texto) {
+		$texto = trim($texto);
+		if (empty($texto)) return ['status' => 'ERROR', 'error' => 'A mensagem da proposta não pode estar vazia.'];
+		if (strlen($texto) > 1000) return ['status' => 'ERROR', 'error' => 'A proposta é muito longa.'];
+		return htmlspecialchars($texto);
+	}
+
+	function secure_proposta_valor($v) {
+		if (empty($v) || $v === "NULL" || $v === "R$ 0,00" || $v === "0.00") {
+			return "NULL";
+		}
+		$v = str_replace(['R$', ' '], '', $v);
+		$v = str_replace(',', '.', $v);
+		if (!is_numeric($v)) {
+			return ['status' => 'ERROR', 'error' => 'O valor digitado é inválido.'];
+		}
+		return number_format((float)$v, 2, '.', '');
+	}

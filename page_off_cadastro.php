@@ -10,7 +10,6 @@
     <!-- CSS e Scripts -->
     <link rel="stylesheet" type="text/css" href="/public/css/main.css?v=1.0">
     <script src="/public/script/core.js?v=1.0"></script>
-    <script src="/public/script/navigation.js?v=1.0"></script>
     
     <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
