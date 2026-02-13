@@ -339,50 +339,63 @@
                 if($res['status'] == 'OK' && count($res['data']) > 0){
 
                     $d = $res['data'][0];
+                    $valor_final = !empty($d['valor']) ? $d['valor'] : 0;
+
                     $connection->begin_transaction();
                     try {
                         $l_res = send_sql_selection("SELECT id FROM item_legado WHERE item_id = {$d['item_id']} ORDER BY id DESC LIMIT 1");
-                        
                         if (empty($l_res['data'])) {
                             $connection->query("INSERT INTO item_legado (nome, descricao, item_id) SELECT nome, descricao, id FROM item WHERE id = {$d['item_id']}");
-                            $leg_id = $connection->insert_id;
+                            $leg_id_anuncio = $connection->insert_id;
                         } else {
-                            $leg_id = $l_res['data'][0]['id'];
+                            $leg_id_anuncio = $l_res['data'][0]['id'];
                         }
-
                         $sql_reg = "INSERT INTO registro (doc_tipo_provedor, doc_provedor, doc_tipo_cliente, doc_cliente, item_legado_id, forma_pagamento_id, data_registro, valor_registro)
-                                    VALUES ({$d['v_tdoc']}, '{$d['v_doc']}', {$d['p_tdoc']}, '{$d['p_doc']}', $leg_id, $fid, CURDATE(), {$d['valor']})";
+                                    VALUES ({$d['v_tdoc']}, '{$d['v_doc']}', {$d['p_tdoc']}, '{$d['p_doc']}', $leg_id_anuncio, $fid, CURDATE(), $valor_final)";
                         
                         if (!$connection->query($sql_reg)) {
-                            throw new Exception("Erro ao inserir registro: " . $connection->error);
+                            throw new Exception("Erro ao inserir registro principal: " . $connection->error);
                         }
-                        
-                        $reg_id = $connection->insert_id;
+                        $reg_id_principal = $connection->insert_id;
 
                         if($d['a_tipo'] == 1) { 
-        
-                            $connection->query("INSERT INTO registro_venda (registro_id) VALUES ($reg_id)");
+    
+                            $connection->query("INSERT INTO registro_venda (registro_id) VALUES ($reg_id_principal)");
+            
                             $connection->query("UPDATE item SET usuario_id = {$d['usuario_id']} WHERE id = {$d['item_id']}");
 
                         } else if($d['a_tipo'] == 2) {
-                            $l_prop = send_sql_selection("SELECT id FROM item_legado WHERE item_id = {$d['item_oferecido_id']} ORDER BY id DESC LIMIT 1");
-                            $leg_prop = $l_prop['data'][0]['id'] ?? 0;
-                            
-                            if($leg_prop == 0 && !empty($d['item_oferecido_id'])){
-                                $connection->query("INSERT INTO item_legado (nome, descricao, item_id) SELECT nome, descricao, id FROM item WHERE id = {$d['item_oferecido_id']}");
-                                $leg_prop = $connection->insert_id;
+    
+                            $leg_id_oferta = 0;
+                            if(!empty($d['item_oferecido_id'])) {
+                                $l_prop = send_sql_selection("SELECT id FROM item_legado WHERE item_id = {$d['item_oferecido_id']} ORDER BY id DESC LIMIT 1");
+                                if(empty($l_prop['data'])) {
+                                    $connection->query("INSERT INTO item_legado (nome, descricao, item_id) SELECT nome, descricao, id FROM item WHERE id = {$d['item_oferecido_id']}");
+                                    $leg_id_oferta = $connection->insert_id;
+                                } else {
+                                    $leg_id_oferta = $l_prop['data'][0]['id'];
+                                }
                             }
 
-                            $connection->query("INSERT INTO registro_troca (registro_id, item_legado_id) VALUES ($reg_id, $leg_prop)");
+            
+                            if($leg_id_oferta > 0){
+                                $connection->query("INSERT INTO registro_troca (registro_id, item_legado_id) VALUES ($reg_id_principal, $leg_id_oferta)");
+                            
+                                $sql_reg2 = "INSERT INTO registro (doc_tipo_provedor, doc_provedor, doc_tipo_cliente, doc_cliente, item_legado_id, forma_pagamento_id, data_registro, valor_registro)
+                                             VALUES ({$d['p_tdoc']}, '{$d['p_doc']}', {$d['v_tdoc']}, '{$d['v_doc']}', $leg_id_oferta, $fid, CURDATE(), 0)";
+                                
+                                $connection->query($sql_reg2);
+                                $reg_id_secundario = $connection->insert_id;
 
+                                $connection->query("INSERT INTO registro_troca (registro_id, item_legado_id) VALUES ($reg_id_secundario, $leg_id_anuncio)");
+                            }
                             $connection->query("UPDATE item SET usuario_id = {$d['usuario_id']} WHERE id = {$d['item_id']}");
-
                             if(!empty($d['item_oferecido_id'])){
                                 $connection->query("UPDATE item SET usuario_id = {$d['vend_id']} WHERE id = {$d['item_oferecido_id']}");
                             }
 
                         } else {
-                            $connection->query("INSERT INTO registro_emprestimo (registro_id, data_previsao) VALUES ($reg_id, '$data_dev')");
+                            $connection->query("INSERT INTO registro_emprestimo (registro_id, data_previsao) VALUES ($reg_id_principal, '$data_dev')");
                         }
 
                         $connection->query("DELETE FROM anuncio WHERE id = {$d['anuncio_id']}");
@@ -406,7 +419,13 @@
                 $c_doc = ($tipo === 'listar_meus_registros_vendas') ? 'r.doc_provedor' : 'r.doc_cliente';
                 $c_tipo = ($tipo === 'listar_meus_registros_vendas') ? 'r.doc_tipo_provedor' : 'r.doc_tipo_cliente';
 
-                $sql = "SELECT r.*, f.forma as forma_pagamento, il.nome as item_nome 
+                $sql = "SELECT r.*, f.forma as forma_pagamento, il.nome as item_nome,
+                        CASE 
+                            WHEN rv.registro_id IS NOT NULL THEN 'Venda'
+                            WHEN rt.registro_id IS NOT NULL THEN 'Troca'
+                            WHEN re.registro_id IS NOT NULL THEN 'Empréstimo'
+                            ELSE 'Outro'
+                        END as tipo_transacao
                         FROM registro r 
                         JOIN usuario u ON (
                             REPLACE(REPLACE($c_doc, '.', ''), '-', '') = REPLACE(REPLACE(u.usuario_doc, '.', ''), '-', '')
@@ -414,6 +433,11 @@
                         )
                         LEFT JOIN forma_pagamento f ON r.forma_pagamento_id = f.id
                         LEFT JOIN item_legado il ON r.item_legado_id = il.id
+                        
+                        LEFT JOIN registro_venda rv ON r.id = rv.registro_id
+                        LEFT JOIN registro_troca rt ON r.id = rt.registro_id
+                        LEFT JOIN registro_emprestimo re ON r.id = re.registro_id
+
                         WHERE u.id = $meu_id
                         ORDER BY r.data_registro DESC";
                         

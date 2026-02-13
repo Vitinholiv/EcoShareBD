@@ -375,10 +375,23 @@ CREATE TABLE IF NOT EXISTS `ecoShareDB`.`registro_emprestimo` (
     `data_previsao` DATE NOT NULL,
     `data_entregue` DATE NULL,
 
-
-
     FOREIGN KEY (`registro_id`)
     REFERENCES `ecoShareDB`.`registro` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 );
+
+DELIMITER //
+
+CREATE TRIGGER `tg_limpar_anuncios_pos_transferencia`
+AFTER UPDATE ON `item`
+FOR EACH ROW
+BEGIN
+    IF OLD.usuario_id <> NEW.usuario_id THEN
+        DELETE FROM `anuncio` 
+        WHERE `item_id` = OLD.id 
+        AND `usuario_id` = OLD.usuario_id;
+    END IF;
+END//
+
+DELIMITER ;

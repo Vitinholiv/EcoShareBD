@@ -1243,17 +1243,30 @@ document.addEventListener('DOMContentLoaded', () => {
                         container.innerHTML = "";
                         res.data.forEach(r => {
                             const classeTipo = tipo.includes('vendas') ? 'tipo-venda' : 'tipo-compra';
+                            
                             const valorTexto = parseFloat(r.valor_registro) > 0 
                                 ? `R$ ${parseFloat(r.valor_registro).toLocaleString('pt-BR', {minimumFractionDigits: 2})}` 
-                                : "Troca";
+                                : "Grátis/Troca";
 
                             const dataObj = new Date(r.data_registro);
                             const dataFormatada = dataObj.toLocaleDateString('pt-BR');
 
+                            let badgeHtml = '';
+                            if (r.tipo_transacao === 'Venda') {
+                                badgeHtml = `<span style="background:#e8f5e9; color:#2e7d32; padding:4px 8px; border-radius:12px; font-size:0.8rem; font-weight:bold;">💰 Venda</span>`;
+                            } else if (r.tipo_transacao === 'Troca') {
+                                badgeHtml = `<span style="background:#e3f2fd; color:#1565c0; padding:4px 8px; border-radius:12px; font-size:0.8rem; font-weight:bold;">🔄 Troca</span>`;
+                            } else if (r.tipo_transacao === 'Empréstimo') {
+                                badgeHtml = `<span style="background:#fff3e0; color:#ef6c00; padding:4px 8px; border-radius:12px; font-size:0.8rem; font-weight:bold;">⏳ Empréstimo</span>`;
+                            }
+
                             container.innerHTML += `
                                 <div class="registro-card ${classeTipo}">
                                     <div class="registro-info">
-                                        <h3>${r.item_nome}</h3>
+                                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:5px;">
+                                            ${badgeHtml}
+                                            <h3 style="margin:0;">${r.item_nome}</h3>
+                                        </div>
                                         <div class="registro-detalhes">
                                             <span>📅 ${dataFormatada}</span>
                                             <span>💳 ${r.forma_pagamento}</span>
