@@ -113,7 +113,9 @@ INSERT INTO manutencao (manutencao_id, item_id, data_manutencao) VALUES
 
 INSERT INTO avaliacao_usuario (usuario1_id, usuario2_id, nota, data_avaliacao) VALUES 
 (2,1,5,NOW()), (3,1,4,NOW()), (4,2,5,NOW()), (5,2,5,NOW()), (6,3,4,NOW()), 
-(7,3,5,NOW()), (8,4,5,NOW()), (9,5,4,NOW()), (10,6,5,NOW()), (1,7,5,NOW());
+(7,3,5,NOW()), (8,4,5,NOW()), (9,5,4,NOW()), (10,6,5,NOW()), (1,7,5,NOW()), (2,1,0,NOW()), (2,1,0,NOW()), (4,1,0,NOW()), (5,1,0,NOW()), (6,1,0,NOW()), 
+(7,1,0,NOW());
+
 
 INSERT INTO avaliacao_item (usuario_id, item_id, nota, data_avaliacao) VALUES 
 (8,1,5,NOW()), (9,2,4,NOW()), (10,3,5,NOW()), (11,4,5,NOW()), (12,5,4,NOW()), 
