@@ -478,66 +478,6 @@ SELECT
     (SELECT COUNT(*) FROM anuncio WHERE usuario_id = u.id) as qtd_anuncios
 FROM usuario u;
 
--- ROLES
-DROP ROLE IF EXISTS 'role_admin';
-DROP ROLE IF EXISTS 'role_moderador';
-DROP ROLE IF EXISTS 'role_user';
-
-CREATE ROLE 'role_admin';
-CREATE ROLE 'role_moderador';
-CREATE ROLE 'role_user';
-
-FLUSH PRIVILEGES;
-
--- NÍVEL 1: USER_APP (Acesso apenas às Views)
-GRANT SELECT ON ecoShareDB.view_perfil_proprio TO 'role_user';
-GRANT SELECT ON ecoShareDB.view_meus_itens TO 'role_user';
-GRANT SELECT ON ecoShareDB.view_meus_enderecos TO 'role_user';
-GRANT SELECT ON ecoShareDB.view_meus_registros TO 'role_user';
-GRANT SELECT ON ecoShareDB.view_meus_telefones TO 'role_user';
-GRANT SELECT ON ecoShareDB.view_minhas_avaliacoes_item TO 'role_user';
-GRANT SELECT ON ecoShareDB.view_minhas_avaliacoes_usuario TO 'role_user';
-GRANT SELECT ON ecoShareDB.view_minhas_trocas TO 'role_user';
-GRANT SELECT ON ecoShareDB.view_minhas_propostas TO 'role_user';
-
--- Views que todos os usuários tem acesso
-GRANT SELECT ON ecoShareDB.view_desempenho_vendas TO 'role_user';
-GRANT SELECT ON ecoShareDB.view_itens_populares TO 'role_user';
-GRANT SELECT ON ecoShareDB.view_ranking_reputacao TO 'role_user';
-
-
-
--- MODERADOR e APLICAÇÃO
-GRANT SELECT, INSERT, UPDATE, DELETE ON `ecoShareDB`.* TO 'role_moderador';
-GRANT SELECT ON ecoShareDB.view_controle_usuarios_admin TO 'role_moderador';
-
-
-
--- ADMIN
-GRANT ALL PRIVILEGES ON `ecoShareDB`.* TO 'role_admin' WITH GRANT OPTION;
-
-FLUSH PRIVILEGES;
-
--- CRIAÇÃO DE USUÁRIOS
-
-DROP USER IF EXISTS 'eco_app_service'@'localhost';
-CREATE USER 'eco_app_service'@'localhost' IDENTIFIED BY 'senhasupersegura';
-GRANT 'role_moderador' TO 'eco_app_service'@'localhost';
-SET DEFAULT ROLE 'role_moderador' FOR 'eco_app_service'@'localhost';
-
-DROP USER IF EXISTS 'eco_root_admin'@'localhost';
-CREATE USER 'eco_root_admin'@'localhost' IDENTIFIED BY 'senhameiosegura';
-GRANT 'role_admin' TO 'eco_root_admin'@'localhost';
-SET DEFAULT ROLE 'role_admin' FOR 'eco_root_admin'@'localhost';
-
-DROP USER IF EXISTS 'jorjin'@'localhost';
-CREATE USER 'jorjin'@'localhost' IDENTIFIED BY '12345678';
-GRANT 'role_user' TO 'jorjin'@'localhost';
-SET DEFAULT ROLE 'role_user' FOR 'jorjin'@'localhost';
-
-
-FLUSH PRIVILEGES;
-
 -- 1. View de Ranking de Reputação (O "EcoScore")
 CREATE OR REPLACE VIEW `ecoShareDB`.`view_ranking_reputacao` AS
 SELECT 
@@ -646,3 +586,64 @@ HAVING
     media_nota < 3.0 AND qtd_avaliacoes_recebidas >= 3
 ORDER BY 
     media_nota ASC;
+
+
+-- ROLES
+DROP ROLE IF EXISTS 'role_admin';
+DROP ROLE IF EXISTS 'role_moderador';
+DROP ROLE IF EXISTS 'role_user';
+
+CREATE ROLE 'role_admin';
+CREATE ROLE 'role_moderador';
+CREATE ROLE 'role_user';
+
+FLUSH PRIVILEGES;
+
+-- NÍVEL 1: USER_APP (Acesso apenas às Views)
+GRANT SELECT ON ecoShareDB.view_perfil_proprio TO 'role_user';
+GRANT SELECT ON ecoShareDB.view_meus_itens TO 'role_user';
+GRANT SELECT ON ecoShareDB.view_meus_enderecos TO 'role_user';
+GRANT SELECT ON ecoShareDB.view_meus_registros TO 'role_user';
+GRANT SELECT ON ecoShareDB.view_meus_telefones TO 'role_user';
+GRANT SELECT ON ecoShareDB.view_minhas_avaliacoes_item TO 'role_user';
+GRANT SELECT ON ecoShareDB.view_minhas_avaliacoes_usuario TO 'role_user';
+GRANT SELECT ON ecoShareDB.view_minhas_trocas TO 'role_user';
+GRANT SELECT ON ecoShareDB.view_minhas_propostas TO 'role_user';
+
+-- Views que todos os usuários tem acesso
+GRANT SELECT ON ecoShareDB.view_desempenho_vendas TO 'role_user';
+GRANT SELECT ON ecoShareDB.view_itens_populares TO 'role_user';
+GRANT SELECT ON ecoShareDB.view_ranking_reputacao TO 'role_user';
+
+
+
+-- MODERADOR e APLICAÇÃO
+GRANT SELECT, INSERT, UPDATE, DELETE ON `ecoShareDB`.* TO 'role_moderador';
+GRANT SELECT ON ecoShareDB.view_controle_usuarios_admin TO 'role_moderador';
+
+
+
+-- ADMIN
+GRANT ALL PRIVILEGES ON `ecoShareDB`.* TO 'role_admin' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;
+
+-- CRIAÇÃO DE USUÁRIOS
+
+DROP USER IF EXISTS 'eco_app_service'@'localhost';
+CREATE USER 'eco_app_service'@'localhost' IDENTIFIED BY 'senhasupersegura';
+GRANT 'role_moderador' TO 'eco_app_service'@'localhost';
+SET DEFAULT ROLE 'role_moderador' FOR 'eco_app_service'@'localhost';
+
+DROP USER IF EXISTS 'eco_root_admin'@'localhost';
+CREATE USER 'eco_root_admin'@'localhost' IDENTIFIED BY 'senhameiosegura';
+GRANT 'role_admin' TO 'eco_root_admin'@'localhost';
+SET DEFAULT ROLE 'role_admin' FOR 'eco_root_admin'@'localhost';
+
+DROP USER IF EXISTS 'jorjin'@'localhost';
+CREATE USER 'jorjin'@'localhost' IDENTIFIED BY '12345678';
+GRANT 'role_user' TO 'jorjin'@'localhost';
+SET DEFAULT ROLE 'role_user' FOR 'jorjin'@'localhost';
+
+
+FLUSH PRIVILEGES;
