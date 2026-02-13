@@ -2,8 +2,6 @@ DROP DATABASE  ecoShareDB;
 CREATE DATABASE ecoShareDB;
 USE ecoShareDB;
 
--- ### Gerenciamento de usuários
-
 DROP TABLE IF EXISTS `ecoShareDB`.`usuario_doc_tipo`;
 CREATE TABLE IF NOT EXISTS `ecoShareDB`.`usuario_doc_tipo` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
