@@ -633,17 +633,17 @@ FLUSH PRIVILEGES;
 DROP USER IF EXISTS 'eco_app_service'@'localhost';
 CREATE USER 'eco_app_service'@'localhost' IDENTIFIED BY 'senhasupersegura';
 GRANT 'role_moderador' TO 'eco_app_service'@'localhost';
-SET DEFAULT ROLE 'role_moderador' FOR 'eco_app_service'@'localhost';
+SET DEFAULT ROLE 'role_moderador' TO 'eco_app_service'@'localhost';
 
 DROP USER IF EXISTS 'eco_root_admin'@'localhost';
 CREATE USER 'eco_root_admin'@'localhost' IDENTIFIED BY 'senhameiosegura';
 GRANT 'role_admin' TO 'eco_root_admin'@'localhost';
-SET DEFAULT ROLE 'role_admin' FOR 'eco_root_admin'@'localhost';
+SET DEFAULT ROLE 'role_admin' TO 'eco_root_admin'@'localhost';
 
 DROP USER IF EXISTS 'jorjin'@'localhost';
 CREATE USER 'jorjin'@'localhost' IDENTIFIED BY '12345678';
 GRANT 'role_user' TO 'jorjin'@'localhost';
-SET DEFAULT ROLE 'role_user' FOR 'jorjin'@'localhost';
+SET DEFAULT ROLE 'role_user' TO 'jorjin'@'localhost';
 
 
 FLUSH PRIVILEGES;
