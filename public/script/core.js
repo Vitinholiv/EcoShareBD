@@ -364,20 +364,18 @@ document.addEventListener('click', function(event) {
     const trigger = document.getElementById('userTrigger');
     const logicMenu = document.getElementById('logicMenu');
 
-    if (trigger.contains(event.target)) {
+    if (trigger && trigger.contains(event.target)) {
         dropdown.classList.toggle('active');
-
-        if (dropdown.classList.contains('active')) {
+        if (dropdown.classList.contains('active') && logicMenu) {
             logicMenu.checked = false;
         }
     } 
-
-    else if (!container.contains(event.target)) {
-        dropdown.classList.remove('active');
+    else if (container && !container.contains(event.target)) {
+        if (dropdown) dropdown.classList.remove('active');
     }
     
     if (event.target.id === 'logicMenu' && event.target.checked) {
-        dropdown.classList.remove('active');
+        if (dropdown) dropdown.classList.remove('active');
     }
 });
 
@@ -502,6 +500,73 @@ function fecharModal() {
 
 
 
+async function carregarFeedHome() {
+    const content = document.getElementById('content');
+    if (!content) return;
+
+    content.innerHTML = `<h2 style="margin: 20px 0;">Explorar Ofertas</h2>`;
+    const grid = document.createElement('div');
+    grid.className = 'anuncio-grid';
+    content.appendChild(grid);
+
+    const res = await send_to_php(new URLSearchParams("tipo=buscar_anuncios_feed"));
+
+    if (res.status === 'OK' && res.data.length > 0) {
+        for (const ad of res.data) {
+            const card = document.createElement('div');
+            card.className = 'anuncio-card';
+            
+            const valor = (ad.tipo_nome === 'Troca') 
+            ? "Troca" 
+            : (ad.valor_anuncio > 0 
+                ? `R$ ${parseFloat(ad.valor_anuncio).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`
+                : "Doação");
+
+            const fotoRes = await send_to_php(new URLSearchParams(`tipo=listar_fotos_item&id=${ad.item_id}`));
+            const fotoUrl = (fotoRes.status === 'OK' && fotoRes.fotos.length > 0)
+                ? `/public/items/i${ad.item_id}/${fotoRes.fotos[0]}`
+                : '/public/res/logo.png';
+
+            card.innerHTML = `
+                <div class="card-img" style="background-image: url('${fotoUrl}'); height: 160px; background-size: cover; background-position: center; border-radius: 8px 8px 0 0;"></div>
+                <div class="card-info" style="padding: 15px;">
+                    <span style="font-size: 10px; text-transform: uppercase; color: var(--header-c); font-weight: bold;">${ad.tipo_nome}</span>
+                    <h3 style="margin: 5px 0; font-size: 1.1rem; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${ad.ad_nome}</h3>
+                    <p style="font-size: 1.2rem; font-weight: bold; color: #2e7d32; margin: 0;">${valor}</p>
+                    <small style="color: #777;">${ad.cidade} - ${ad.estado}</small>
+                </div>
+            `;
+            
+            card.onclick = () => verDetalhes_Feed(ad);
+            grid.appendChild(card);
+        }
+    } else {
+        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #999;">Nenhum anúncio disponível no momento.</p>`;
+    }
+}
+
+
+
+async function verDetalhes_Feed(ad) {
+    const modalData = {
+        id: ad.item_id,
+        nome: ad.ad_nome,
+        descricao: `
+            <div style="margin-bottom: 10px;">${ad.ad_descricao || 'Sem descrição detalhada.'}</div>
+            <div style="margin-bottom: 10px;"><strong>Vendedor:</strong> ${ad.vendedor_nome}</div>
+            <div style="margin-bottom: 10px;"><strong>Localização:</strong> ${ad.cidade} - ${ad.estado}, ${ad.pais}</div>
+            <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+                <p><strong>E-mail:</strong> ${ad.vendedor_email}</p>
+                <p><strong>Telefone:</strong> ${ad.vendedor_telefone || 'Não informado'}</p>
+            </div>
+        `,
+        status_nome: ad.tipo_nome
+    };
+    renderizarModal(modalData);
+}
+
+
+
 async function verDetalhes_IN(id) {
     await abrirPopupDetalhes(id, 'Novo');
 }
@@ -560,6 +625,7 @@ document.addEventListener('DOMContentLoaded', () => {
     switch (route) {
         case "/home": {
             document.title = `EcoShare - Home`;
+            carregarFeedHome();
             break;
         }
         case "/login": {

@@ -401,6 +401,23 @@
 				$res = send_sql_selection($sql);
 				echo json_encode($res);
 
+			} else if ($tipo === 'buscar_anuncios_feed') {
+				$meu_id = $_SESSION['id'];
+				
+				$sql = "SELECT a.id, a.nome as ad_nome, a.valor_anuncio, a.descricao as ad_descricao, t.tipo as tipo_nome, 
+					i.id as item_id, i.descricao as item_descricao, u.nome as vendedor_nome, u.email as vendedor_email,
+					e.cidade, e.estado, e.pais,
+					(SELECT telefone FROM usuario_telefone WHERE usuario_id = u.id ORDER BY telefone_ordem ASC LIMIT 1) as vendedor_telefone
+				FROM anuncio a
+				JOIN item i ON a.item_id = i.id
+				JOIN usuario u ON a.usuario_id = u.id
+				JOIN anuncio_tipo t ON a.tipo = t.anuncio_tipo_id
+				JOIN endereco e ON a.usuario_id = e.usuario_id AND a.endereco_ordem = e.endereco_ordem
+				WHERE a.usuario_id != $meu_id
+				ORDER BY a.data_anuncio DESC";
+
+				$res = send_sql_selection($sql);
+				echo json_encode($res);
 			} else {
 				echo json_encode(['status' => 'ERROR', 'error' => 'Requisição inválida.']);
 			}

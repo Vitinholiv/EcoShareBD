@@ -289,10 +289,10 @@ INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, 
 VALUES (7, 17, 'Bicicleta Aro 26', 350.00, 'Bicicleta aro 26. Aceito ferramentas de jardinagem na troca.', 2, '2026-02-08', 1);
 
 INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem) 
-VALUES (11, 30, 'Prancha Surf 6.0', 600.00, 'Prancha 6.0. Troco por monitor ou teclado mecânico.', 2, '2026-02-09', 1);
+VALUES (11, 30, 'Prancha Surf 6.0', 0.00, 'Prancha 6.0. Troco por monitor ou teclado mecânico.', 2, '2026-02-09', 1);
 
 INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem) 
-VALUES (5, 15, 'Monitor 21 Polegadas', 200.00, 'Monitor 21 polegadas usado. Aberto a propostas de troca.', 2, '2026-02-09', 1);
+VALUES (5, 15, 'Monitor 21 Polegadas', 0.00, 'Monitor 21 polegadas usado. Aberto a propostas de troca.', 2, '2026-02-09', 1);
 
 INSERT INTO anuncio (usuario_id, item_id, nome, valor_anuncio, descricao, tipo, data_anuncio, endereco_ordem) 
 VALUES (3, 14, 'Aluguel de Escada', 15.00, 'Aluguel diário de escada de alumínio para reformas.', 3, '2026-02-05', 1);
