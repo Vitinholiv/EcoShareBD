@@ -53,11 +53,6 @@ INSERT INTO item_novo (item_id, estoque) VALUES (1, 10), (2, 5), (9, 3), (10, 50
 
 INSERT INTO item_usado (item_id, item_status_id) VALUES (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1);
 
-INSERT INTO item_legado (id, nome, descricao, item_id) VALUES 
-(1, 'Legado Marreta', 'Cabo fibra', 1), (2, 'Legado Chaves', '6 peças', 2), (3, 'Legado Furadeira', 'Impacto', 3),
-(4, 'Legado Bike', 'Pneus gastos', 4), (5, 'Legado Monitor', 'LED', 5), (6, 'Legado Teclado', 'Mecânico', 6),
-(7, 'Legado Mouse', 'Sem fio', 7), (8, 'Legado Carrinho', 'Jardim', 8), (9, 'Legado Trena', 'Aço', 9), (10, 'Legado USB-C', '20W', 10);
-
 INSERT INTO anuncio (id, usuario_id, tipo, item_id, endereco_ordem, nome, valor_anuncio, descricao, data_anuncio) VALUES 
 (1, 1, 1, 1, 1, 'Marreta de Ferro 2kg', 80.00, 'Marreta pesada em excelente estado, pouco uso. Cabo de fibra de vidro que absorve impacto.', '2026-02-13'),
 (2, 2, 1, 7, 1, 'Mouse Gamer Sem Fio', 40.00, 'Mouse óptico recarregável, alta precisão. Acompanha cabo USB para carregamento.', '2026-02-13'),
