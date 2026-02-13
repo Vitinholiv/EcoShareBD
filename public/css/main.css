@@ -772,6 +772,160 @@ user-icon-trigger:hover .user-name-label {
     display: none;
 }
 
+.anuncio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
+    padding: 20px 0;
+    width: 98%;
+}
+
+.anuncio-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+}
+
+.anuncio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.card-img {
+    width: 100%;
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    background-color: #f5f5f5;
+}
+
+.card-info {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.card-tipo {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--header-c);
+    font-weight: 700;
+}
+
+.card-nome {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-preco {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2e7d32;
+}
+
+.search-container {
+    display: flex;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 25px;
+    padding: 5px 15px;
+    width: 300px;
+    pointer-events: auto;
+}
+
+#mainSearch {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 8px;
+    width: 100%;
+    font-family: 'Prompt';
+    outline: none;
+}
+
+#mainSearch::placeholder { color: rgba(255, 255, 255, 0.6); }
+
+.search-container button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.registro-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
+    border: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.registro-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.registro-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+}
+
+.registro-card.tipo-venda::before { background-color: #2e7d32; }
+.registro-card.tipo-compra::before { background-color: #1565c0; }
+
+.registro-info h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.registro-detalhes {
+    font-size: 0.9rem;
+    color: #777;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.registro-valor {
+    text-align: right;
+}
+
+.registro-valor .valor {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2e7d32;
+}
+
+.registro-valor .subtext {
+    font-size: 0.8rem;
+    color: #999;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
 @media only screen and (min-width: 0px) and (max-width: 450px) {
     :root {
         --multiplicator: 0.6;

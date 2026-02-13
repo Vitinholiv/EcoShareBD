@@ -10,7 +10,6 @@
     <!-- CSS e Scripts -->
     <link rel="stylesheet" type="text/css" href="/public/css/main.css?v=1.0">
     <script src="/public/script/core.js?v=1.0"></script>
-    <script src="/public/script/navigation.js?v=1.0"></script>
     
     <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +23,18 @@
             <img id="logo" src="/public/res/logo.png" alt="Logo">
             <p id="pageTitle">EcoShare</p>
         </div>
-        <div id="headerMiddle"></div>
+        <div id="headerMiddle">
+            <div class="search-container">
+                <input type="text" id="mainSearch" placeholder="O que você procura?" 
+                onkeydown="if(event.key === 'Enter') realizarBusca()"
+                style="background: transparent; border: none; color: white; outline: none; width: 100%; font-family: 'Prompt';">
+                <button onclick="realizarBusca()">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
+                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
         <div id="headerRight">
             <div class="user-container" id="userContainer">
                 <div class="user-icon-trigger" id="userTrigger">
@@ -41,6 +51,8 @@
                     <li><button onclick="redirect('endereco')">Meus Endereços</button></li>
                     <li><button onclick="redirect('item')">Meus Itens</button></li>
                     <li><button onclick="redirect('anuncio')">Meus Anúncios</button></li>
+                    <li><button onclick="redirect('proposta')">Minhas Propostas</button></li>
+                    <li><button onclick="redirect('registro')">Meus Registros</button></li>
                     <li class="divider"></li>
 
                     <li><button class="logout-btn" onclick="logout()">Sair</button></li>
