@@ -13,3 +13,7 @@ O projeto deve ser executado localmente, seguem os passos necessários:
 5. Execute o programa `page_home.php`,
 
 6. Por fim, acesse `localhost:8000` no seu navegador.
+
+# NOTA
+
+- O projeto é apenas uma implementação de um sistema hipotético, os dados não são reais e algumas práticas de programação foram ignoradas apenas por simplicidade (como o env).
